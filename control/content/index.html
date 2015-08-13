@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="youtubePlugin">
+<html ng-app="youtubePluginContent">
 <head lang="en">
 	<!-- CSS -->
     <link href="../../../../styles/helper.css" rel="stylesheet">
@@ -8,14 +8,15 @@
 	<!-- JS -->
     <script src="../../../../scripts/buildfire.js"></script>
     <script src="../../../../scripts/angular/angular.min.js"></script>
-    <script src="../../../../scripts/angular/angular.min.js"></script>
     <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
     <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
     <script src="../../../../scripts/tinymce/ui-tinymce.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/content.home.controller.js"></script>
 
     <meta charset="UTF-8">
 </head>
-<body ng-controller="youtubePluginCtrl">
+<body ng-controller="ContentHomeCtrl">
 	
 	<div class="item clearfix row">
 		<div class="labels col-md-3 padding-right-zero pull-left">
@@ -72,7 +73,8 @@
 						<span class="title ellipsis">Image Title</span>
 						<div class="pull-right">
 							<a class="text-primary text">Add Action</a>											
-							<span class="btn-icon btn-delete-icon btn-danger transition-third"><span>
+							<span
+                  class="btn-icon btn-delete-icon btn-danger transition-third"></span>
 						</div>
 					</div>
 				</div>
@@ -85,7 +87,8 @@
 						<span class="title ellipsis">Image Title</span>
 						<div class="pull-right">
 							<a class="text-primary text">Add Action</a>											
-							<span class="btn-icon btn-delete-icon btn-danger transition-third"><span>
+							<span
+                  class="btn-icon btn-delete-icon btn-danger transition-third"></span>
 						</div>
 					</div>
 				</div>
@@ -98,7 +101,8 @@
 						<span class="title ellipsis">Image Title</span>
 						<div class="pull-right">
 							<a class="text-primary text">Add Action</a>											
-							<span class="btn-icon btn-delete-icon btn-danger transition-third"><span>
+							<span
+                  class="btn-icon btn-delete-icon btn-danger transition-third"></span>
 						</div>
 					</div>
 				</div>
@@ -111,7 +115,8 @@
 						<span class="title ellipsis">Image Title</span>
 						<div class="pull-right">
 							<a class="text-primary text">Add Action</a>											
-							<span class="btn-icon btn-delete-icon btn-danger transition-third"><span>
+							<span
+                  class="btn-icon btn-delete-icon btn-danger transition-third"></span>
 						</div>
 					</div>
 				</div>
@@ -130,116 +135,5 @@
             <textarea id="text" ui-tinymce class="form-control" rows="5" width="100%" ng-model="data.content.text"></textarea>
 		</div>
 	</div>
-	
-<script>
-    var youtubePluginApp = angular.module('youtubePlugin', ['ui.bootstrap', 'ui.tinymce']);
-
-    youtubePluginApp.controller('youtubePluginCtrl', ['$scope', function ($scope) {
-
-		/*
-         * Go pull any previously saved data
-         * */
-        buildfire.datastore.get(function (err, result) {
-            if (result) {
-                $scope.data = result.data;
-                $scope.id = result.id;
-                $scope.$digest();
-                if (tmrDelay)clearTimeout(tmrDelay);
-            }
-            /*
-             * watch for changes in data and trigger the saveDataWithDelay function on change
-             * */
-            $scope.$watch('data', saveDataWithDelay, true);
-        });
-
-        /*
-         * Call the datastore to save the data object
-         */
-        var saveData = function (newObj) {
-
-            if (newObj == undefined)return;
-            if ($scope.frmMain.$invalid) {
-                console.warn('invalid data, no save');
-                return;
-            }
-
-            buildfire.datastore.save(newObj, function (err, result) {
-                if (err || !result)
-                    alert(JSON.stringify(err));
-                else
-                    console.log('data saved');
-            });
-        };
-
-        /*
-         * create an artificial delay so api isnt called on every character entered
-         * */
-        var tmrDelay = null;
-        var saveDataWithDelay = function (newObj,oldObj) {
-            if(newObj == oldObj)
-                return;
-            if (tmrDelay)clearTimeout(tmrDelay);
-            tmrDelay = setTimeout(function () {
-                saveData(newObj);
-            }, 500);
-        };
-
-        /*
-         * this is a way you can update only one property without sending the entire object
-         * */
-        $scope.approve = function () {
-            if ($scope.id)
-                buildfire.datastore.update($scope.id, {$set: {"content.approvedOn": new Date()}});
-        };
-
-
-        /*
-         * Open Image Lib
-         */
-        $scope.openImageLib = function () {
-            buildfire.imageLib.showDialog({showIcons: false, multiSelection: false}, function (error, result) {
-                if (result && result.selectedFiles && result.selectedFiles.length > 0) {
-                    $scope.data.content.bgURL = result.selectedFiles[0];
-                    $scope.$apply();
-                }
-            });
-        }
-
-        /*
-         * Open action dialog
-         */
-        $scope.openActionDialog = function () {
-            var actionItem = {
-                title: "build fire",
-                "url": "https://www.facebook.com/buildfireapps",
-                action: "linkToWeb",
-                openIn: "browser",
-                actionName: "Link to Web Content"
-            };
-            var options = {showIcon: true};
-            buildfire.actionItems.showDialog(null, options, function (err, actionItem) {
-                if (err)
-                    console.log(err);
-                else {
-                    debugger;
-                    if (!$scope.data.actionItems)
-                        $scope.data.actionItems = [];
-                    $scope.data.actionItems.push(actionItem);
-                    $scope.$apply();
-                }
-
-            });
-        };
-
-        $scope.resizeImage = function(url){
-            if(!url)
-                return "";
-            else
-                return buildfire.imageLib.resizeImage(url,{width:32});
-        }
-
-    }]);
-    
-</script>
 </body>
 </html>
