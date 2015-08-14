@@ -13,7 +13,7 @@
                 var _data = {
                     "content": {
                         "images": [],
-                        "description": "",
+                        "description": '<p><br data-mce-bogus="1"></p>',
                         "rssUrl": "",
                         "type": CONTENT_TYPE.SINGLE_VIDEO
                     },
@@ -59,7 +59,9 @@
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
                         else if (err && err.code === ERROR_CODE.NOT_FOUND) {
-                            saveData(JSON.parse(angular.toJson(_data)), TAG_NAMES.GET_INFO);
+                            ContentHome.data = angular.copy(_data);
+                            $scope.$digest();
+                            saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
                         }
                         else if (result) {
                             ContentHome.data = result.data;

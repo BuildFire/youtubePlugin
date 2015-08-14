@@ -1,9 +1,13 @@
 'use strict';
 
-(function (angular) {
+(function (angular, buildfire) {
     angular.module('youtubePluginContent')
-        .factory('Buildfire', [function () {
-            return buildfire;
+        .provider('Buildfire', [function () {
+            var Buildfire = this;
+            Buildfire.$get = function () {
+                return buildfire
+            };
+            return Buildfire;
         }])
         .factory('Location', [function () {
             var _location = window.location;
@@ -16,4 +20,4 @@
                 }
             };
         }])
-})(window.angular,window.bui);
+})(window.angular, window.buildfire);
