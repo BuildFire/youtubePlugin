@@ -3,8 +3,8 @@
 (function (angular, window) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'ERROR_CODE',
-            function ($scope, Buildfire, TAG_NAMES, ERROR_CODE) {
+        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'ERROR_CODE', 'CONTENT_TYPE',
+            function ($scope, Buildfire, TAG_NAMES, ERROR_CODE, CONTENT_TYPE) {
                 var _imageData = {
                     "url": "",
                     "title": "",
@@ -15,7 +15,7 @@
                         "images": [],
                         "description": "",
                         "rssUrl": "",
-                        "type": ""
+                        "type": CONTENT_TYPE.SINGLE_VIDEO
                     },
                     "design": {
                         "itemListLayout": "",
@@ -25,6 +25,7 @@
                 };
                 var ContentHome = this;
                 ContentHome.masterData = null;
+                ContentHome.CONTENT_TYPE = CONTENT_TYPE;
                 ContentHome.data = null;
 
                 updateMasterItem(_data);
@@ -47,7 +48,7 @@
                 var init = function () {
                     Buildfire.datastore.get(TAG_NAMES.GET_INFO, function (err, result) {
                         if (err && err.code !== ERROR_CODE.NOT_FOUND) {
-                            console.error('-----------err-------------', err);
+                            console.error('Error while getting data', err);
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
                         else if (err && err.code === ERROR_CODE.NOT_FOUND) {
@@ -56,13 +57,29 @@
                         else if (result) {
                             ContentHome.data = result.data;
                             updateMasterItem(ContentHome.data);
-                            console.info('------------Data-------', result);
                             $scope.$digest();
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
                     });
                 };
                 init();
+
+
+                ContentHome.changeContentType = function (type) {
+                    switch (type) {
+                        case ContentHome.CONTENT_TYPE.CHANNEL_FEED:
+                            if (ContentHome.data && !ContentHome.data.content)
+                                ContentHome.data.content = {};
+                            ContentHome.data.content.type = ContentHome.CONTENT_TYPE.CHANNEL_FEED;
+                            break;
+                        case ContentHome.CONTENT_TYPE.SINGLE_VIDEO:
+                            if (ContentHome.data && !ContentHome.data.content)
+                                ContentHome.data.content = {};
+                            ContentHome.data.content.type = ContentHome.CONTENT_TYPE.SINGLE_VIDEO;
+                            break;
+                    }
+                };
+
 
                 /*
                  * Call the datastore to save the data object
@@ -71,8 +88,8 @@
                     if (typeof newObj === 'undefined')return;
                     Buildfire.datastore.save(newObj, tag, function (err, result) {
                         if (err || !result) {
-                            console.error('------------error saveData-------', err);
-                        }else{
+                            console.error('Error while saving data : ', err);
+                        } else {
                             updateMasterItem(newObj);
                         }
                     });
@@ -84,7 +101,7 @@
                 var tmrDelay = null;
                 var saveDataWithDelay = function (newObj) {
                     if (newObj) {
-                        if (!isUnchanged(newObj)) {
+                        if (isUnchanged(newObj)) {
                             return;
                         }
                         if (tmrDelay) {
