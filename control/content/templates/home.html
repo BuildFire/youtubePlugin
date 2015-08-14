@@ -4,12 +4,14 @@
     </div>
     <div class="main pull-right col-md-9 padding-left-zero row">
         <div class="radio radio-primary radio-inline">
-            <input id="channel" type="radio" ng-model="ContentHome.data.content.type" ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
+            <input id="channel" type="radio" ng-model="ContentHome.data.content.type"
+                   ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
                    ng-change='ContentHome.changeContentType(ContentHome.data.content.type)' name="contenttype" ng-se="">
             <label for="channel">Channel Feed</label>
         </div>
         <div class="radio radio-primary radio-inline">
-            <input id="video" type="radio" ng-model="ContentHome.data.content.type" ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
+            <input id="video" type="radio" ng-model="ContentHome.data.content.type"
+                   ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
                    ng-change='ContentHome.changeContentType(ContentHome.data.content.type)'
                    name="contenttype">
             <label for="video">Single Video</label>
@@ -58,24 +60,7 @@
 
                     <div class="pull-right">
                         <a class="text-primary text">Add Action</a>
-							<span
-                                    class="btn-icon btn-delete-icon btn-danger transition-third"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="d-item">
-                <span class="icon icon-menu pull-left"></span>
-
-                <div class="media-holder pull-left">
-                    <img src="http://www.placehold.it/80x50">
-                </div>
-                <div class="copy pull-right">
-                    <span class="title ellipsis">Image Title</span>
-
-                    <div class="pull-right">
-                        <a class="text-primary text">Add Action</a>
-							<span
-                                    class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
                     </div>
                 </div>
             </div>
@@ -110,6 +95,21 @@
                     </div>
                 </div>
             </div>
+            <div class="d-item">
+                <span class="icon icon-menu pull-left"></span>
+
+                <div class="media-holder pull-left">
+                    <img src="http://www.placehold.it/80x50">
+                </div>
+                <div class="copy pull-right">
+                    <span class="title ellipsis">Image Title</span>
+
+                    <div class="pull-right">
+                        <a class="text-primary text">Add Action</a>
+                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -122,7 +122,8 @@
 <hr class="none">
 <div class="item clearfix row">
     <div class="main col-md-12 pull-left">
-        <textarea id="text" ui-tinymce class="form-control" rows="5" width="100%"
-                  ng-model="data.content.text"></textarea>
+        <textarea id="text" rows="5" width="100%" class="form-control"
+                  ui-tinymce="ContentHome.descriptionWYSIWYGOptions" ng-model="ContentHome.data.content.description"
+                  placeholder="WYSIWYG"></textarea>
     </div>
 </div>

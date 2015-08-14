@@ -28,6 +28,13 @@
                 ContentHome.CONTENT_TYPE = CONTENT_TYPE;
                 ContentHome.data = null;
 
+                ContentHome.descriptionWYSIWYGOptions = {
+                    plugins: 'advlist autolink link image lists charmap print preview',
+                    skin: 'lightgray',
+                    trusted: true,
+                    theme: 'modern'
+                };
+
                 updateMasterItem(_data);
 
                 function updateMasterItem(data) {
