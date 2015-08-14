@@ -2,6 +2,7 @@
 
 (function (angular) {
   angular.module('youtubePluginContent', ['ngRoute'])
+      //injected ngRoute for routing
       .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
