@@ -24,7 +24,22 @@
                     }
                 };
                 var ContentHome = this;
+                ContentHome.masterData = null;
                 ContentHome.data = null;
+
+                updateMasterItem(_data);
+
+                function updateMasterItem(data) {
+                    ContentHome.masterData = angular.copy(data);
+                }
+
+                function resetItem() {
+                    ContentHome.data = angular.copy(ContentHome.masterData);
+                }
+
+                function isUnchanged(data) {
+                    return angular.equals(data, ContentHome.masterData);
+                }
 
                 /*
                  * Go pull any previously saved data
@@ -40,6 +55,7 @@
                         }
                         else if (result) {
                             ContentHome.data = result.data;
+                            updateMasterItem(ContentHome.data);
                             console.info('------------Data-------', result);
                             $scope.$digest();
                             if (tmrDelay)clearTimeout(tmrDelay);
@@ -56,6 +72,8 @@
                     Buildfire.datastore.save(newObj, tag, function (err, result) {
                         if (err || !result) {
                             console.error('------------error saveData-------', err);
+                        }else{
+                            updateMasterItem(newObj);
                         }
                     });
                 };
@@ -66,6 +84,9 @@
                 var tmrDelay = null;
                 var saveDataWithDelay = function (newObj) {
                     if (newObj) {
+                        if (!isUnchanged(newObj)) {
+                            return;
+                        }
                         if (tmrDelay) {
                             clearTimeout(tmrDelay);
                         }
