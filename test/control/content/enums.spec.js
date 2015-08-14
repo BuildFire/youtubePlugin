@@ -1,5 +1,4 @@
 describe('Unit : youtubePlugin content Enums', function () {
-    var REQUEST_URL;
     var TAG_NAMES, ERROR_CODE, STATUS_CODE, CONTENT_TYPE;
     beforeEach(module('youtubePluginContent'));
 
