@@ -3,7 +3,7 @@
 (function (angular) {
     angular.module('youtubePluginContent')
         .constant('TAG_NAMES', {
-            GET_INFO: 'getInfo'
+            GET_INFO: 'GetInfo'
         })
         .constant('ERROR_CODE', {
             NOT_FOUND: 'NOTFOUND'
