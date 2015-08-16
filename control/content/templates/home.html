@@ -1,0 +1,129 @@
+<div class="item clearfix row">
+    <div class="labels col-md-3 padding-right-zero pull-left">
+        <span>Content Type</span>
+    </div>
+    <div class="main pull-right col-md-9 padding-left-zero row">
+        <div class="radio radio-primary radio-inline">
+            <input id="channel" type="radio" ng-model="ContentHome.data.content.type"
+                   ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
+                   ng-change='ContentHome.changeContentType(ContentHome.data.content.type)' name="contenttype" ng-se="">
+            <label for="channel">Channel Feed</label>
+        </div>
+        <div class="radio radio-primary radio-inline">
+            <input id="video" type="radio" ng-model="ContentHome.data.content.type"
+                   ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
+                   ng-change='ContentHome.changeContentType(ContentHome.data.content.type)'
+                   name="contenttype">
+            <label for="video">Single Video</label>
+        </div>
+    </div>
+</div>
+<hr class="none">
+<div class="item clearfix row">
+    <div class="labels col-md-3 padding-right-zero pull-left">
+        <span>URL</span>
+    </div>
+    <div class="main pull-right col-md-9 padding-left-zero row">
+        <div class="pull-left col-md-8 padding-zero">
+            <input type="text" class="form-control" placeholder="Enter your channel or video URL">
+        </div>
+        <div class="col-md-4 pull-right">
+            <a class="btn btn-primary pull-right stretch">Validate</a>
+        </div>
+    </div>
+</div>
+<hr class="none">
+<div class="item clearfix row">
+    <div class="main pull-right col-md-9">
+        <div class="alert alert-success alert-sm text-center">Feed successfully validated</div>
+        <div class="alert alert-danger alert-sm text-center">Error. Please check and try again</div>
+    </div>
+</div>
+<hr>
+<div class="item clearfix row">
+    <div class="labels col-md-3 padding-right-zero pull-left">
+        <span>Image Carousel</span>
+    </div>
+    <div class="main col-md-9 pull-right">
+        <div class="clearfix">
+            <a class="btn btn-success pull-left" onclick="alert('Open Media Library');">Add Image</a>
+        </div>
+        <div class="carousel-items draggable-list-view margin-top-twenty border-radius-four border-grey">
+            <div class="d-item">
+                <span class="icon icon-menu pull-left"></span>
+
+                <div class="media-holder pull-left">
+                    <img src="http://www.placehold.it/80x50">
+                </div>
+                <div class="copy pull-right">
+                    <span class="title ellipsis">Image Title</span>
+
+                    <div class="pull-right">
+                        <a class="text-primary text">Add Action</a>
+                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-item">
+                <span class="icon icon-menu pull-left"></span>
+
+                <div class="media-holder pull-left">
+                    <img src="http://www.placehold.it/80x50">
+                </div>
+                <div class="copy pull-right">
+                    <span class="title ellipsis">Image Title</span>
+
+                    <div class="pull-right">
+                        <a class="text-primary text">Add Action</a>
+							<span
+                                    class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-item">
+                <span class="icon icon-menu pull-left"></span>
+
+                <div class="media-holder pull-left">
+                    <img src="http://www.placehold.it/80x50">
+                </div>
+                <div class="copy pull-right">
+                    <span class="title ellipsis">Image Title</span>
+
+                    <div class="pull-right">
+                        <a class="text-primary text">Add Action</a>
+                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-item">
+                <span class="icon icon-menu pull-left"></span>
+
+                <div class="media-holder pull-left">
+                    <img src="http://www.placehold.it/80x50">
+                </div>
+                <div class="copy pull-right">
+                    <span class="title ellipsis">Image Title</span>
+
+                    <div class="pull-right">
+                        <a class="text-primary text">Add Action</a>
+                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="item clearfix row">
+    <div class="labels col-md-3 padding-right-zero pull-left">
+        <span>Text</span>
+    </div>
+</div>
+<hr class="none">
+<div class="item clearfix row">
+    <div class="main col-md-12 pull-left">
+        <textarea id="text" rows="5" width="100%" class="form-control"
+                  ui-tinymce="ContentHome.descriptionWYSIWYGOptions" ng-model="ContentHome.data.content.description"
+                  placeholder="WYSIWYG"></textarea>
+    </div>
+</div>
