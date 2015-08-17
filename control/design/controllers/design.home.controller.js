@@ -5,6 +5,21 @@
         .module('youtubePluginDesign')
         .controller('DesignHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'CONTENT_TYPE',
             function ($scope, DataStore, TAG_NAMES, CONTENT_TYPE) {
+
+                var DesignHome = this;
+                DesignHome.masterData = null;
+                DesignHome.data = angular.copy(_data);
+                DesignHome.layouts = {
+                    listLayouts: [
+                        {name: "List_Layout_1"},
+                        {name: "List_Layout_2"},
+                        {name: "List_Layout_3"},
+                        {name: "List_Layout_4"}
+                    ],
+                    itemLayouts: [
+                        {name: "Item-Layout-1"}
+                    ]
+                };
                 var _data = {
                     "content": {
                         "images": [],
@@ -13,24 +28,10 @@
                         "type": CONTENT_TYPE.SINGLE_VIDEO
                     },
                     "design": {
-                        "itemListLayout": "",
+                        "itemListLayout": DesignHome.layouts.listLayouts[0].name,
                         "itemListBgImage": "",
                         "itemDetailsBgImage": ""
                     }
-                };
-                var DesignHome = this;
-                DesignHome.masterData = null;
-                DesignHome.data = angular.copy(_data);
-                DesignHome.layouts = {
-                    listLayouts: [
-                        {name: "List_Layout_1"},
-                        {name: "List_Layout_1"},
-                        {name: "List_Layout_1"},
-                        {name: "List_Layout_1"}
-                    ],
-                    itemLayouts: [
-                        {name: "Item_Layout_1"}
-                    ]
                 };
 
                 updateMasterItem(_data);
@@ -54,7 +55,7 @@
                                 DesignHome.data.design = {};
                             }
                             if (DesignHome.data && DesignHome.data.design && !DesignHome.data.design.itemListLayout) {
-                                DesignHome.data.design.itemListLayout = DesignHome.layouts = DesignHome.layouts.listLayouts[0].name;
+                                DesignHome.data.design.itemListLayout = DesignHome.layouts.listLayouts[0].name;
                             }
                             console.info('init success result:', result);
                             updateMasterItem(DesignHome.data);
@@ -70,6 +71,11 @@
                 };
                 init();
 
+                DesignHome.changeListLayout = function (layoutName) {
+                    DesignHome.data.design.itemListLayout = layoutName;
+                    if (tmrDelay)clearTimeout(tmrDelay);
+                };
+
                 /*
                  * Call the datastore to save the data object
                  */
@@ -84,7 +90,7 @@
                         , error = function (err) {
                             console.error('Error while saving data : ', err);
                         };
-                    // DataStore.save(newObj, tag).then(success, error);
+                     DataStore.save(newObj, tag).then(success, error);
                 };
 
                 /*
