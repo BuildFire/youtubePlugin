@@ -3,13 +3,8 @@
 (function (angular, window) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE',
-            function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE) {
-                var _imageData = {
-                    "url": "",
-                    "title": "",
-                    "link": ""
-                };
+        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
+            function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
                 var _data = {
                     "content": {
                         "images": [],
@@ -66,10 +61,10 @@
                             }
                             else if (err && err.code === STATUS_CODE.NOT_FOUND) {
                                 ContentHome.data = angular.copy(_data);
-                                saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
+                                saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.YOUTUBE_INFO);
                             }
                         };
-                    DataStore.get(TAG_NAMES.GET_INFO).then(success, error);
+                    DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
                 };
                 init();
 
@@ -187,6 +182,27 @@
                         return buildfire.imageLib.resizeImage(url, {width: 32});
                 };*/
                 /*------------------------------------------previous code ends-----------------------------*/
+
+              ContentHome.openAddImagePopUp = function(){
+                var modalInstance = $modal
+                  .open({
+                    templateUrl: 'templates/modals/add-carousel-image.html',
+                    controller: 'AddCarouselImagePopupCtrl',
+                    controllerAs: 'AddCarouselImagePopup',
+                    size: 'sm'
+                  });
+                modalInstance.result.then(function (imageInfo) {
+                  if (imageInfo && ContentHome.data) {
+                    if (!ContentHome.data.content.images)
+                      ContentHome.data.content.images = [];
+                    ContentHome.data.content.images.push(JSON.parse(angular.toJson(imageInfo)));
+                  } else {
+                    console.info('Unable to load data.')
+                  }
+                }, function (err) {
+                  //do something on cancel
+                });
+              }
 
             }]);
 })(window.angular, window);
