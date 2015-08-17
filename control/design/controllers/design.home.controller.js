@@ -3,8 +3,8 @@
 (function (angular, window) {
     angular
         .module('youtubePluginDesign')
-        .controller('DesignHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'CONTENT_TYPE',
-            function ($scope, DataStore, TAG_NAMES, CONTENT_TYPE) {
+        .controller('DesignHomeCtrl', ['$scope', 'DataStore', 'ImageLibrary', 'TAG_NAMES', 'CONTENT_TYPE',
+            function ($scope, DataStore, ImageLibrary, TAG_NAMES, CONTENT_TYPE) {
 
                 var DesignHome = this;
                 DesignHome.masterData = null;
@@ -62,10 +62,8 @@
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
                         , error = function (err) {
-                            if (err && err.code !== STATUS_CODE.NOT_FOUND) {
-                                console.error('Error while getting data', err);
-                                if (tmrDelay)clearTimeout(tmrDelay);
-                            }
+                            console.error('Error while getting data', err);
+                            if (tmrDelay)clearTimeout(tmrDelay);
                         };
                     DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
                 };
@@ -74,6 +72,24 @@
                 DesignHome.changeListLayout = function (layoutName) {
                     DesignHome.data.design.itemListLayout = layoutName;
                     if (tmrDelay)clearTimeout(tmrDelay);
+                };
+
+                DesignHome.addItemListBackgroundImage = function () {
+                    var options = {showIcons: false, multiSelection: false};
+                    var success = function (result) {
+                            DesignHome.data.design.itemListBgImage = result.selectedFiles && result.selectedFiles[0] || null;
+                            if (tmrDelay)clearTimeout(tmrDelay);
+                        }
+                        , error = function (err) {
+                            console.error('Error while selecting image from ImageLibrary', err);
+                            if (tmrDelay)clearTimeout(tmrDelay);
+                        };
+                    ImageLibrary.showDialog(options).then(success, error);
+                };
+
+
+                DesignHome.removeItemListBackgroundImage = function () {
+                    DesignHome.data.design.itemListBgImage = null;
                 };
 
                 /*
@@ -90,7 +106,7 @@
                         , error = function (err) {
                             console.error('Error while saving data : ', err);
                         };
-                     DataStore.save(newObj, tag).then(success, error);
+                    DataStore.save(newObj, tag).then(success, error);
                 };
 
                 /*

@@ -19,40 +19,6 @@
                     <img src="http://www.placehold.it/53x63">-->
                     <img ng-src="assets/images/{{listLayout.name}}.png">
                 </a>
-                <!--
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/33x11">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/133x63">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/53x131">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/53x24">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/33x63">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/13x32">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/33x44">
-                 </a>
-                 <a class="layouticon border-grey border-radius-three default-background-hover text-center">
-                     <span class="add-icon hidden">+</span>
-                     <img src="http://www.placehold.it/25x50">
-                 </a>
-                 -->
             </div>
 
         </div>
@@ -119,11 +85,19 @@
     </div>
     <div class="main col-md-9 pull-right">
         <div class="screens clearfix">
-            <div class="screen text-center layouticon pull-left">
-                <a class="border-grey border-radius-three default-background-hover text-center">
+            <div ng-hide="DesignHome.data.design.itemListBgImage" class="screen text-center layouticon pull-left">
+                <a class="border-grey border-radius-three default-background-hover text-center"
+                   ng-click="DesignHome.addItemListBackgroundImage()">
                     <span class="add-icon">+</span>
                 </a>
                 <label class="secondary">750x1334</label>
+            </div>
+            <div ng-show="DesignHome.data.design.itemListBgImage" class="screen text-center layouticon pull-left">
+                <a class="border-grey border-radius-three default-background-hover text-center"
+                   ng-click="DesignHome.addItemListBackgroundImage()">
+                    <img ng-src="{{DesignHome.data.design.itemListBgImage|getImageUrl:88:124:'resize'}}">
+                </a>
+                <span class="icon btn-icon btn-delete-icon btn-danger btn-close transition-third" ng-click="DesignHome.removeItemListBackgroundImage()"></span>
             </div>
         </div>
     </div>
