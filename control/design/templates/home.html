@@ -6,13 +6,15 @@
         <div class="screens clearfix">
             <div class="screen layouticon pull-left">
                 <a class="border-grey border-radius-three default-background-hover text-center">
-                   <!-- <span class="add-icon hidden">+</span>
-                    <img src="http://www.placehold.it/31x33">-->
+                    <!-- <span class="add-icon hidden">+</span>
+                     <img src="http://www.placehold.it/31x33">-->
                     <img ng-src="assets/images/{{DesignHome.data.design.itemListLayout}}.png">
                 </a>
             </div>
             <div class="screen layoutgrid pull-right margin-left-zero border-grey border-radius-three">
-                <a ng-repeat="listLayout in DesignHome.layouts.listLayouts" class="layouticon border-grey border-radius-three default-background-hover text-center">
+                <a ng-repeat="listLayout in DesignHome.layouts.listLayouts"
+                   class="layouticon border-grey border-radius-three default-background-hover text-center"
+                   ng-click="DesignHome.changeListLayout(this.listLayout.name)">
                     <!--<span class="add-icon hidden">+</span>
                     <img src="http://www.placehold.it/53x63">-->
                     <img ng-src="assets/images/{{listLayout.name}}.png">

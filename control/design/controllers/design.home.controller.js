@@ -71,6 +71,10 @@
                 };
                 init();
 
+                DesignHome.changeListLayout = function (layoutName) {
+                    DesignHome.data.design.itemListLayout = layoutName;
+                    if (tmrDelay)clearTimeout(tmrDelay);
+                };
 
                 /*
                  * Call the datastore to save the data object
@@ -86,7 +90,7 @@
                         , error = function (err) {
                             console.error('Error while saving data : ', err);
                         };
-                    // DataStore.save(newObj, tag).then(success, error);
+                     DataStore.save(newObj, tag).then(success, error);
                 };
 
                 /*
