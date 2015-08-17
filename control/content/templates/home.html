@@ -50,64 +50,19 @@
                ng-click="ContentHome.openAddImagePopUp()">Add Image</a>
         </div>
         <div class="carousel-items draggable-list-view margin-top-twenty border-radius-four border-grey">
-            <div class="d-item">
+            <div class="d-item" ng-repeat="image in ContentHome.data.content.images">
                 <span class="icon icon-menu pull-left"></span>
 
                 <div class="media-holder pull-left">
-                    <img src="http://www.placehold.it/80x50">
+                    <img ng-src="{{image.imageUrl | getImageUrl : 60 :40}}">
                 </div>
                 <div class="copy pull-right">
-                    <span class="title ellipsis">Image Title</span>
+                    <span class="title ellipsis">{{image.title}}</span>
 
                     <div class="pull-right">
                         <a class="text-primary text">Add Action</a>
-                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="d-item">
-                <span class="icon icon-menu pull-left"></span>
-
-                <div class="media-holder pull-left">
-                    <img src="http://www.placehold.it/80x50">
-                </div>
-                <div class="copy pull-right">
-                    <span class="title ellipsis">Image Title</span>
-
-                    <div class="pull-right">
-                        <a class="text-primary text">Add Action</a>
-							<span
-                                    class="btn-icon btn-delete-icon btn-danger transition-third"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="d-item">
-                <span class="icon icon-menu pull-left"></span>
-
-                <div class="media-holder pull-left">
-                    <img src="http://www.placehold.it/80x50">
-                </div>
-                <div class="copy pull-right">
-                    <span class="title ellipsis">Image Title</span>
-
-                    <div class="pull-right">
-                        <a class="text-primary text">Add Action</a>
-                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="d-item">
-                <span class="icon icon-menu pull-left"></span>
-
-                <div class="media-holder pull-left">
-                    <img src="http://www.placehold.it/80x50">
-                </div>
-                <div class="copy pull-right">
-                    <span class="title ellipsis">Image Title</span>
-
-                    <div class="pull-right">
-                        <a class="text-primary text">Add Action</a>
-                        <span class="btn-icon btn-delete-icon btn-danger transition-third"></span>
+                        <span
+                            class="btn-icon btn-delete-icon btn-danger transition-third" ng-click="ContentHome.removeCarouselImage($index)"></span>
                     </div>
                 </div>
             </div>
