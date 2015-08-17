@@ -130,18 +130,18 @@
 
                 /*------------------------------------------related to previous code-----------------------------*/
 
-                /*
+/*                *//*
                  * this is a way you can update only one property without sending the entire object
-                 * */
+                 * *//*
                 $scope.approve = function () {
                     if ($scope.id)
                         buildfire.datastore.update($scope.id, {$set: {"content.approvedOn": new Date()}});
                 };
 
 
-                /*
+                *//*
                  * Open Image Lib
-                 */
+                 *//*
                 $scope.openImageLib = function () {
                     buildfire.imageLib.showDialog({showIcons: false, multiSelection: false}, function (error, result) {
                         if (result && result.selectedFiles && result.selectedFiles.length > 0) {
@@ -151,9 +151,9 @@
                     });
                 };
 
-                /*
+                *//*
                  * Open action dialog
-                 */
+                 *//*
                 $scope.openActionDialog = function () {
                     var actionItem = {
                         title: "build fire",
@@ -182,7 +182,7 @@
                         return "";
                     else
                         return buildfire.imageLib.resizeImage(url, {width: 32});
-                };
+                };*/
                 /*------------------------------------------previous code ends-----------------------------*/
 
             }]);
