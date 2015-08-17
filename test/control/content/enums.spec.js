@@ -1,10 +1,9 @@
 describe('Unit : youtubePlugin content Enums', function () {
-    var TAG_NAMES, ERROR_CODE, STATUS_CODE, CONTENT_TYPE;
+    var TAG_NAMES, STATUS_CODE, CONTENT_TYPE;
     beforeEach(module('youtubePluginContent'));
 
-    beforeEach(inject(function (_TAG_NAMES_, _ERROR_CODE_, _STATUS_CODE_, _CONTENT_TYPE_) {
+    beforeEach(inject(function (_TAG_NAMES_, _STATUS_CODE_, _CONTENT_TYPE_) {
         TAG_NAMES = _TAG_NAMES_;
-        ERROR_CODE = _ERROR_CODE_;
         STATUS_CODE = _STATUS_CODE_;
         CONTENT_TYPE = _CONTENT_TYPE_;
     }));
@@ -13,17 +12,8 @@ describe('Unit : youtubePlugin content Enums', function () {
         it('TAG_NAMES should exist and be an object', function () {
             expect(typeof TAG_NAMES).toEqual('object');
         });
-        it('TAG_NAMES.YOUTUBE_INFO should exist and equals to "YouTubeInfo"', function () {
+        it('TAG_NAMES.YOUTUBE_INFO should exist and equals to "GetInfo"', function () {
             expect(TAG_NAMES.YOUTUBE_INFO).toEqual('YouTubeInfo');
-        });
-    });
-
-    describe('Enum : ERROR_CODE', function () {
-        it('ERROR_CODE should exist and be an object', function () {
-            expect(typeof ERROR_CODE).toEqual('object');
-        });
-        it('ERROR_CODE.NOT_FOUND should exist and equals to "NOTFOUND"', function () {
-            expect(ERROR_CODE.NOT_FOUND).toEqual('NOTFOUND');
         });
     });
 
@@ -36,6 +26,9 @@ describe('Unit : youtubePlugin content Enums', function () {
         });
         it('STATUS_CODE.UPDATED should exist and equals to "updated"', function () {
             expect(STATUS_CODE.UPDATED).toEqual('updated');
+        });
+        it('STATUS_CODE.NOT_FOUND should exist and equals to "NOTFOUND"', function () {
+            expect(STATUS_CODE.NOT_FOUND).toEqual('NOTFOUND');
         });
     });
 

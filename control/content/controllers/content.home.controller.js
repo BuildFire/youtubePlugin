@@ -3,8 +3,8 @@
 (function (angular, window) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'ERROR_CODE', 'CONTENT_TYPE','$modal',
-            function ($scope, Buildfire, TAG_NAMES, ERROR_CODE, CONTENT_TYPE,$modal) {
+        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
+            function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
                 var _data = {
                     "content": {
                         "images": [],
@@ -48,23 +48,23 @@
                  * Go pull any previously saved data
                  * */
                 var init = function () {
-                    Buildfire.datastore.get(TAG_NAMES.YOUTUBE_INFO, function (err, result) {
-                        if (err && err.code !== ERROR_CODE.NOT_FOUND) {
-                            console.error('Error while getting data', err);
-                            if (tmrDelay)clearTimeout(tmrDelay);
-                        }
-                        else if (err && err.code === ERROR_CODE.NOT_FOUND) {
-                            ContentHome.data = angular.copy(_data);
-                            $scope.$digest();
-                            saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.YOUTUBE_INFO);
-                        }
-                        else if (result) {
+                    var success = function (result) {
                             ContentHome.data = result.data;
+                            console.info('init success result:',result);
                             updateMasterItem(ContentHome.data);
-                            $scope.$digest();
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
-                    });
+                        , error = function (err) {
+                            if (err && err.code !== STATUS_CODE.NOT_FOUND) {
+                                console.error('Error while getting data', err);
+                                if (tmrDelay)clearTimeout(tmrDelay);
+                            }
+                            else if (err && err.code === STATUS_CODE.NOT_FOUND) {
+                                ContentHome.data = angular.copy(_data);
+                                saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
+                            }
+                        };
+                    DataStore.get(TAG_NAMES.GET_INFO).then(success, error);
                 };
                 init();
 
@@ -89,14 +89,17 @@
                  * Call the datastore to save the data object
                  */
                 var saveData = function (newObj, tag) {
-                    if (typeof newObj === 'undefined')return;
-                    Buildfire.datastore.save(newObj, tag, function (err, result) {
-                        if (err || !result) {
-                            console.error('Error while saving data : ', err);
-                        } else {
+                    if (typeof newObj === 'undefined') {
+                        return;
+                    }
+                    var success = function (result) {
+                            console.info('Saved data result: ', result);
                             updateMasterItem(newObj);
                         }
-                    });
+                        , error = function (err) {
+                            console.error('Error while saving data : ', err);
+                        };
+                    DataStore.save(newObj, tag).then(success, error);
                 };
 
                 /*
@@ -125,18 +128,18 @@
 
                 /*------------------------------------------related to previous code-----------------------------*/
 
-                /*
+/*                *//*
                  * this is a way you can update only one property without sending the entire object
-                 * */
+                 * *//*
                 $scope.approve = function () {
                     if ($scope.id)
                         buildfire.datastore.update($scope.id, {$set: {"content.approvedOn": new Date()}});
                 };
 
 
-                /*
+                *//*
                  * Open Image Lib
-                 */
+                 *//*
                 $scope.openImageLib = function () {
                     buildfire.imageLib.showDialog({showIcons: false, multiSelection: false}, function (error, result) {
                         if (result && result.selectedFiles && result.selectedFiles.length > 0) {
@@ -146,9 +149,9 @@
                     });
                 };
 
-                /*
+                *//*
                  * Open action dialog
-                 */
+                 *//*
                 $scope.openActionDialog = function () {
                     var actionItem = {
                         title: "build fire",
@@ -177,7 +180,7 @@
                         return "";
                     else
                         return buildfire.imageLib.resizeImage(url, {width: 32});
-                };
+                };*/
                 /*------------------------------------------previous code ends-----------------------------*/
 
               ContentHome.openAddImagePopUp = function(){
