@@ -57,7 +57,6 @@
                             if (DesignHome.data && DesignHome.data.design && !DesignHome.data.design.itemListLayout) {
                                 DesignHome.data.design.itemListLayout = DesignHome.layouts.listLayouts[0].name;
                             }
-                            console.info('init success result:', result);
                             updateMasterItem(DesignHome.data);
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
@@ -74,6 +73,24 @@
                     if (tmrDelay)clearTimeout(tmrDelay);
                 };
 
+                DesignHome.addItemDetailsBackgroundImage = function () {
+                    var options = {showIcons: false, multiSelection: false};
+                    var success = function (result) {
+                            DesignHome.data.design.itemDetailsBgImage = result.selectedFiles && result.selectedFiles[0] || null;
+                            if (tmrDelay)clearTimeout(tmrDelay);
+                        }
+                        , error = function (err) {
+                            console.error('Error while selecting item details background image from ImageLibrary', err);
+                            if (tmrDelay)clearTimeout(tmrDelay);
+                        };
+                    ImageLibrary.showDialog(options).then(success, error);
+                };
+
+                DesignHome.removeItemDetailsBackgroundImage = function () {
+                    DesignHome.data.design.itemDetailsBgImage = null;
+                };
+
+
                 DesignHome.addItemListBackgroundImage = function () {
                     var options = {showIcons: false, multiSelection: false};
                     var success = function (result) {
@@ -81,7 +98,7 @@
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
                         , error = function (err) {
-                            console.error('Error while selecting image from ImageLibrary', err);
+                            console.error('Error while selecting item list background image from ImageLibrary', err);
                             if (tmrDelay)clearTimeout(tmrDelay);
                         };
                     ImageLibrary.showDialog(options).then(success, error);
