@@ -8,7 +8,6 @@
 
                 var DesignHome = this;
                 DesignHome.masterData = null;
-                DesignHome.data = angular.copy(_data);
                 DesignHome.layouts = {
                     listLayouts: [
                         {name: "List_Layout_1"},
@@ -33,6 +32,7 @@
                         "itemDetailsBgImage": ""
                     }
                 };
+                DesignHome.data = angular.copy(_data);
 
                 updateMasterItem(_data);
 
