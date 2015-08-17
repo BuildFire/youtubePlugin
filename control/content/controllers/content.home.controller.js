@@ -3,13 +3,8 @@
 (function (angular, window) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'ERROR_CODE', 'CONTENT_TYPE',
-            function ($scope, Buildfire, TAG_NAMES, ERROR_CODE, CONTENT_TYPE) {
-                var _imageData = {
-                    "url": "",
-                    "title": "",
-                    "link": ""
-                };
+        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'ERROR_CODE', 'CONTENT_TYPE','$modal',
+            function ($scope, Buildfire, TAG_NAMES, ERROR_CODE, CONTENT_TYPE,$modal) {
                 var _data = {
                     "content": {
                         "images": [],
@@ -184,6 +179,27 @@
                         return buildfire.imageLib.resizeImage(url, {width: 32});
                 };
                 /*------------------------------------------previous code ends-----------------------------*/
+
+              ContentHome.openAddImagePopUp = function(){
+                var modalInstance = $modal
+                  .open({
+                    templateUrl: 'templates/modals/add-carousel-image.html',
+                    controller: 'AddCarouselImagePopupCtrl',
+                    controllerAs: 'AddCarouselImagePopup',
+                    size: 'sm'
+                  });
+                modalInstance.result.then(function (imageInfo) {
+                  if (imageInfo && ContentHome.data) {
+                    if (!ContentHome.data.content.images)
+                      ContentHome.data.content.images = [];
+                    ContentHome.data.content.images.push(JSON.parse(angular.toJson(imageInfo)));
+                  } else {
+                    console.info('Unable to load data.')
+                  }
+                }, function (err) {
+                  //do something on cancel
+                });
+              }
 
             }]);
 })(window.angular, window);
