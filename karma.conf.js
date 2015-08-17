@@ -15,41 +15,54 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            './bower_components/jquery/dist/jquery.min.js',
-            './bower_components/angular/angular.js',
-            './bower_components/angular-animate/angular-animate.min.js',
-            './bower_components/angular-route/angular-route.min.js',
-            './bower_components/angular-bootstrap/ui-bootstrap.min.js',
-            './bower_components/ng-file-upload/ng-file-upload.min.js',
-            './bower_components/ng-file-upload/ng-file-upload-shim.min.js',
-            './bower_components/owlcarousel/owl-carousel/owl.carousel.min.js',
-            './bower_components/tinymce/tinymce.min.js',
-            './bower_components/angular-mocks/angular-mocks.js',
-            './test/assets/*.js',
-            './control/content/**/*.js',
-            './control/design/**/*.js',
-            './widget/**/*.js',
+            'test/assets/bower_components/jquery/dist/jquery.min.js',
+            'test/assets/bower_components/angular/angular.js',
+            'test/assets/bower_components/angular-animate/angular-animate.min.js',
+            'test/assets/bower_components/angular-route/angular-route.min.js',
+            'test/assets/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+            'test/assets/bower_components/ng-file-upload/ng-file-upload.min.js',
+            'test/assets/bower_components/ng-file-upload/ng-file-upload-shim.min.js',
+            'test/assets/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js',
+            'test/assets/bower_components/tinymce/tinymce.min.js',
+            'test/assets/bower_components/angular-mocks/angular-mocks.js',
+            'test/assets/*.js',
+            'control/content/**/*.js',
+            'control/design/**/*.js',
+            'control/settings/**/*.js',
+            'widget/**/*.js',
             'test/**/*.spec.js'
         ],
 
 
         // list of files to exclude
-        exclude: [],
+        exclude: [
+        ],
 
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {},
+        preprocessors: {
+            'control/**/*.js':['coverage'],
+            'widget/**/*.js':['coverage']
+        },
 
         plugins: [
             'karma-phantomjs-launcher',
             'karma-jasmine',
-            'karma-junit-reporter'],
+            'karma-junit-reporter',
+            'karma-coverage'
+        ],
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
+
+
+        coverageReporter: {
+            type: 'html',
+            dir: 'test/coverage/'
+        },
 
 
         // web server port

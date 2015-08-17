@@ -24,12 +24,16 @@ build/Release
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
 
 #Node Modules
 node_modules
 
+#.idea folder
 .idea/*
 
 #bower components
-bower_components
+test/assets/bower_components
+
+#coverage folder
+test/coverage
+

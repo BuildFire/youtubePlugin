@@ -1,14 +1,14 @@
 describe('Unit : youtubePlugin content.home.controller.js', function () {
-    var scope, $rootScope, $controller, Buildfire, TAG_NAMES, ERROR_CODE, CONTENT_TYPE;
+    var scope, $rootScope, $controller, Buildfire, TAG_NAMES, STATUS_CODE, CONTENT_TYPE;
     beforeEach(module('youtubePluginContent'));
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _Buildfire_, _TAG_NAMES_, _ERROR_CODE_, _CONTENT_TYPE_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _CONTENT_TYPE_) {
         $rootScope = _$rootScope_;
         scope = $rootScope.$new();
         $controller = _$controller_;
         Buildfire = _Buildfire_;
         TAG_NAMES = _TAG_NAMES_;
-        ERROR_CODE = _ERROR_CODE_;
+        STATUS_CODE = _STATUS_CODE_;
         CONTENT_TYPE = _CONTENT_TYPE_;
     }));
 
@@ -17,7 +17,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
             $scope: scope,
             Buildfire: Buildfire,
             TAG_NAMES: TAG_NAMES,
-            ERROR_CODE: ERROR_CODE,
+            STATUS_CODE: STATUS_CODE,
             CONTENT_TYPE: CONTENT_TYPE
         });
         it('it should pass if Home is defined', function () {
@@ -29,11 +29,14 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
         it('it should pass if TAG_NAMES is defined', function () {
             expect(TAG_NAMES).not.toBeUndefined();
         });
-        it('it should pass if ERROR_CODE is defined', function () {
-            expect(ERROR_CODE).not.toBeUndefined();
+        it('it should pass if STATUS_CODE is defined', function () {
+            expect(STATUS_CODE).not.toBeUndefined();
         });
         it('it should pass if CONTENT_TYPE is defined', function () {
             expect(CONTENT_TYPE).not.toBeUndefined();
+        });
+        it('it should pass if openAddImagePopUp function is defined', function () {
+            expect(ContentHome.openAddImagePopUp).not.toBeUndefined();
         });
     });
 
@@ -63,7 +66,19 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
 
     describe('ContentHome.data', function () {
         it('it should pass if ContentHome.data is null', function () {
-            expect(ContentHome.data).toEqual(null);
+            expect(ContentHome.data).toEqual({
+              "content": {
+                "images": [],
+                "description": '<p><br data-mce-bogus="1"></p>',
+                "rssUrl": "",
+                "type": CONTENT_TYPE.SINGLE_VIDEO
+              },
+              "design": {
+                "itemListLayout": "",
+                "itemListBgImage": "",
+                "itemDetailsBgImage": ""
+              }
+            });
         });
     });
 

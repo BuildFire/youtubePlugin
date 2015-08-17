@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular) {
-    angular.module('youtubePluginContent')
+    angular.module('youtubePluginDesign')
         .constant('TAG_NAMES', {
             YOUTUBE_INFO: 'YouTubeInfo'
         })

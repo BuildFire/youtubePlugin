@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-    angular.module('youtubePluginContent')
+    angular.module('youtubePluginDesign')
         .provider('Buildfire', [function () {
             var Buildfire = this;
             Buildfire.$get = function () {
@@ -135,6 +135,30 @@
                         if (err) {
                             return deferred.reject(err);
                         } else if (result) {
+                            return deferred.resolve(result);
+                        }
+                    });
+                    return deferred.promise;
+                }
+            }
+        }])
+
+        .factory("ImageLibrary", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
+
+            return {
+                showDialog: function (_options) {
+                    var deferred = $q.defer()
+                    if (typeof _options == 'undefined') {
+                        return deferred.reject(new Error({
+                            code: STATUS_CODE.UNDEFINED_OPTIONS,
+                            message: STATUS_MESSAGES.UNDEFINED_OPTIONS
+                        }));
+                    }
+                    Buildfire.imageLib.showDialog(_options, function (err, result) {
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+                        else if (result) {
                             return deferred.resolve(result);
                         }
                     });
