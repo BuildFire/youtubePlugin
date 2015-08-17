@@ -1,27 +1,27 @@
 'use strict';
 
 (function (angular, window) {
-  angular
-    .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
-      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
-        var _data = {
-          "content": {
-            "images": [],
-            "description": '<p><br data-mce-bogus="1"></p>',
-            "rssUrl": "",
-            "type": CONTENT_TYPE.SINGLE_VIDEO
-          },
-          "design": {
-            "itemListLayout": "",
-            "itemListBgImage": "",
-            "itemDetailsBgImage": ""
-          }
-        };
-        var ContentHome = this;
-        ContentHome.masterData = null;
-        ContentHome.CONTENT_TYPE = CONTENT_TYPE;
-        ContentHome.data = null;
+    angular
+        .module('youtubePluginContent')
+        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
+            function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
+                var _data = {
+                    "content": {
+                        "images": [],
+                        "description": '<p><br data-mce-bogus="1"></p>',
+                        "rssUrl": "",
+                        "type": CONTENT_TYPE.SINGLE_VIDEO
+                    },
+                    "design": {
+                        "itemListLayout": "",
+                        "itemListBgImage": "",
+                        "itemDetailsBgImage": ""
+                    }
+                };
+                var ContentHome = this;
+                ContentHome.masterData = null;
+                ContentHome.CONTENT_TYPE = CONTENT_TYPE;
+                ContentHome.data = angular.copy(_data);
 
         ContentHome.descriptionWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
