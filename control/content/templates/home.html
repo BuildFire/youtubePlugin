@@ -60,7 +60,13 @@
                     <span class="title ellipsis">{{image.title}}</span>
 
                     <div class="pull-right">
-                        <a class="text-primary text">Add Action</a>
+                        <a class="text-primary text"
+                           ng-click="ContentHome.addActionForImage($index)"
+                           ng-show="!image.action">Add
+                          Action</a>
+                      <a class="text-primary text"
+                         ng-click="ContentHome.editActionForImage(image.action, $index)"
+                         ng-hide="!image.action">{{image.action.title}}</a>
                         <span
                             class="btn-icon btn-delete-icon btn-danger transition-third" ng-click="ContentHome.removeCarouselImage($index)"></span>
                     </div>

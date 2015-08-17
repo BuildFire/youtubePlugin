@@ -141,46 +141,6 @@
 
          */
         /*
-         * Open Image Lib
-         */
-        /*
-         $scope.openImageLib = function () {
-         buildfire.imageLib.showDialog({showIcons: false, multiSelection: false}, function (error, result) {
-         if (result && result.selectedFiles && result.selectedFiles.length > 0) {
-         $scope.data.content.bgURL = result.selectedFiles[0];
-         $scope.$apply();
-         }
-         });
-         };
-
-         */
-        /*
-         * Open action dialog
-         */
-        /*
-         $scope.openActionDialog = function () {
-         var actionItem = {
-         title: "build fire",
-         "url": "https://www.facebook.com/buildfireapps",
-         action: "linkToWeb",
-         openIn: "browser",
-         actionName: "Link to Web Content"
-         };
-         var options = {showIcon: true};
-         buildfire.actionItems.showDialog(null, options, function (err, actionItem) {
-         if (err)
-         console.log(err);
-         else {
-         debugger;
-         if (!$scope.data.actionItems)
-         $scope.data.actionItems = [];
-         $scope.data.actionItems.push(actionItem);
-         $scope.$apply();
-         }
-
-         });
-         };
-
          $scope.resizeImage = function (url) {
          if (!url)
          return "";
@@ -234,6 +194,36 @@
             //do something on cancel
           });
         };
+
+
+              ContentHome.addActionForImage = function(index){
+                var options = {showIcon: false};
+                buildfire.actionItems.showDialog(null, options, function (err, actionItem) {
+                  if (err)
+                    console.log(err);
+                  else {
+                    if(ContentHome.data.content.images[index])
+                    ContentHome.data.content.images[index].action = actionItem;
+                    $scope.$apply();
+                  }
+
+                });
+              };
+
+
+              ContentHome.editActionForImage = function(action, index){
+                var options = {showIcon: false};
+                buildfire.actionItems.showDialog(action, options, function (err, actionItem) {
+                  if (err)
+                    console.log(err);
+                  else {
+                    if(ContentHome.data.content.images[index])
+                      ContentHome.data.content.images[index].action = actionItem;
+                    $scope.$apply();
+                  }
+
+                });
+              };
 
       }]);
 })(window.angular, window);

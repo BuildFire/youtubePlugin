@@ -35,6 +35,9 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
         it('it should pass if CONTENT_TYPE is defined', function () {
             expect(CONTENT_TYPE).not.toBeUndefined();
         });
+        it('it should pass if openAddImagePopUp function is defined', function () {
+            expect(ContentHome.openAddImagePopUp).not.toBeUndefined();
+        });
     });
 
     describe('ContentHome.masterData', function () {
@@ -63,7 +66,19 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
 
     describe('ContentHome.data', function () {
         it('it should pass if ContentHome.data is null', function () {
-            expect(ContentHome.data).toEqual(null);
+            expect(ContentHome.data).toEqual({
+              "content": {
+                "images": [],
+                "description": '<p><br data-mce-bogus="1"></p>',
+                "rssUrl": "",
+                "type": CONTENT_TYPE.SINGLE_VIDEO
+              },
+              "design": {
+                "itemListLayout": "",
+                "itemListBgImage": "",
+                "itemDetailsBgImage": ""
+              }
+            });
         });
     });
 
