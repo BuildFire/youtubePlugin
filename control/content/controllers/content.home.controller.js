@@ -1,27 +1,27 @@
 'use strict';
 
 (function (angular, window) {
-    angular
-        .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
-            function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
-                var _data = {
-                    "content": {
-                        "images": [],
-                        "description": '<p><br data-mce-bogus="1"></p>',
-                        "rssUrl": "",
-                        "type": CONTENT_TYPE.SINGLE_VIDEO
-                    },
-                    "design": {
-                        "itemListLayout": "",
-                        "itemListBgImage": "",
-                        "itemDetailsBgImage": ""
-                    }
-                };
-                var ContentHome = this;
-                ContentHome.masterData = null;
-                ContentHome.CONTENT_TYPE = CONTENT_TYPE;
-                ContentHome.data = angular.copy(_data);
+  angular
+    .module('youtubePluginContent')
+    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
+      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
+        var _data = {
+          "content": {
+            "images": [],
+            "description": '<p><br data-mce-bogus="1"></p>',
+            "rssUrl": "",
+            "type": CONTENT_TYPE.SINGLE_VIDEO
+          },
+          "design": {
+            "itemListLayout": "",
+            "itemListBgImage": "",
+            "itemDetailsBgImage": ""
+          }
+        };
+        var ContentHome = this;
+        ContentHome.masterData = null;
+        ContentHome.CONTENT_TYPE = CONTENT_TYPE;
+        ContentHome.data = angular.copy(_data);
 
         ContentHome.descriptionWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
@@ -43,6 +43,14 @@
         function isUnchanged(data) {
           return angular.equals(data, ContentHome.masterData);
         }
+
+        /**
+         * ContentHome.imageSortableOptions used for ui-sortable directory to drag-drop carousel images Manually.
+         * @type object
+         */
+        ContentHome.imageSortableOptions = {
+          handle: '> .cursor-grab'
+        };
 
         /*
          * Go pull any previously saved data
@@ -196,34 +204,34 @@
         };
 
 
-              ContentHome.addActionForImage = function(index){
-                var options = {showIcon: false};
-                buildfire.actionItems.showDialog(null, options, function (err, actionItem) {
-                  if (err)
-                    console.log(err);
-                  else {
-                    if(ContentHome.data.content.images[index])
-                    ContentHome.data.content.images[index].action = actionItem;
-                    $scope.$apply();
-                  }
+        ContentHome.addActionForImage = function (index) {
+          var options = {showIcon: false};
+          buildfire.actionItems.showDialog(null, options, function (err, actionItem) {
+            if (err)
+              console.log(err);
+            else {
+              if (ContentHome.data.content.images[index])
+                ContentHome.data.content.images[index].action = actionItem;
+              $scope.$apply();
+            }
 
-                });
-              };
+          });
+        };
 
 
-              ContentHome.editActionForImage = function(action, index){
-                var options = {showIcon: false};
-                buildfire.actionItems.showDialog(action, options, function (err, actionItem) {
-                  if (err)
-                    console.log(err);
-                  else {
-                    if(ContentHome.data.content.images[index])
-                      ContentHome.data.content.images[index].action = actionItem;
-                    $scope.$apply();
-                  }
+        ContentHome.editActionForImage = function (action, index) {
+          var options = {showIcon: false};
+          buildfire.actionItems.showDialog(action, options, function (err, actionItem) {
+            if (err)
+              console.log(err);
+            else {
+              if (ContentHome.data.content.images[index])
+                ContentHome.data.content.images[index].action = actionItem;
+              $scope.$apply();
+            }
 
-                });
-              };
+          });
+        };
 
       }]);
 })(window.angular, window);

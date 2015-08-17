@@ -49,9 +49,10 @@
             <a class="btn btn-success pull-left"
                ng-click="ContentHome.openAddImagePopUp()">Add Image</a>
         </div>
-        <div class="carousel-items draggable-list-view margin-top-twenty border-radius-four border-grey">
+        <div
+            class="carousel-items draggable-list-view margin-top-twenty border-radius-four border-grey" ui-sortable="ContentHome.imageSortableOptions" ng-model="ContentHome.data.content.images">
             <div class="d-item" ng-repeat="image in ContentHome.data.content.images">
-                <span class="icon icon-menu pull-left"></span>
+                <span class="icon icon-menu pull-left cursor-grab"></span>
 
                 <div class="media-holder pull-left">
                     <img ng-src="{{image.imageUrl | getImageUrl : 60 :40}}">
