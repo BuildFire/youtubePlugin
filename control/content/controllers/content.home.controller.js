@@ -61,7 +61,7 @@
                         else if (err && err.code === STATUS_CODE.NOT_FOUND) {
                             ContentHome.data = angular.copy(_data);
                             $scope.$digest();
-                            saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
+                            saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.YOUTUBE_INFO);
                         }
                         else if (result) {
                             ContentHome.data = result.data;
@@ -117,7 +117,7 @@
                             clearTimeout(tmrDelay);
                         }
                         tmrDelay = setTimeout(function () {
-                            saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.GET_INFO);
+                            saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.YOUTUBE_INFO);
                         }, 500);
                     }
                 };

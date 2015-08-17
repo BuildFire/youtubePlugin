@@ -13,8 +13,8 @@ describe('Unit : youtubePlugin content Enums', function () {
         it('TAG_NAMES should exist and be an object', function () {
             expect(typeof TAG_NAMES).toEqual('object');
         });
-        it('TAG_NAMES.GET_INFO should exist and equals to "GetInfo"', function () {
-            expect(TAG_NAMES.GET_INFO).toEqual('GetInfo');
+        it('TAG_NAMES.YOUTUBE_INFO should exist and equals to "YouTubeInfo"', function () {
+            expect(TAG_NAMES.YOUTUBE_INFO).toEqual('YouTubeInfo');
         });
     });
 
