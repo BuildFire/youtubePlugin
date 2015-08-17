@@ -53,7 +53,7 @@
                  * Go pull any previously saved data
                  * */
                 var init = function () {
-                    Buildfire.datastore.get(TAG_NAMES.GET_INFO, function (err, result) {
+                    Buildfire.datastore.get(TAG_NAMES.YOUTUBE_INFO, function (err, result) {
                         if (err && err.code !== ERROR_CODE.NOT_FOUND) {
                             console.error('Error while getting data', err);
                             if (tmrDelay)clearTimeout(tmrDelay);
@@ -61,7 +61,7 @@
                         else if (err && err.code === ERROR_CODE.NOT_FOUND) {
                             ContentHome.data = angular.copy(_data);
                             $scope.$digest();
-                            saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
+                            saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.YOUTUBE_INFO);
                         }
                         else if (result) {
                             ContentHome.data = result.data;
@@ -117,7 +117,7 @@
                             clearTimeout(tmrDelay);
                         }
                         tmrDelay = setTimeout(function () {
-                            saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.GET_INFO);
+                            saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.YOUTUBE_INFO);
                         }, 500);
                     }
                 };
