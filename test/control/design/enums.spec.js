@@ -1,6 +1,6 @@
 describe('Unit : youtubePlugin Design Enums', function () {
     var TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
-    beforeEach(module('youtubePluginContent'));
+    beforeEach(module('youtubePluginDesign'));
 
     beforeEach(inject(function (_TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_) {
         TAG_NAMES = _TAG_NAMES_;
