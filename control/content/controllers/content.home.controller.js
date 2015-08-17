@@ -61,10 +61,10 @@
                             }
                             else if (err && err.code === STATUS_CODE.NOT_FOUND) {
                                 ContentHome.data = angular.copy(_data);
-                                saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
+                                saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.YOUTUBE_INFO);
                             }
                         };
-                    DataStore.get(TAG_NAMES.GET_INFO).then(success, error);
+                    DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
                 };
                 init();
 
