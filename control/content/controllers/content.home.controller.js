@@ -3,8 +3,8 @@
 (function (angular, window) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'ERROR_CODE', 'CONTENT_TYPE',
-            function ($scope, Buildfire, TAG_NAMES, ERROR_CODE, CONTENT_TYPE) {
+        .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE',
+            function ($scope, Buildfire, TAG_NAMES, STATUS_CODE, CONTENT_TYPE) {
                 var _imageData = {
                     "url": "",
                     "title": "",
@@ -54,11 +54,11 @@
                  * */
                 var init = function () {
                     Buildfire.datastore.get(TAG_NAMES.GET_INFO, function (err, result) {
-                        if (err && err.code !== ERROR_CODE.NOT_FOUND) {
+                        if (err && err.code !== STATUS_CODE.NOT_FOUND) {
                             console.error('Error while getting data', err);
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
-                        else if (err && err.code === ERROR_CODE.NOT_FOUND) {
+                        else if (err && err.code === STATUS_CODE.NOT_FOUND) {
                             ContentHome.data = angular.copy(_data);
                             $scope.$digest();
                             saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GET_INFO);
