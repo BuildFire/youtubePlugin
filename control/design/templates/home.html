@@ -90,14 +90,14 @@
                    ng-click="DesignHome.addItemListBackgroundImage()">
                     <span class="add-icon">+</span>
                 </a>
-                <label class="secondary">750x1334</label>
             </div>
             <div ng-show="DesignHome.data.design.itemListBgImage" class="screen text-center layouticon pull-left">
                 <a class="border-grey border-radius-three default-background-hover text-center"
                    ng-click="DesignHome.addItemListBackgroundImage()">
                     <img ng-src="{{DesignHome.data.design.itemListBgImage|getImageUrl:88:124:'resize'}}">
                 </a>
-                <span class="icon btn-icon btn-delete-icon btn-danger btn-close transition-third" ng-click="DesignHome.removeItemListBackgroundImage()"></span>
+                <span class="icon btn-icon btn-delete-icon btn-danger btn-close transition-third"
+                      ng-click="DesignHome.removeItemListBackgroundImage()"></span>
             </div>
         </div>
     </div>
@@ -109,12 +109,19 @@
     </div>
     <div class="main col-md-9 pull-right">
         <div class="screens clearfix">
-            <div class="screen text-center layouticon pull-left">
-                <a class="border-grey border-radius-three default-background-hover">
-                    <span class="add-icon hidden">+</span>
-                    <img src="http://www.placehold.it/60x100">
+            <div ng-hide="DesignHome.data.design.itemDetailsBgImage" class="screen text-center layouticon pull-left">
+                <a class="border-grey border-radius-three default-background-hover"
+                   ng-click="DesignHome.addItemDetailsBackgroundImage()">
+                    <span class="add-icon">+</span>
                 </a>
-                <label class="secondary">750x1334</label>
+            </div>
+            <div ng-show="DesignHome.data.design.itemDetailsBgImage" class="screen text-center layouticon pull-left">
+                <a class="border-grey border-radius-three default-background-hover"
+                   ng-click="DesignHome.addItemDetailsBackgroundImage()">
+                    <img ng-src="{{DesignHome.data.design.itemDetailsBgImage|getImageUrl:88:124:'resize'}}">
+                </a>
+                 <span class="icon btn-icon btn-delete-icon btn-danger btn-close transition-third"
+                       ng-click="DesignHome.removeItemDetailsBackgroundImage()"></span>
             </div>
         </div>
     </div>
