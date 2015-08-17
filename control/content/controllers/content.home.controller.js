@@ -53,7 +53,7 @@
                  * Go pull any previously saved data
                  * */
                 var init = function () {
-                    Buildfire.datastore.get(TAG_NAMES.GET_INFO, function (err, result) {
+                    Buildfire.datastore.get(TAG_NAMES.YOUTUBE_INFO, function (err, result) {
                         if (err && err.code !== STATUS_CODE.NOT_FOUND) {
                             console.error('Error while getting data', err);
                             if (tmrDelay)clearTimeout(tmrDelay);

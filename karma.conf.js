@@ -30,7 +30,6 @@ module.exports = function (config) {
             'control/design/**/*.js',
             'control/settings/**/*.js',
             'widget/**/*.js',
-            'resources/*.png',
             'test/**/*.spec.js'
         ],
 
