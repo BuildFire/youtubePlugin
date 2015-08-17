@@ -21,7 +21,7 @@
                 var ContentHome = this;
                 ContentHome.masterData = null;
                 ContentHome.CONTENT_TYPE = CONTENT_TYPE;
-                ContentHome.data = null;
+                ContentHome.data = angular.copy(_data);
 
                 ContentHome.descriptionWYSIWYGOptions = {
                     plugins: 'advlist autolink link image lists charmap print preview',
@@ -50,7 +50,7 @@
                 var init = function () {
                     var success = function (result) {
                             ContentHome.data = result.data;
-                            console.info('init success result:',result);
+                            console.info('init success result:', result);
                             updateMasterItem(ContentHome.data);
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
@@ -183,26 +183,26 @@
                 };*/
                 /*------------------------------------------previous code ends-----------------------------*/
 
-              ContentHome.openAddImagePopUp = function(){
-                var modalInstance = $modal
-                  .open({
-                    templateUrl: 'templates/modals/add-carousel-image.html',
-                    controller: 'AddCarouselImagePopupCtrl',
-                    controllerAs: 'AddCarouselImagePopup',
-                    size: 'sm'
-                  });
-                modalInstance.result.then(function (imageInfo) {
-                  if (imageInfo && ContentHome.data) {
-                    if (!ContentHome.data.content.images)
-                      ContentHome.data.content.images = [];
-                    ContentHome.data.content.images.push(JSON.parse(angular.toJson(imageInfo)));
-                  } else {
-                    console.info('Unable to load data.')
-                  }
-                }, function (err) {
-                  //do something on cancel
-                });
-              }
+                ContentHome.openAddImagePopUp = function () {
+                    var modalInstance = $modal
+                        .open({
+                            templateUrl: 'templates/modals/add-carousel-image.html',
+                            controller: 'AddCarouselImagePopupCtrl',
+                            controllerAs: 'AddCarouselImagePopup',
+                            size: 'sm'
+                        });
+                    modalInstance.result.then(function (imageInfo) {
+                        if (imageInfo && ContentHome.data) {
+                            if (!ContentHome.data.content.images)
+                                ContentHome.data.content.images = [];
+                            ContentHome.data.content.images.push(JSON.parse(angular.toJson(imageInfo)));
+                        } else {
+                            console.info('Unable to load data.')
+                        }
+                    }, function (err) {
+                        //do something on cancel
+                    });
+                }
 
             }]);
 })(window.angular, window);
