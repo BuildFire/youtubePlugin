@@ -6,13 +6,12 @@
         <div class="radio radio-primary radio-inline">
             <input id="channel" type="radio" ng-model="ContentHome.data.content.type"
                    ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
-                   ng-change='ContentHome.changeContentType(ContentHome.data.content.type)' name="contenttype" ng-se="">
+                   name="contenttype" ng-se="">
             <label for="channel">Channel Feed</label>
         </div>
         <div class="radio radio-primary radio-inline">
             <input id="video" type="radio" ng-model="ContentHome.data.content.type"
                    ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
-                   ng-change='ContentHome.changeContentType(ContentHome.data.content.type)'
                    name="contenttype">
             <label for="video">Single Video</label>
         </div>

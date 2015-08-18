@@ -79,22 +79,22 @@
                 };
                 init();
 
-
-                ContentHome.changeContentType = function (type) {
-                    switch (type) {
-                        case ContentHome.CONTENT_TYPE.CHANNEL_FEED:
-                            if (ContentHome.data && !ContentHome.data.content)
-                                ContentHome.data.content = {};
-                            ContentHome.data.content.type = ContentHome.CONTENT_TYPE.CHANNEL_FEED;
-                            break;
-                        case ContentHome.CONTENT_TYPE.SINGLE_VIDEO:
-                            if (ContentHome.data && !ContentHome.data.content)
-                                ContentHome.data.content = {};
-                            ContentHome.data.content.type = ContentHome.CONTENT_TYPE.SINGLE_VIDEO;
-                            break;
-                    }
-                };
-
+        /*
+         * Call the datastore to save the data object
+         */
+        var saveData = function (newObj, tag) {
+          if (typeof newObj === 'undefined') {
+            return;
+          }
+          var success = function (result) {
+              console.info('Saved data result: ', result);
+              updateMasterItem(newObj);
+            }
+            , error = function (err) {
+              console.error('Error while saving data : ', err);
+            };
+          DataStore.save(newObj, tag).then(success, error);
+        };
 
                 /*
                  * Call the datastore to save the data object
