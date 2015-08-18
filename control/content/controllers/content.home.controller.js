@@ -1,6 +1,6 @@
 'use strict';
 
-(function (angular, window) {
+(function (angular) {
     angular
         .module('youtubePluginContent')
         .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS',
@@ -198,7 +198,7 @@
                                 ContentHome.data.content.images[index].action = result;
                         }
                         , error = function (error) {
-                            console.error('ContentHome.editActionForImage Error:', error);
+                            console.error('ContentHome.addActionForImage Error:', error);
                         };
                     ActionItems.showDialog(null, options).then(success, error);
                 };
@@ -240,7 +240,7 @@
                                             ContentHome.validLinkSuccess = false;
                                         }
                                     })
-                                    .error(function (response) {
+                                    .error(function () {
                                         ContentHome.validLinkFailure = true;
                                         ContentHome.validLinkSuccess = false;
                                     });
@@ -268,7 +268,7 @@
                                             ContentHome.validLinkSuccess = false;
                                         }
                                     })
-                                    .error(function (response) {
+                                    .error(function () {
                                         ContentHome.validLinkFailure = true;
                                         ContentHome.validLinkSuccess = false;
                                     });
@@ -295,4 +295,4 @@
                         return null;
                 }
             }]);
-})(window.angular, window);
+})(window.angular);
