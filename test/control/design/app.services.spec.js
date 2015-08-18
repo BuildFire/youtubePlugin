@@ -78,6 +78,7 @@ describe('Unit : youtubePlugin design services', function () {
         it('ImageLibrary.showDialog should exist and be an function', function () {
             expect(typeof ImageLibrary.showDialog).toEqual('function');
         });
+/*
         it('it should pass after ImageLibrary.showDialog function call', function () {
             Buildfire.imageLib.showDialog.and.callFake(function (_options, callback) {
                 return callback(null, {
@@ -116,7 +117,7 @@ describe('Unit : youtubePlugin design services', function () {
             });
 
         });
-
+*/
     });
 })
 ;
