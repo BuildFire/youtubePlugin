@@ -3,8 +3,8 @@
 (function (angular, window) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal',
-      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal) {
+    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS',
+      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS) {
         var _data = {
           "content": {
             "images": [],
@@ -22,6 +22,8 @@
         ContentHome.masterData = null;
         ContentHome.CONTENT_TYPE = CONTENT_TYPE;
         ContentHome.data = angular.copy(_data);
+        ContentHome.validLinkSuccess = false;
+        ContentHome.validLinkFailure = false;
 
         ContentHome.descriptionWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
@@ -232,6 +234,50 @@
 
           });
         };
+
+        // Function to validate youtube rss feed link entered by user.
+
+        ContentHome.validateRssLink = function () {
+          console.log(ContentHome.data.content.type);
+          console.log(CONTENT_TYPE.SINGLE_VIDEO);
+
+          switch (ContentHome.data.content.type) {
+            case CONTENT_TYPE.SINGLE_VIDEO :
+              var videoID = extractSingleVideoId(ContentHome.rssLink);
+              if (videoID) {
+                $http.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + YOUTUBE_KEYS.API_KEY)
+                  .success(function (response) {
+                    console.log(response);
+                    if (response.items && response.items.length) {
+                      ContentHome.validLinkSuccess = true;
+                      ContentHome.validLinkFailure = false;
+                    }
+                    else {
+                      ContentHome.validLinkFailure = true;
+                      ContentHome.validLinkSuccess = false;
+                    }
+                  })
+                  .error(function (response) {
+                    ContentHome.validLinkFailure = true;
+                    ContentHome.validLinkSuccess = false;
+                  });
+              }
+              else {
+                ContentHome.validLinkFailure = true;
+                ContentHome.validLinkSuccess = false;
+              }
+          }
+        };
+
+        function extractSingleVideoId(url) {
+          var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+          var match = url.match(regExp);
+          if (match && match[7].length == 11) {
+            return match[7];
+          } else {
+            return null;
+          }
+        }
 
       }]);
 })(window.angular, window);
