@@ -3,14 +3,14 @@
 (function (angular) {
     angular
         .module('youtubePluginContent')
-        .controller('AddCarouselImagePopupCtrl', ['$scope', '$modalInstance', 'Buildfire', function ($scope, $modalInstance, Buildfire) {
+        .controller('AddCarouselImagePopupCtrl', ['$scope', '$modalInstance', 'ImageLibrary', function ($scope, $modalInstance, ImageLibrary) {
             var AddCarouselImagePopup = this;
             AddCarouselImagePopup.imageInfo = {
                 imageUrl: '',
                 title: '',
                 link: '',
                 target: '',
-                action : {}
+                action: {}
             };
             AddCarouselImagePopup.selectedAction = {name: 'same', value: "Same Window"};
             AddCarouselImagePopup.actionMenus = [
@@ -39,18 +39,16 @@
             AddCarouselImagePopup.cancel = function () {
                 $modalInstance.dismiss('You have canceled.');
             };
-            var options = {showIcons: false, multiSelection: false};
-            var callback = function (error, result) {
-                if (error) {
-                    console.error('Error:', error);
-                } else {
-                    AddCarouselImagePopup.imageInfo.imageUrl = result.selectedFiles && result.selectedFiles[0] || null;
-                    $scope.$digest();
-                }
-            };
 
             AddCarouselImagePopup.selectImage = function () {
-                Buildfire.imageLib.showDialog(options, callback);
+                var options = {showIcons: false, multiSelection: false}
+                    , success = function (result) {
+                        AddCarouselImagePopup.imageInfo.imageUrl = result.selectedFiles && result.selectedFiles[0] || null;
+                    }
+                    , error = function (error) {
+                        console.error('AddCarouselImagePopup Error:', error);
+                    };
+                ImageLibrary.showDialog(options).then(success, error);
             };
             AddCarouselImagePopup.removeImage = function () {
                 AddCarouselImagePopup.imageInfo.imageUrl = null;
