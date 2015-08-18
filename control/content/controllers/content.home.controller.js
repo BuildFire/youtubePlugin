@@ -10,7 +10,7 @@
                         "images": [],
                         "description": '<p><br data-mce-bogus="1"></p>',
                         "rssUrl": "",
-                        "type": CONTENT_TYPE.SINGLE_VIDEO
+                        "type": ""
                     },
                     "design": {
                         "itemListLayout": "",
@@ -24,6 +24,7 @@
                 ContentHome.data = angular.copy(_data);
                 ContentHome.validLinkSuccess = false;
                 ContentHome.validLinkFailure = false;
+                ContentHome.contentType = CONTENT_TYPE.SINGLE_VIDEO;
 
                 ContentHome.descriptionWYSIWYGOptions = {
                     plugins: 'advlist autolink link image lists charmap print preview',
@@ -218,10 +219,10 @@
                 // Function to validate youtube rss feed link entered by user.
 
                 ContentHome.validateRssLink = function () {
-                    console.log(ContentHome.data.content.type);
+                    console.log(ContentHome.contentType);
                     console.log(CONTENT_TYPE.CHANNEL_FEED);
 
-                    switch (ContentHome.data.content.type) {
+                    switch (ContentHome.contentType) {
                         case CONTENT_TYPE.SINGLE_VIDEO :
                             var videoID = extractSingleVideoId(ContentHome.rssLink);
                             if (videoID) {
@@ -231,6 +232,8 @@
                                         if (response.items && response.items.length) {
                                             ContentHome.validLinkSuccess = true;
                                             ContentHome.validLinkFailure = false;
+                                            ContentHome.data.content.rssUrl = ContentHome.rssLink;
+                                            ContentHome.data.content.type = ContentHome.contentType;
                                         }
                                         else {
                                             ContentHome.validLinkFailure = true;
@@ -257,6 +260,8 @@
                                         if (response.items && response.items.length) {
                                             ContentHome.validLinkSuccess = true;
                                             ContentHome.validLinkFailure = false;
+                                            ContentHome.data.content.rssUrl = ContentHome.rssLink;
+                                            ContentHome.data.content.type = ContentHome.contentType;
                                         }
                                         else {
                                             ContentHome.validLinkFailure = true;
