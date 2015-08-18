@@ -163,6 +163,22 @@
                     return deferred.promise;
                 }
             }
+        }])
+        .factory("ActionItems", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
+            return {
+                showDialog: function (_action, _options) {
+                    var deferred = $q.defer();
+                    Buildfire.actionItems.showDialog(_action, _options, function (err, result) {
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+                        else if (result) {
+                            return deferred.resolve(result);
+                        }
+                    });
+                    return deferred.promise;
+                }
+            }
         }]);
 
 })(window.angular, window.buildfire);

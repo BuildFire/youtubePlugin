@@ -10,7 +10,7 @@
                 title: '',
                 link: '',
                 target: '',
-                action: {}
+                action: null
             };
             AddCarouselImagePopup.selectedAction = {name: 'same', value: "Same Window"};
             AddCarouselImagePopup.actionMenus = [
