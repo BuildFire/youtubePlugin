@@ -239,7 +239,7 @@
 
         ContentHome.validateRssLink = function () {
           console.log(ContentHome.data.content.type);
-          console.log(CONTENT_TYPE.SINGLE_VIDEO);
+          console.log(CONTENT_TYPE.CHANNEL_FEED);
 
           switch (ContentHome.data.content.type) {
             case CONTENT_TYPE.SINGLE_VIDEO :
@@ -266,6 +266,28 @@
                 ContentHome.validLinkFailure = true;
                 ContentHome.validLinkSuccess = false;
               }
+              break;
+            case CONTENT_TYPE.CHANNEL_FEED :
+              var channelID = extractChannelId(ContentHome.rssLink);
+              console.log(channelID);
+              if (channelID) {
+                $http.get("https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + channelID + "&key=" + YOUTUBE_KEYS.API_KEY)
+                  .success(function (response) {
+                    console.log(response);
+                    if (response.items && response.items.length) {
+                      ContentHome.validLinkSuccess = true;
+                      ContentHome.validLinkFailure = false;
+                    }
+                    else {
+                      ContentHome.validLinkFailure = true;
+                      ContentHome.validLinkSuccess = false;
+                    }
+                  })
+                  .error(function (response) {
+                    ContentHome.validLinkFailure = true;
+                    ContentHome.validLinkSuccess = false;
+                  });
+              }
           }
         };
 
@@ -279,5 +301,13 @@
           }
         }
 
+        function extractChannelId(url) {
+          var regExp = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel\/|user\/)([a-zA-Z0-9_\-]{1,})/;
+          var match = url.match(regExp);
+          if (match && match.length)
+            return match.pop();
+          else
+            return null;
+        }
       }]);
 })(window.angular, window);
