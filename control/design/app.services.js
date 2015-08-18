@@ -142,14 +142,12 @@
                 }
             }
         }])
-
         .factory("ImageLibrary", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
-
             return {
                 showDialog: function (_options) {
-                    var deferred = $q.defer()
+                    var deferred = $q.defer();
                     if (typeof _options == 'undefined') {
-                        return deferred.reject(new Error({
+                        deferred.reject(new Error({
                             code: STATUS_CODE.UNDEFINED_OPTIONS,
                             message: STATUS_MESSAGES.UNDEFINED_OPTIONS
                         }));
