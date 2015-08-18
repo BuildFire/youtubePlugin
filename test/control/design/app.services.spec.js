@@ -12,10 +12,16 @@ describe('Unit : youtubePlugin design services', function () {
         });
     });
     describe('Unit : DataStore Factory', function () {
-        var DataStore;
+        var DataStore, Buildfire, STATUS_MESSAGES, STATUS_CODE, q;
         beforeEach(module('youtubePluginDesign'));
-        beforeEach(inject(function (_DataStore_) {
+        beforeEach(inject(function (_DataStore_, _STATUS_CODE_, _STATUS_MESSAGES_) {
             DataStore = _DataStore_;
+            STATUS_CODE = _STATUS_CODE_;
+            STATUS_MESSAGES = _STATUS_MESSAGES_;
+            Buildfire = {
+                datastore: {}
+            };
+            Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get', 'bulkInsert', 'insert', 'search', 'update', 'save', 'delete']);
         }));
 
         it('DataStore should exist and be an object', function () {
@@ -29,6 +35,9 @@ describe('Unit : youtubePlugin design services', function () {
         });
         it('DataStore.insert should exist and be an function', function () {
             expect(typeof DataStore.insert).toEqual('function');
+        });
+        it('DataStore.bulkInsert should exist and be an function', function () {
+            expect(typeof DataStore.bulkInsert).toEqual('function');
         });
         it('DataStore.search should exist and be an function', function () {
             expect(typeof DataStore.search).toEqual('function');
@@ -71,7 +80,7 @@ describe('Unit : youtubePlugin design services', function () {
         });
         it('it should pass after ImageLibrary.showDialog function call', function () {
             Buildfire.imageLib.showDialog.and.callFake(function (_options, callback) {
-                return callback(null,{
+                return callback(null, {
                     "selectedFiles": ["https://imagelibserver.s3.amazonaws.com/25935164-2add-11e5-9d04-02f7ca55c361/950a50c0-400a-11e5-9af5-3f5e0d725ccb.jpg"],
                     "selectedIcons": []
                 });

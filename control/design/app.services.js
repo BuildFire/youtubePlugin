@@ -39,7 +39,31 @@
                     });
                     return deferred.promise;
                 },
-                insert: function (_items, _tagName) {
+                insert: function (_item, _tagName) {
+                    var deferred = $q.defer();
+                    if (typeof _item == 'undefined') {
+                        return deferred.reject(new Error({
+                            code: STATUS_CODE.UNDEFINED_DATA,
+                            message: STATUS_MESSAGES.UNDEFINED_DATA
+                        }));
+                    }
+                    if (Array.isArray(_item)) {
+                        return deferred.reject(new Error({
+                            code: STATUS_CODE.ITEM_ARRAY_FOUND,
+                            message: STATUS_MESSAGES.ITEM_ARRAY_FOUND
+                        }));
+                    } else {
+                        Buildfire.datastore.insert(_item, _tagName, false, function (err, result) {
+                            if (err) {
+                                return deferred.reject(err);
+                            } else if (result) {
+                                return deferred.resolve(result);
+                            }
+                        });
+                    }
+                    return deferred.promise;
+                },
+                bulkInsert: function (_items, _tagName) {
                     var deferred = $q.defer();
                     if (typeof _items == 'undefined') {
                         return deferred.reject(new Error({
@@ -56,13 +80,10 @@
                             }
                         });
                     } else {
-                        Buildfire.datastore.insert(_items, _tagName, false, function (err, result) {
-                            if (err) {
-                                return deferred.reject(err);
-                            } else if (result) {
-                                return deferred.resolve(result);
-                            }
-                        });
+                        return deferred.reject(new Error({
+                            code: STATUS_CODE.NOT_ITEM_ARRAY,
+                            message: STATUS_MESSAGES.NOT_ITEM_ARRAY
+                        }));
                     }
                     return deferred.promise;
                 },
