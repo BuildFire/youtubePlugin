@@ -3,15 +3,15 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('RemoveImagePopupCtrl', ['$scope', '$modalInstance', 'imageInfo', function ($scope, $modalInstance, imageInfo) {
+    .controller('RemoveImagePopupCtrl', ['$modalInstance', 'imageInfo', function ($modalInstance, imageInfo) {
       var RemoveImagePopup = this;
       if(imageInfo){
         RemoveImagePopup.imageInfo = imageInfo;
       }
-      $scope.ok = function () {
+        RemoveImagePopup.ok = function () {
         $modalInstance.close('yes');
       };
-      $scope.cancel = function () {
+        RemoveImagePopup.cancel = function () {
         $modalInstance.dismiss('No');
       };
     }])
