@@ -8,7 +8,7 @@
                 var _data = {
                     "content": {
                         "images": [],
-                        "description": '<p><br data-mce-bogus="1"></p>',
+                        "description": '<p>&nbsp;<br></p>',
                         "rssUrl": "",
                         "type": ""
                     },
@@ -72,7 +72,6 @@
                                 if (tmrDelay)clearTimeout(tmrDelay);
                             }
                             else if (err && err.code === STATUS_CODE.NOT_FOUND) {
-                                ContentHome.data = angular.copy(_data);
                                 saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.YOUTUBE_INFO);
                             }
                         };
@@ -122,7 +121,6 @@
                 }, saveDataWithDelay, true);
 
                 /*------------------------------------------related to previous code-----------------------------*/
-
                 /*                */
                 /*
                  * this is a way you can update only one property without sending the entire object
@@ -202,7 +200,6 @@
                         };
                     ActionItems.showDialog(null, options).then(success, error);
                 };
-
 
                 ContentHome.editActionForImage = function (action, index) {
                     var options = {showIcon: false}
