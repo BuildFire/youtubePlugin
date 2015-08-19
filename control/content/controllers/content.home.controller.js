@@ -275,6 +275,10 @@
                                 ContentHome.validLinkSuccess = false;
                               });
                           }
+                        else {
+                            ContentHome.validLinkFailure = true;
+                            ContentHome.validLinkSuccess = false;
+                          }
                     }
                 };
             }]);
