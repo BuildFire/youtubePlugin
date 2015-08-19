@@ -200,6 +200,27 @@
                     return deferred.promise;
                 }
             }
-        }]);
+        }])
+        .factory("Utils", [function () {
+        return {
+          extractSingleVideoId: function (url) {
+            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[7].length == 11) {
+              return match[7];
+            } else {
+              return null;
+            }
+          },
+          extractChannelId : function(url){
+            var regExp = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel\/|user\/)([a-zA-Z0-9_\-]{1,})/;
+            var match = url.match(regExp);
+            if (match && match.length)
+              return match.pop();
+            else
+              return null;
+          }
+        }
+      }]);
 
 })(window.angular, window.buildfire);

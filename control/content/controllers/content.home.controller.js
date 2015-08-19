@@ -3,8 +3,8 @@
 (function (angular) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS',
-            function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS) {
+        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS','Utils',
+            function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils) {
                 var _data = {
                     "content": {
                         "images": [],
@@ -224,7 +224,7 @@
 
                     switch (ContentHome.contentType) {
                         case CONTENT_TYPE.SINGLE_VIDEO :
-                            var videoID = extractSingleVideoId(ContentHome.rssLink);
+                            var videoID = Utils.extractSingleVideoId(ContentHome.rssLink);
                             if (videoID) {
                                 $http.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + YOUTUBE_KEYS.API_KEY)
                                     .success(function (response) {
@@ -251,7 +251,7 @@
                             }
                             break;
                         case CONTENT_TYPE.CHANNEL_FEED :
-                            var channelID = extractChannelId(ContentHome.rssLink);
+                            var channelID = Utils.extractChannelId(ContentHome.rssLink);
                             console.log(channelID);
                             if (channelID) {
                                 $http.get("https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + channelID + "&key=" + YOUTUBE_KEYS.API_KEY)
@@ -275,24 +275,5 @@
                             }
                     }
                 };
-
-                function extractSingleVideoId(url) {
-                    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-                    var match = url.match(regExp);
-                    if (match && match[7].length == 11) {
-                        return match[7];
-                    } else {
-                        return null;
-                    }
-                }
-
-                function extractChannelId(url) {
-                    var regExp = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel\/|user\/)([a-zA-Z0-9_\-]{1,})/;
-                    var match = url.match(regExp);
-                    if (match && match.length)
-                        return match.pop();
-                    else
-                        return null;
-                }
             }]);
 })(window.angular);
