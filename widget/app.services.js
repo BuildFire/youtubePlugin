@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-    angular.module('youtubePluginDesign')
+    angular.module('youtubePluginWidget')
         .provider('Buildfire', [function () {
             var Buildfire = this;
             Buildfire.$get = function () {
@@ -160,6 +160,20 @@
                         }
                     });
                     return deferred.promise;
+                },
+                onUpdate: function () {
+                    var deferred = $q.defer();
+                    Buildfire.datastore.onUpdate(function (event) {
+                        if (!event) {
+                            return deferred.notify(new Error({
+                                code: STATUS_CODE.UNDEFINED_EVENT,
+                                message: STATUS_MESSAGES.UNDEFINED_EVENT
+                            }),true);
+                        } else {
+                            return deferred.notify(event);
+                        }
+                    });
+                    return deferred.promise;
                 }
             }
         }])
@@ -174,6 +188,22 @@
                         }));
                     }
                     Buildfire.imageLib.showDialog(_options, function (err, result) {
+                        if (err) {
+                            return deferred.reject(err);
+                        }
+                        else if (result) {
+                            return deferred.resolve(result);
+                        }
+                    });
+                    return deferred.promise;
+                }
+            }
+        }])
+        .factory("ActionItems", ['Buildfire', '$q', function (Buildfire, $q) {
+            return {
+                showDialog: function (_action, _options) {
+                    var deferred = $q.defer();
+                    Buildfire.actionItems.showDialog(_action, _options, function (err, result) {
                         if (err) {
                             return deferred.reject(err);
                         }
