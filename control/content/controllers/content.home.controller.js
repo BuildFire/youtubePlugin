@@ -248,28 +248,33 @@
                             }
                             break;
                         case CONTENT_TYPE.CHANNEL_FEED :
-                            var channelID = Utils.extractChannelId(ContentHome.rssLink);
-                            console.log(channelID);
-                            if (channelID) {
-                                $http.get("https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + channelID + "&key=" + YOUTUBE_KEYS.API_KEY)
-                                    .success(function (response) {
-                                        console.log(response);
-                                        if (response.items && response.items.length) {
-                                            ContentHome.validLinkSuccess = true;
-                                            ContentHome.validLinkFailure = false;
-                                            ContentHome.data.content.rssUrl = ContentHome.rssLink;
-                                            ContentHome.data.content.type = ContentHome.contentType;
-                                        }
-                                        else {
-                                            ContentHome.validLinkFailure = true;
-                                            ContentHome.validLinkSuccess = false;
-                                        }
-                                    })
-                                    .error(function () {
-                                        ContentHome.validLinkFailure = true;
-                                        ContentHome.validLinkSuccess = false;
-                                    });
-                            }
+                          var feedIdAndType = Utils.extractChannelId(ContentHome.rssLink);
+                          var feedApiUrl = "";
+                          console.log(feedIdAndType);
+                          if (feedIdAndType) {
+                            if (feedIdAndType.channel)
+                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + feedIdAndType.channel + "&key=" + YOUTUBE_KEYS.API_KEY
+                            else if (feedIdAndType.user)
+                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=" + feedIdAndType.user + "&key=" + YOUTUBE_KEYS.API_KEY
+                            $http.get(feedApiUrl)
+                              .success(function (response) {
+                                console.log(response);
+                                if (response.items && response.items.length) {
+                                  ContentHome.validLinkSuccess = true;
+                                  ContentHome.validLinkFailure = false;
+                                  ContentHome.data.content.rssUrl = ContentHome.rssLink;
+                                  ContentHome.data.content.type = ContentHome.contentType;
+                                }
+                                else {
+                                  ContentHome.validLinkFailure = true;
+                                  ContentHome.validLinkSuccess = false;
+                                }
+                              })
+                              .error(function () {
+                                ContentHome.validLinkFailure = true;
+                                ContentHome.validLinkSuccess = false;
+                              });
+                          }
                     }
                 };
             }]);

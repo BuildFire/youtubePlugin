@@ -213,10 +213,15 @@
             }
           },
           extractChannelId : function(url){
-            var regExp = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel\/|user\/)([a-zA-Z0-9_\-]{1,})/;
-            var match = url.match(regExp);
-            if (match && match.length)
-              return match.pop();
+            var regex = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel|user)\/([a-zA-Z0-9_\-]{1,})/
+            var res = url.match(regex);
+            var _obj = {};
+            if (res && res.length) {
+              var id = res.pop();
+              var type = res.pop();
+              _obj[type] = id;
+              return _obj;
+            }
             else
               return null;
           }
