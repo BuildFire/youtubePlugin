@@ -6,12 +6,11 @@
             var WidgetHome = this;
             WidgetHome.data = null;
             /*
-             * Fetch users's data from datastore
+             * Fetch user's data from datastore
              */
             var init = function () {
                 var success = function (result) {
                         WidgetHome.data = result.data;
-                        console.info('WidgetHomeCtrl success result:----------:::::::::', WidgetHome.data );
                     }
                     , error = function (err) {
                         if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -21,5 +20,12 @@
                 DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
             };
             init();
+
+            var onUpdateCallback = function (event) {
+                if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
+                    WidgetHome.data = event.obj;
+                }
+            };
+            DataStore.onUpdate().then(function(){},function(){},onUpdateCallback);
         }])
 })(window.angular);
