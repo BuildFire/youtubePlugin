@@ -3,7 +3,7 @@
 (function (angular) {
     angular
         .module('youtubePluginContent')
-        .controller('AddCarouselImagePopupCtrl', ['$scope', '$modalInstance', 'ImageLibrary', function ($scope, $modalInstance, ImageLibrary) {
+        .controller('AddCarouselImagePopupCtrl', ['$modalInstance', 'ImageLibrary', function ($modalInstance, ImageLibrary) {
             var AddCarouselImagePopup = this;
             AddCarouselImagePopup.imageInfo = {
                 imageUrl: '',
