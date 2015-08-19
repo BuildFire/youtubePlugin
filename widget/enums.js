@@ -28,8 +28,5 @@
             CHANNEL_FEED: 'Channel Feed',
             SINGLE_VIDEO: 'Single Video'
         })
-      .constant('YOUTUBE_KEYS', {
-        API_KEY: 'AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA'
-      })
 
 })(window.angular);
