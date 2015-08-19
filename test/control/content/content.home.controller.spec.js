@@ -43,6 +43,9 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
         it('it should pass if openAddImagePopUp function is defined', function () {
             expect(ContentHome.openAddImagePopUp).not.toBeUndefined();
         });
+        it('it should pass if validateRssLink function is defined', function () {
+        expect(ContentHome.validateRssLink).not.toBeUndefined();
+        });
     });
 
     describe('ContentHome.masterData', function () {
@@ -50,7 +53,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
             expect(ContentHome.masterData).toEqual({
                 content: {
                     images: [],
-                    description: '<p><br data-mce-bogus="1"></p>',
+                    description: '<p>&nbsp;<br></p>',
                     rssUrl: '',
                     type: ''
                 },
@@ -74,7 +77,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
             expect(ContentHome.data).toEqual({
                 content: {
                     images: [],
-                    description: '<p><br data-mce-bogus="1"></p>',
+                    description: '<p>&nbsp;<br></p>',
                     rssUrl: '',
                     type: ''
                 },
