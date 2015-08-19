@@ -130,10 +130,13 @@ describe('Unit : youtubePlugin content services', function () {
       var videoId = Utils.extractSingleVideoId(url);
       expect(videoId).toEqual('0wYYjQJcGW8');
     });
-    it('Utils.extractChannelId should return a valid channelId', function () {
-      var url = "https://www.youtube.com/channel/UC4PooiX37Pld1T8J5SYT-SQ";
-      var channelId = Utils.extractChannelId(url);
-      expect(channelId).toEqual('UC4PooiX37Pld1T8J5SYT-SQ');
+    it('Utils.extractChannelId should return an object', function () {
+      var url1 = "https://www.youtube.com/channel/UCuTaETsuCOkJ0H_GAztWt0Q";
+      var url2 = "https://www.youtube.com/user/gopromx";
+      var channelId = Utils.extractChannelId(url1);
+      var username = Utils.extractChannelId(url2);
+      expect(channelId).toEqual({channel :'UCuTaETsuCOkJ0H_GAztWt0Q'});
+      expect(username).toEqual({user :'gopromx'});
     });
   });
 });
