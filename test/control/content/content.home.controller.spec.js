@@ -43,6 +43,9 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
         it('it should pass if openAddImagePopUp function is defined', function () {
             expect(ContentHome.openAddImagePopUp).not.toBeUndefined();
         });
+        it('it should pass if validateRssLink function is defined', function () {
+        expect(ContentHome.validateRssLink).not.toBeUndefined();
+        });
     });
 
     describe('ContentHome.masterData', function () {
