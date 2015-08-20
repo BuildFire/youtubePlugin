@@ -249,13 +249,13 @@
                             break;
                         case CONTENT_TYPE.CHANNEL_FEED :
                           var feedIdAndType = Utils.extractChannelId(ContentHome.rssLink);
-                          var feedApiUrl = "";
+                          var feedApiUrl = null;
                           console.log(feedIdAndType);
                           if (feedIdAndType) {
                             if (feedIdAndType.channel)
-                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + feedIdAndType.channel + "&key=" + YOUTUBE_KEYS.API_KEY
-                            else if (feedIdAndType.user)
-                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=" + feedIdAndType.user + "&key=" + YOUTUBE_KEYS.API_KEY
+                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + feedIdAndType.channel + "&key=" + YOUTUBE_KEYS.API_KEY;
+                            else if (feedIdAndType.user || feedIdAndType.c)
+                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=" + (feedIdAndType.user || feedIdAndType.c) + "&key=" + YOUTUBE_KEYS.API_KEY;
                             $http.get(feedApiUrl)
                               .success(function (response) {
                                 console.log(response);
