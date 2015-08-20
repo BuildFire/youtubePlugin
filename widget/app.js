@@ -9,7 +9,6 @@
                         playlistId: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location) {
                             var deferred = $q.defer();
                             var success = function (result) {
-                                    console.log('----------------------result----------------------',result);
                                     if (result.data && result.data.content) {
                                         if (result.data.content.type && result.data.content.type === CONTENT_TYPE.SINGLE_VIDEO && result.data.content.videoID) {
                                             Location.goTo("#/video/" + result.data.content.videoID);
