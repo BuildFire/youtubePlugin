@@ -10,7 +10,7 @@
             $routeProvider
                 .when('/', {
                     resolve: {
-                        playlistId: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location) {
+                        videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location) {
                             var deferred = $q.defer();
                             var success = function (result) {
                                     if (result.data && result.data.content) {

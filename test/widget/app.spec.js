@@ -9,6 +9,16 @@ describe('Unit: youtubePlugin widget app', function () {
                 rootScope = _$rootScope_;
             }));
 
+        describe('Unit test for resolve in path /', function () {
+            beforeEach(inject(
+                function ($httpBackend) {
+                    $httpBackend.expectGET('/')
+                        .respond(200);
+                }));
+            it('should resolve initial values for my Controller', function () {
+                expect(route.routes['/'].resolve.videoData).toBeDefined(); //or whatever test you want
+            });
+        });
         describe('feed route', function () {
             beforeEach(inject(
                 function ($httpBackend) {
