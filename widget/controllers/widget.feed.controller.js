@@ -17,7 +17,7 @@
                         'background', '#010101 url('
                         + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resizeImage')
                         + ') repeat fixed top center')
-                } else if (_WidgetHomeData.design && !_WidgetFeedData.design.itemListBgImage) {
+                } else if (_WidgetFeedData.design && !_WidgetFeedData.design.itemListBgImage) {
                     currentItemListBgImage = null;
                     body.css('background', 'none');
                 }
