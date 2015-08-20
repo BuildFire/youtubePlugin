@@ -1,8 +1,12 @@
 'use strict';
 
-(function (angular) {
+(function (angular, buildfire) {
     angular.module('youtubePluginWidget', ['ngRoute'])
         .config(['$routeProvider', function ($routeProvider) {
+        /**
+         * Disable the pull down refresh
+         */
+        buildfire.datastore.disableRefresh();
             $routeProvider
                 .when('/', {
                     resolve: {
@@ -56,4 +60,4 @@
                     });
             }
         }]);
-})(window.angular);
+})(window.angular,window.buildfire);
