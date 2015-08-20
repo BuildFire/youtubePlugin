@@ -37,8 +37,8 @@
                 })
                 .when('/video/:videoId', {
                     templateUrl: 'templates/Item_Details.html',
-                    controller: 'WidgetVideoCtrl',
-                    controllerAs: 'WidgetVideo'
+                    controller: 'WidgetSingleCtrl',
+                    controllerAs: 'WidgetSingle'
 
                 })
                 .otherwise('/');
