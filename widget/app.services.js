@@ -168,7 +168,7 @@
                             return deferred.notify(new Error({
                                 code: STATUS_CODE.UNDEFINED_EVENT,
                                 message: STATUS_MESSAGES.UNDEFINED_EVENT
-                            }),true);
+                            }), true);
                         } else {
                             return deferred.notify(event);
                         }
@@ -214,6 +214,41 @@
                     return deferred.promise;
                 }
             }
-        }]);
-
+        }])
+        .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', function (YOUTUBE_KEYS, $q, $http) {
+            var getSingleVideoDetails = function (videoId) {
+                var deferred = $q.defer();
+                var _url = '';
+                if (!videoId) {
+                    deferred.reject(new Error({
+                        code: STATUS_CODE.UNDEFINED_VIDEO_ID,
+                        message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
+                    }));
+                } else {
+                    _url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + videoId + '&key=' + YOUTUBE_KEYS.API_KEY;
+                    $http.get(_url).then(function (response) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        deferred.resolve(response.data);
+                    }, function (error) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                        deferred.reject(error);
+                    });
+                }
+                return deferred.promise;
+            };
+            return {
+                getSingleVideoDetails: getSingleVideoDetails
+            };
+        }])
+        .factory('Location', [function () {
+            var _location = window.location;
+            return {
+                goTo: function (path) {
+                    _location.href = path;
+                }
+            };
+        }])
+    ;
 })(window.angular, window.buildfire);

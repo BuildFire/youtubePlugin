@@ -3,25 +3,50 @@ describe('Unit: youtubePlugin widget app', function () {
         beforeEach(module('youtubePluginWidget'));
         var location, route, rootScope;
         beforeEach(inject(
-            function( _$location_, _$route_, _$rootScope_ ) {
+            function (_$location_, _$route_, _$rootScope_) {
                 location = _$location_;
                 route = _$route_;
                 rootScope = _$rootScope_;
             }));
 
-        describe('Home route', function() {
+        describe('Unit test for resolve in path /', function () {
             beforeEach(inject(
-                function($httpBackend) {
-                    $httpBackend.expectGET('templates/home.html')
-                        .respond(200);
+                function ($httpBackend) {
                     $httpBackend.expectGET('/')
                         .respond(200);
                 }));
+            it('should resolve initial values for my Controller', function () {
+                expect(route.routes['/'].resolve.videoData).toBeDefined(); //or whatever test you want
+            });
+        });
+        describe('feed route', function () {
+            beforeEach(inject(
+                function ($httpBackend) {
+                    $httpBackend.expectGET('templates/home.html')
+                        .respond(200);
+                    $httpBackend.expectGET('/feed/:playlistId')
+                        .respond(200);
+                }));
 
-            it('should load the home page on successful load of location path /', function() {
-                location.path('/');
+            it('should load the home page on successful load of location path /feed/:playlistId', function () {
+                location.path('/feed/:playlistId');
                 rootScope.$digest();
-                expect(route.current.controller).toBe('WidgetHomeCtrl')
+                expect(route.current.controller).toBe('WidgetFeedCtrl')
+            });
+        });
+        describe('video route', function () {
+            beforeEach(inject(
+                function ($httpBackend) {
+                    $httpBackend.expectGET('templates/Item_Details.html')
+                        .respond(200);
+                    $httpBackend.expectGET('/video/:videoId')
+                        .respond(200);
+                }));
+
+            it('should load the home page on successful load of location path /video/:videoId', function () {
+                location.path('/video/:videoId');
+                rootScope.$digest();
+                expect(route.current.controller).toBe('WidgetSingleCtrl')
             });
         });
     });

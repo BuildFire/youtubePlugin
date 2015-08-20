@@ -213,7 +213,7 @@
             }
           },
           extractChannelId : function(url){
-            var regex = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel|user)\/([a-zA-Z0-9_\-]{1,})/;
+            var regex = /((http|https):\/\/|)(www\.)?youtube\.com\/(channel|user|c)\/([a-zA-Z0-9_\-]{1,})/;
             var res = url.match(regex);
             var _obj = {};
             if (res && res.length) {

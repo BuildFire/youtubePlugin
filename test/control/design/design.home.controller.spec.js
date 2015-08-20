@@ -1,5 +1,5 @@
 describe('Unit : youtubePlugin design.home.controller.js', function () {
-    var scope, $rootScope, q, $controller, DataStore, ImageLibrary, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
+    var scope, DesignHome, $rootScope, q, $controller, DataStore, ImageLibrary, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
     beforeEach(module('youtubePluginDesign'));
 
     beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _DataStore_, _ImageLibrary_, _TAG_NAMES_, _CONTENT_TYPE_, _STATUS_CODE_, _STATUS_MESSAGES_) {
@@ -25,6 +25,9 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
             TAG_NAMES: TAG_NAMES,
             CONTENT_TYPE: CONTENT_TYPE
         });
+    });
+
+    describe('Units: units should be Defined', function () {
         it('it should pass if DataStore is defined', function () {
             expect(DataStore).not.toBeUndefined();
         });

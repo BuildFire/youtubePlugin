@@ -25,6 +25,9 @@ describe('Unit : youtubePlugin modal.addCarouselImage.controller', function () {
             ImageLibrary: ImageLibrary,
             $q: q
         });
+    });
+
+    describe('Units: units should be Defined', function () {
         it('it should pass if AddCarouselImagePopup is defined', function () {
             expect(AddCarouselImagePopup).not.toBeUndefined();
         });

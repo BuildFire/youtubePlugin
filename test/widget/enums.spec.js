@@ -1,12 +1,13 @@
 describe('Unit : youtubePlugin widget Enums', function () {
-    var TAG_NAMES, STATUS_CODE, CONTENT_TYPE, STATUS_MESSAGES;
+    var TAG_NAMES, STATUS_CODE, CONTENT_TYPE, STATUS_MESSAGES, YOUTUBE_KEYS;
     beforeEach(module('youtubePluginWidget'));
 
-    beforeEach(inject(function (_TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_) {
+    beforeEach(inject(function (_TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_, _YOUTUBE_KEYS_) {
         TAG_NAMES = _TAG_NAMES_;
         STATUS_CODE = _STATUS_CODE_;
         STATUS_MESSAGES = _STATUS_MESSAGES_;
         CONTENT_TYPE = _CONTENT_TYPE_;
+        YOUTUBE_KEYS = _YOUTUBE_KEYS_;
     }));
 
     describe('Enum : TAG_NAMES', function () {
@@ -72,7 +73,8 @@ describe('Unit : youtubePlugin widget Enums', function () {
         });
         it('STATUS_MESSAGES.UNDEFINED_EVENT should exist and equals to "Undefined event received"', function () {
             expect(STATUS_MESSAGES.UNDEFINED_EVENT).toEqual("Undefined event received");
-        }); });
+        });
+    });
 
     describe('Enum : CONTENT_TYPE', function () {
         it('CONTENT_TYPE should exist and be an object', function () {
@@ -83,6 +85,14 @@ describe('Unit : youtubePlugin widget Enums', function () {
         });
         it('CONTENT_TYPE.SINGLE_VIDEO should exist and equals to "Single Video"', function () {
             expect(CONTENT_TYPE.SINGLE_VIDEO).toEqual('Single Video');
+        });
+    });
+    describe('Enum : YOUTUBE_KEYS', function () {
+        it('YOUTUBE_KEYS should exist and be an object', function () {
+            expect(typeof YOUTUBE_KEYS).toEqual('object');
+        });
+        it('YOUTUBE_KEYS.API_KEY should exist and equals to "AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA"', function () {
+            expect(YOUTUBE_KEYS.API_KEY).toEqual('AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA');
         });
     });
 });

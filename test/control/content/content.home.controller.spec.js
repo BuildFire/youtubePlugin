@@ -1,5 +1,5 @@
 describe('Unit : youtubePlugin content.home.controller.js', function () {
-    var scope, $rootScope, $controller, Buildfire, ActionItems, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE, q;
+    var ContentHome, scope, $rootScope, $controller, Buildfire, ActionItems, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE, q;
     beforeEach(module('youtubePluginContent'));
 
     beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_) {
@@ -25,7 +25,10 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
             STATUS_CODE: STATUS_CODE,
             CONTENT_TYPE: CONTENT_TYPE
         });
-        it('it should pass if Home is defined', function () {
+    });
+
+    describe('Units: units should be Defined', function () {
+        it('it should pass if ContentHome is defined', function () {
             expect(ContentHome).not.toBeUndefined();
         });
         it('it should pass if Buildfire is defined', function () {
@@ -44,7 +47,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
             expect(ContentHome.openAddImagePopUp).not.toBeUndefined();
         });
         it('it should pass if validateRssLink function is defined', function () {
-        expect(ContentHome.validateRssLink).not.toBeUndefined();
+            expect(ContentHome.validateRssLink).not.toBeUndefined();
         });
     });
 
@@ -156,7 +159,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
                 });
                 return deferred.promise;
             });
-            var index = 0, action='linkToApp';
+            var index = 0, action = 'linkToApp';
             ContentHome.data.content.images[index] = {
                 action: {
                     action: "linkToApp",

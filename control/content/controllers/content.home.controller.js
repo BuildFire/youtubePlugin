@@ -217,8 +217,6 @@
 
                 ContentHome.validateRssLink = function () {
                     console.log(ContentHome.contentType);
-                    console.log(CONTENT_TYPE.CHANNEL_FEED);
-
                     switch (ContentHome.contentType) {
                         case CONTENT_TYPE.SINGLE_VIDEO :
                             var videoID = Utils.extractSingleVideoId(ContentHome.rssLink);
@@ -231,6 +229,8 @@
                                             ContentHome.validLinkFailure = false;
                                             ContentHome.data.content.rssUrl = ContentHome.rssLink;
                                             ContentHome.data.content.type = ContentHome.contentType;
+                                            ContentHome.data.content.videoID = videoID;
+                                            ContentHome.data.content.playListID = null;
                                         }
                                         else {
                                             ContentHome.validLinkFailure = true;
@@ -249,13 +249,13 @@
                             break;
                         case CONTENT_TYPE.CHANNEL_FEED :
                           var feedIdAndType = Utils.extractChannelId(ContentHome.rssLink);
-                          var feedApiUrl = "";
+                          var feedApiUrl = null;
                           console.log(feedIdAndType);
                           if (feedIdAndType) {
                             if (feedIdAndType.channel)
-                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + feedIdAndType.channel + "&key=" + YOUTUBE_KEYS.API_KEY
-                            else if (feedIdAndType.user)
-                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=" + feedIdAndType.user + "&key=" + YOUTUBE_KEYS.API_KEY
+                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + feedIdAndType.channel + "&key=" + YOUTUBE_KEYS.API_KEY;
+                            else if (feedIdAndType.user || feedIdAndType.c)
+                              feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=" + (feedIdAndType.user || feedIdAndType.c) + "&key=" + YOUTUBE_KEYS.API_KEY;
                             $http.get(feedApiUrl)
                               .success(function (response) {
                                 console.log(response);
@@ -264,6 +264,9 @@
                                   ContentHome.validLinkFailure = false;
                                   ContentHome.data.content.rssUrl = ContentHome.rssLink;
                                   ContentHome.data.content.type = ContentHome.contentType;
+                                  if(response.items[0].contentDetails && response.items[0].contentDetails.relatedPlaylists && response.items[0].contentDetails.relatedPlaylists.uploads)
+                                  ContentHome.data.content.playListID = response.items[0].contentDetails.relatedPlaylists.uploads;
+                                  ContentHome.data.content.videoID = null;
                                 }
                                 else {
                                   ContentHome.validLinkFailure = true;
