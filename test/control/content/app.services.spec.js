@@ -133,10 +133,13 @@ describe('Unit : youtubePlugin content services', function () {
     it('Utils.extractChannelId should return an object', function () {
       var url1 = "https://www.youtube.com/channel/UCuTaETsuCOkJ0H_GAztWt0Q";
       var url2 = "https://www.youtube.com/user/gopromx";
+      var url3 = "https://www.youtube.com/c/creatoracademy";
       var channelId = Utils.extractChannelId(url1);
       var username = Utils.extractChannelId(url2);
+      var _username = Utils.extractChannelId(url3);
       expect(channelId).toEqual({channel :'UCuTaETsuCOkJ0H_GAztWt0Q'});
       expect(username).toEqual({user :'gopromx'});
+      expect(_username).toEqual({c :'creatoracademy'});
     });
   });
 });
