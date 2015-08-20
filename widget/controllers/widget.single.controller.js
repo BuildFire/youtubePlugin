@@ -14,14 +14,12 @@
                     , error = function (err) {
                         console.error('Error In Fetching Single Video Details', err);
                     };
-                if (_videoId) {
-                    YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
-                } else {
-                    console.error('Undefined Video Id Provided');
-                }
+                YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
             };
             if ($routeParams.videoId) {
                 getSingleVideoDetails($routeParams.videoId);
+            } else {
+                console.error('Undefined Video Id Provided');
             }
         }])
 })(window.angular);
