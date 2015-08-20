@@ -2,22 +2,22 @@
 
 (function (angular) {
     angular.module('youtubePluginWidget')
-        .controller('WidgetHomeCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', function ($filter, DataStore, TAG_NAMES, STATUS_CODE) {
-            var WidgetHome = this
+        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', function ($filter, DataStore, TAG_NAMES, STATUS_CODE) {
+            var WidgetFeed = this
                 , currentItemListBgImage = null
                 , getImageUrlFilter = $filter("getImageUrl");
 
-            WidgetHome.data = null;
+        WidgetFeed.data = null;
 
-            var setCurrentItemListBgImage = function (_WidgetHomeData) {
+            var setCurrentItemListBgImage = function (_WidgetFeedData) {
                 var body = angular.element('body');
-                if (_WidgetHomeData.design && _WidgetHomeData.design.itemListBgImage && currentItemListBgImage != _WidgetHomeData.design.itemListBgImage) {
-                    currentItemListBgImage = _WidgetHomeData.design.itemListBgImage;
+                if (_WidgetFeedData.design && _WidgetFeedData.design.itemListBgImage && currentItemListBgImage != _WidgetFeedData.design.itemListBgImage) {
+                    currentItemListBgImage = _WidgetFeedData.design.itemListBgImage;
                     body.css(
                         'background', '#010101 url('
                         + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resizeImage')
                         + ') repeat fixed top center')
-                } else if (_WidgetHomeData.design && !_WidgetHomeData.design.itemListBgImage) {
+                } else if (_WidgetHomeData.design && !_WidgetFeedData.design.itemListBgImage) {
                     currentItemListBgImage = null;
                     body.css('background', 'none');
                 }
@@ -28,8 +28,8 @@
              */
             var init = function () {
                 var success = function (result) {
-                        WidgetHome.data = result.data;
-                        setCurrentItemListBgImage(WidgetHome.data);
+                    WidgetFeed.data = result.data;
+                        setCurrentItemListBgImage(WidgetFeed.data);
                     }
                     , error = function (err) {
                         if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -42,8 +42,8 @@
 
             var onUpdateCallback = function (event) {
                 if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
-                    WidgetHome.data = event.obj;
-                    setCurrentItemListBgImage(WidgetHome.data);
+                  WidgetFeed.data = event.obj;
+                    setCurrentItemListBgImage(WidgetFeed.data);
                 }
             };
             DataStore.onUpdate().then(null, null, onUpdateCallback);

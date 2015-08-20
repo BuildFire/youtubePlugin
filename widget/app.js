@@ -32,13 +32,14 @@
                 })
                 .when('/feed/:playlistId', {
                     templateUrl: 'templates/home.html',
-                    controllerAs: 'WidgetHome',
-                    controller: 'WidgetHomeCtrl'
+                    controllerAs: 'WidgetFeed',
+                    controller: 'WidgetFeedCtrl'
                 })
                 .when('/video/:videoId', {
-                    templateUrl: 'templates/Item_Details.html'
-                    /* controllerAs: 'WidgetVideo',
-                     controller: 'WidgetVideoCtrl'*/
+                    templateUrl: 'templates/Item_Details.html',
+                    controller: 'WidgetVideoCtrl',
+                    controllerAs: 'WidgetVideo'
+
                 })
                 .otherwise('/');
         }])
