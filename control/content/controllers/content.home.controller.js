@@ -61,8 +61,12 @@
                  * */
                 var init = function () {
                     var success = function (result) {
+                        console.info('init success result:', result);
                             ContentHome.data = result.data;
-                            console.info('init success result:', result);
+                            if(ContentHome.data && ContentHome.data.content && ContentHome.data.content.type)
+                              ContentHome.contentType = ContentHome.data.content.type;
+                            if(ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)
+                              ContentHome.rssLink = ContentHome.data.content.rssUrl;
                             updateMasterItem(ContentHome.data);
                             if (tmrDelay)clearTimeout(tmrDelay);
                         }
