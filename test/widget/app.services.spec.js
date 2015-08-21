@@ -121,6 +121,9 @@ describe('Unit : youtubePlugin widget services', function () {
             it('YoutubeApi.getSingleVideoDetails should exist and be a function', function () {
                 expect(typeof YoutubeApi.getSingleVideoDetails).toEqual('function');
             });
+            it('YoutubeApi.getFeedVideos should exist and be a function', function () {
+              expect(typeof YoutubeApi.getFeedVideos).toEqual('function');
+            });
         });
     });
 });
