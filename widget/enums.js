@@ -15,7 +15,8 @@
             ITEM_ARRAY_FOUND: 'ITEM_ARRAY_FOUND',
             NOT_ITEM_ARRAY: 'NOT_ITEM_ARRAY',
             UNDEFINED_EVENT: 'UNDEFINED_EVENT',
-            UNDEFINED_VIDEO_ID: 'UNDEFINED_VIDEO_ID'
+            UNDEFINED_VIDEO_ID: 'UNDEFINED_VIDEO_ID',
+            UNDEFINED_PLAYLIST_ID: 'UNDEFINED_PLAYLIST_ID'
         })
         .constant('STATUS_MESSAGES', {
             UNDEFINED_DATA: 'Undefined data provided',
@@ -24,7 +25,8 @@
             NOT_ITEM_ARRAY: 'Array of Items not provided',
             ITEM_ARRAY_FOUND: 'Array of Items provided',
             UNDEFINED_EVENT: 'Undefined event received',
-            UNDEFINED_VIDEO_ID: 'Undefined video id provided'
+            UNDEFINED_VIDEO_ID: 'Undefined video id provided',
+            UNDEFINED_PLAYLIST_ID: 'Undefined playlist id provided'
         })
         .constant('CONTENT_TYPE', {
             CHANNEL_FEED: 'Channel Feed',
@@ -32,5 +34,8 @@
         })
         .constant('YOUTUBE_KEYS', {
             API_KEY: 'AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA'
+        })
+        .constant('VIDEO_COUNT', {
+            LIMIT: 8
         })
 })(window.angular);
