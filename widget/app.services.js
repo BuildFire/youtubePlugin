@@ -63,47 +63,6 @@
                     }
                     return deferred.promise;
                 },
-                bulkInsert: function (_items, _tagName) {
-                    var deferred = $q.defer();
-                    if (typeof _items == 'undefined') {
-                        return deferred.reject(new Error({
-                            code: STATUS_CODE.UNDEFINED_DATA,
-                            message: STATUS_MESSAGES.UNDEFINED_DATA
-                        }));
-                    }
-                    if (Array.isArray(items)) {
-                        Buildfire.datastore.bulkInsert(_items, _tagName, function (err, result) {
-                            if (err) {
-                                return deferred.reject(err);
-                            } else if (result) {
-                                return deferred.resolve(result);
-                            }
-                        });
-                    } else {
-                        return deferred.reject(new Error({
-                            code: STATUS_CODE.NOT_ITEM_ARRAY,
-                            message: STATUS_MESSAGES.NOT_ITEM_ARRAY
-                        }));
-                    }
-                    return deferred.promise;
-                },
-                search: function (_options, _tagName) {
-                    var deferred = $q.defer();
-                    if (typeof _options == 'undefined') {
-                        return deferred.reject(new Error({
-                            code: STATUS_CODE.UNDEFINED_OPTIONS,
-                            message: STATUS_MESSAGES.UNDEFINED_OPTIONS
-                        }));
-                    }
-                    Buildfire.datastore.search(_options, _tagName, function (err, result) {
-                        if (err) {
-                            return deferred.reject(err);
-                        } else if (result) {
-                            return deferred.resolve(result);
-                        }
-                    });
-                    return deferred.promise;
-                },
                 update: function (_id, _item, _tagName) {
                     var deferred = $q.defer();
                     if (typeof _id == 'undefined') {
@@ -136,23 +95,6 @@
                         }));
                     }
                     Buildfire.datastore.save(_item, _tagName, function (err, result) {
-                        if (err) {
-                            return deferred.reject(err);
-                        } else if (result) {
-                            return deferred.resolve(result);
-                        }
-                    });
-                    return deferred.promise;
-                },
-                deleteById: function (_id, _tagName) {
-                    var deferred = $q.defer();
-                    if (typeof _id == 'undefined') {
-                        return deferred.reject(new Error({
-                            code: STATUS_CODE.UNDEFINED_ID,
-                            message: STATUS_MESSAGES.UNDEFINED_ID
-                        }));
-                    }
-                    Buildfire.datastore.delete(_id, _tagName, function (err, result) {
                         if (err) {
                             return deferred.reject(err);
                         } else if (result) {
