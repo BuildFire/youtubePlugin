@@ -4,8 +4,8 @@
             <div class="plugin-slider text-center">
                 <div class="plugin-slide">
                     <iframe id="player" width="342" height="192"
-                            ng-src='http://www.youtube.com/embed/" + WidgetSingle.video.id'
-                            frameborder="0"></iframe>
+                            ng-src="{{WidgetSingle.video.id | returnYoutubeUrl}}"
+                  frameborder="0"></iframe>
                 </div>
             </div>
         </div>
