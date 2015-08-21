@@ -84,9 +84,6 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
                     {name: "List_Layout_2"},
                     {name: "List_Layout_3"},
                     {name: "List_Layout_4"}
-                ],
-                itemLayouts: [
-                    {name: "Item-Layout-1"}
                 ]
             });
         });
