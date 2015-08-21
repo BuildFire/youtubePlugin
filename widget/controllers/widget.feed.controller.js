@@ -6,6 +6,14 @@
             var WidgetFeed = this
                 , currentItemListBgImage = null
                 , getImageUrlFilter = $filter("getImageUrl");
+        WidgetFeed.layouts = {
+              listLayouts: [
+                {name: "List_Layout_1"},
+                {name: "List_Layout_2"},
+                {name: "List_Layout_3"},
+                {name: "List_Layout_4"}
+              ]
+            };
 
         WidgetFeed.data = null;
 
@@ -29,6 +37,8 @@
             var init = function () {
                 var success = function (result) {
                     WidgetFeed.data = result.data;
+                    if(WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout))
+                    WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
                         setCurrentItemListBgImage(WidgetFeed.data);
                     }
                     , error = function (err) {
