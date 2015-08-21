@@ -29,6 +29,11 @@
                 } else if (_WidgetFeedData.design && !_WidgetFeedData.design.itemListBgImage) {
                     currentItemListBgImage = null;
                     body.css('background', 'none');
+                }else{
+                  body.css(
+                    'background', '#010101 url('
+                    + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resize')
+                    + ') repeat fixed top center')
                 }
             };
 
