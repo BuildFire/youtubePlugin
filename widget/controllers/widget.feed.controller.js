@@ -2,7 +2,8 @@
 
 (function (angular) {
     angular.module('youtubePluginWidget')
-        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','YoutubeApi','$routeParams','VIDEO_COUNT', function ($filter, DataStore, TAG_NAMES, STATUS_CODE,YoutubeApi,$routeParams,VIDEO_COUNT) {
+        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','YoutubeApi','$routeParams','VIDEO_COUNT','$sce',
+        function ($filter, DataStore, TAG_NAMES, STATUS_CODE,YoutubeApi,$routeParams,VIDEO_COUNT,$sce) {
             var WidgetFeed = this
                 , currentItemListBgImage = null
                 , getImageUrlFilter = $filter("getImageUrl");
@@ -37,10 +38,11 @@
             var init = function () {
                 var success = function (result) {
                     WidgetFeed.data = result.data;
-                    if(WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout))
-                    WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
-                        setCurrentItemListBgImage(WidgetFeed.data);
+                    if(WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)){
+                      WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
                     }
+                    setCurrentItemListBgImage(WidgetFeed.data);
+                  }
                     , error = function (err) {
                         if (err && err.code !== STATUS_CODE.NOT_FOUND) {
                             console.error('Error while getting data', err);
@@ -67,11 +69,14 @@
                 , error = function (err) {
                   console.error('Error In Fetching Single Video Details', err);
                 };
-              console.log("**************************",_playlistId,VIDEO_COUNT.LIMIT);
               YoutubeApi.getFeedVideos(_playlistId,VIDEO_COUNT.LIMIT, null).then(success, error);
             };
 
             WidgetFeed.loadMore();
+            WidgetFeed.safeHtml = function (html) {
+              if (html)
+               return $sce.trustAsHtml(html);
+            };
 
         }])
 })(window.angular);
