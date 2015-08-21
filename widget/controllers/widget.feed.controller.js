@@ -2,8 +2,8 @@
 
 (function (angular) {
     angular.module('youtubePluginWidget')
-        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','YoutubeApi','$routeParams','VIDEO_COUNT','$sce',
-        function ($filter, DataStore, TAG_NAMES, STATUS_CODE,YoutubeApi,$routeParams,VIDEO_COUNT,$sce) {
+        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','YoutubeApi','$routeParams','VIDEO_COUNT','$sce','Location',
+        function ($filter, DataStore, TAG_NAMES, STATUS_CODE,YoutubeApi,$routeParams,VIDEO_COUNT,$sce,Location) {
             var WidgetFeed = this
                 , currentItemListBgImage = null
                 , getImageUrlFilter = $filter("getImageUrl");
@@ -55,7 +55,9 @@
             var onUpdateCallback = function (event) {
                 if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
                   WidgetFeed.data = event.obj;
-                    setCurrentItemListBgImage(WidgetFeed.data);
+                  setCurrentItemListBgImage(WidgetFeed.data);
+                  if(WidgetFeed.data.content && WidgetFeed.data.content.videoID)
+                    Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
                 }
             };
             DataStore.onUpdate().then(null, null, onUpdateCallback);
