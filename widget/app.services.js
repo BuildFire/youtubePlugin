@@ -157,7 +157,7 @@
                 }
             }
         }])
-        .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', function (YOUTUBE_KEYS, $q, $http) {
+        .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http','STATUS_CODE', 'STATUS_MESSAGES',function (YOUTUBE_KEYS, $q, $http,STATUS_CODE, STATUS_MESSAGES) {
             var getSingleVideoDetails = function (videoId) {
                 var deferred = $q.defer();
                 var _url = '';
