@@ -87,7 +87,7 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
                 $httpBackend.flush();
             });
             it('it should if WidgetSingle.data is not null', function () {
-                expect(WidgetSingle.data).toEqual(videoItemDetailMoke);
+                expect(WidgetSingle.video).toEqual(videoItemDetailMoke);
             });
         });
         describe('Function : WidgetSingle.addItemListBackgroundImage returns error', function () {
