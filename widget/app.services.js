@@ -157,7 +157,7 @@
                 }
             }
         }])
-        .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http','STATUS_CODE', 'STATUS_MESSAGES',function (YOUTUBE_KEYS, $q, $http,STATUS_CODE, STATUS_MESSAGES) {
+        .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http','STATUS_CODE', 'STATUS_MESSAGES','VIDEO_COUNT', function (YOUTUBE_KEYS, $q, $http,STATUS_CODE, STATUS_MESSAGES,VIDEO_COUNT) {
             var getSingleVideoDetails = function (videoId) {
                 var deferred = $q.defer();
                 var _url = '';
@@ -180,8 +180,37 @@
                 }
                 return deferred.promise;
             };
+
+            var getFeedVideos = function(playlistId, countLimit, pageToken){
+              var deferred = $q.defer();
+              var _url = "";
+              if(!countLimit)
+              countLimit = VIDEO_COUNT.LIMIT || 8;
+              if(!playlistId){
+                deferred.reject(new Error({
+                  code: STATUS_CODE.UNDEFINED_PLAYLIST_ID,
+                  message: STATUS_MESSAGES.UNDEFINED_PLAYLIST_ID
+                }));
+              } else{
+                if(pageToken)
+                  _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults="+ countLimit +"&pageToken="+ pageToken +"&playlistId="+ playlistId +"&key="+ YOUTUBE_KEYS.API_KEY;
+                else
+                  _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults="+ countLimit +"&playlistId="+ playlistId +"&key="+ YOUTUBE_KEYS.API_KEY;
+              }
+              $http.get(_url).then(function (response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                deferred.resolve(response);
+              }, function (error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                deferred.reject(error);
+              });
+              return deferred.promise;
+            };
             return {
-                getSingleVideoDetails: getSingleVideoDetails
+                getSingleVideoDetails: getSingleVideoDetails,
+                getFeedVideos: getFeedVideos
             };
         }])
         .factory('Location', [function () {

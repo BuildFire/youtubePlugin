@@ -2,7 +2,7 @@
 
 (function (angular) {
     angular.module('youtubePluginWidget')
-        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', function ($filter, DataStore, TAG_NAMES, STATUS_CODE) {
+        .controller('WidgetFeedCtrl', ['$filter', 'DataStore', 'TAG_NAMES', 'STATUS_CODE','YoutubeApi','$routeParams','VIDEO_COUNT', function ($filter, DataStore, TAG_NAMES, STATUS_CODE,YoutubeApi,$routeParams,VIDEO_COUNT) {
             var WidgetFeed = this
                 , currentItemListBgImage = null
                 , getImageUrlFilter = $filter("getImageUrl");
@@ -57,5 +57,21 @@
                 }
             };
             DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+            WidgetFeed.loadMore = function(){
+              var _playlistId = $routeParams.playlistId;
+              var success = function (result) {
+                  WidgetFeed.videos = result.data.items || [];
+                  console.info('-------------------Feeds data----------------', WidgetFeed.videos);
+                }
+                , error = function (err) {
+                  console.error('Error In Fetching Single Video Details', err);
+                };
+              console.log("**************************",_playlistId,VIDEO_COUNT.LIMIT);
+              YoutubeApi.getFeedVideos(_playlistId,VIDEO_COUNT.LIMIT, null).then(success, error);
+            };
+
+            WidgetFeed.loadMore();
+
         }])
 })(window.angular);
