@@ -2,10 +2,27 @@
 
 (function (angular) {
     angular.module('youtubePluginWidget')
-        .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES) {
+        .controller('WidgetSingleCtrl', ['$routeParams', '$filter', 'YoutubeApi', 'DataStore', 'TAG_NAMES', function ($routeParams, $filter, YoutubeApi, DataStore, TAG_NAMES) {
+            var currentItemDetailsBgImage = ''
+                , getImageUrlFilter = $filter("getImageUrl");
+
             var WidgetSingle = this;
             WidgetSingle.data = null;
             WidgetSingle.video = null;
+
+            var setCurrentItemListBgImage = function (_WidgetVideoData) {
+                var body = angular.element('body');
+                if (_WidgetVideoData.design && _WidgetVideoData.design.itemDetailsBgImage && currentItemDetailsBgImage != _WidgetVideoData.design.itemDetailsBgImage) {
+                    currentItemDetailsBgImage = _WidgetVideoData.design.itemDetailsBgImage;
+                    body.css(
+                        'background', '#010101 url('
+                        + getImageUrlFilter(currentItemDetailsBgImage, 342, 770, 'resize')
+                        + ') repeat fixed top center')
+                } else if (_WidgetVideoData.design && !_WidgetVideoData.design.itemDetailsBgImage) {
+                    currentItemDetailsBgImage = null;
+                    body.css('background', 'none');
+                }
+            };
 
             /*
              * Fetch user's data from datastore
@@ -36,5 +53,13 @@
             } else {
                 console.error('Undefined Video Id Provided');
             }
+
+            var onUpdateCallback = function (event) {
+                if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
+                    WidgetSingle.data = event.obj;
+                    setCurrentItemListBgImage(WidgetSingle.data);
+                }
+            };
+            DataStore.onUpdate().then(null, null, onUpdateCallback);
         }])
 })(window.angular);
