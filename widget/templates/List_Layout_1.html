@@ -19,7 +19,7 @@
           </div>
           <div class="list-item-copy text-left">
             <p
-                class="ellipsis margin-zero"><a class="text-primary">{{video.snippet.title}}</a></p>
+                class="ellipsis margin-zero"><a class="text-primary" ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet.title}}</a></p>
             <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
             <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
           </div>

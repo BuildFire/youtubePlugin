@@ -10,11 +10,13 @@
       <div class="list-layout">
         <div class="list-item" ng-repeat="video in WidgetFeed.videos">
           <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img ng-src="{{video.snippet.thumbnails.medium.url}}">
+            <div class="list-media-holder pull-left">
+              <iframe id="player" width="106" height="60"
+                      ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
+                      frameborder="0"></iframe>
             </div>
             <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">{{video.snippet.title}}</a></p>
+              <p class="ellipsis margin-zero"><a class="text-primary" ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet.title}}</a></p>
               <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
               <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
             </div>
