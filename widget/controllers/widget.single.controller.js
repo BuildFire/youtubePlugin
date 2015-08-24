@@ -11,16 +11,21 @@
       WidgetSingle.video = null;
 
       var setCurrentItemListBgImage = function (_WidgetVideoData) {
-        var body = angular.element('body');
+        var itemDetailsElement = angular.element('#item-details');
         if (_WidgetVideoData.design && _WidgetVideoData.design.itemDetailsBgImage && currentItemDetailsBgImage != _WidgetVideoData.design.itemDetailsBgImage) {
           currentItemDetailsBgImage = _WidgetVideoData.design.itemDetailsBgImage;
-          body.css(
+          itemDetailsElement.css(
             'background', '#010101 url('
             + getImageUrlFilter(currentItemDetailsBgImage, 342, 770, 'resize')
             + ') repeat fixed top center')
         } else if (_WidgetVideoData.design && !_WidgetVideoData.design.itemDetailsBgImage) {
           currentItemDetailsBgImage = null;
-          body.css('background', 'none');
+          itemDetailsElement.css('background', 'none');
+        }else{
+          itemDetailsElement.css(
+            'background', '#010101 url('
+            + getImageUrlFilter(currentItemDetailsBgImage, 342, 770, 'resize')
+            + ') repeat fixed top center');
         }
       };
 

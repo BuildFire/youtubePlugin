@@ -17,24 +17,23 @@
             };
 
         WidgetFeed.data = null;
-
             var setCurrentItemListBgImage = function (_WidgetFeedData) {
-                var body = angular.element('body');
-                if (_WidgetFeedData.design && _WidgetFeedData.design.itemListBgImage && currentItemListBgImage != _WidgetFeedData.design.itemListBgImage) {
-                    currentItemListBgImage = _WidgetFeedData.design.itemListBgImage;
-                    body.css(
-                        'background', '#010101 url('
-                        + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resize')
-                        + ') repeat fixed top center')
-                } else if (_WidgetFeedData.design && !_WidgetFeedData.design.itemListBgImage) {
-                    currentItemListBgImage = null;
-                    body.css('background', 'none');
-                }else{
-                  body.css(
-                    'background', '#010101 url('
-                    + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resize')
-                    + ') repeat fixed top center')
-                }
+              var listLayoutElement = angular.element('#list-layout');
+              if (_WidgetFeedData.design && _WidgetFeedData.design.itemListBgImage && currentItemListBgImage != _WidgetFeedData.design.itemListBgImage) {
+                currentItemListBgImage = _WidgetFeedData.design.itemListBgImage;
+                listLayoutElement.css(
+                  'background', '#010101 url('
+                  + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resize')
+                  + ') repeat fixed top center')
+              } else if (_WidgetFeedData.design && !_WidgetFeedData.design.itemListBgImage) {
+                currentItemListBgImage = null;
+                listLayoutElement.css('background', 'none');
+              } else {
+                listLayoutElement.css(
+                  'background', '#010101 url('
+                  + getImageUrlFilter(currentItemListBgImage, 342, 770, 'resize')
+                  + ') repeat fixed top center')
+              }
             };
 
             /*
