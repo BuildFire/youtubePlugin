@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular) {
-    angular.module('youtubePluginContent', ['ngRoute', 'ui.tinymce', 'ui.bootstrap', 'ui.sortable'])
+    angular.module('youtubePluginContent', ['ngRoute', 'ui.tinymce', 'ui.bootstrap'])
         //injected ngRoute for routing
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
