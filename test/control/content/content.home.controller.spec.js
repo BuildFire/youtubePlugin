@@ -31,19 +31,19 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
     it('it should pass if ContentHome is defined', function () {
       expect(ContentHome).not.toBeUndefined();
     });
-    xit('it should pass if Buildfire is defined', function () {
+    it('it should pass if Buildfire is defined', function () {
       expect(Buildfire).not.toBeUndefined();
     });
-    xit('it should pass if TAG_NAMES is defined', function () {
+    it('it should pass if TAG_NAMES is defined', function () {
       expect(TAG_NAMES).not.toBeUndefined();
     });
-    xit('it should pass if STATUS_CODE is defined', function () {
+    it('it should pass if STATUS_CODE is defined', function () {
       expect(STATUS_CODE).not.toBeUndefined();
     });
-    xit('it should pass if CONTENT_TYPE is defined', function () {
+    it('it should pass if CONTENT_TYPE is defined', function () {
       expect(CONTENT_TYPE).not.toBeUndefined();
     });
-    xit('it should pass if validateRssLink function is defined', function () {
+    it('it should pass if validateRssLink function is defined', function () {
       expect(ContentHome.validateRssLink).not.toBeUndefined();
     });
   });

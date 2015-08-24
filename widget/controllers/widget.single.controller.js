@@ -3,7 +3,9 @@
 (function (angular) {
   angular.module('youtubePluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location) {
-      var currentItemDetailsBgImage = '';
+      var currentItemDetailsBgImage = '',
+        currentItemListLayout = null;
+
       var WidgetSingle = this;
       WidgetSingle.data = null;
       WidgetSingle.video = null;
@@ -14,6 +16,7 @@
       var init = function () {
         var success = function (result) {
             WidgetSingle.data = result.data;
+            currentItemListLayout = WidgetSingle.data.design.itemListLayout;
           }
           , error = function (err) {
             console.error('Error while getting data', err);
@@ -31,6 +34,7 @@
           };
         YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
       };
+
       if ($routeParams.videoId) {
         getSingleVideoDetails($routeParams.videoId);
       } else {
@@ -42,7 +46,8 @@
           WidgetSingle.data = event.obj;
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (WidgetSingle.data.content.playListID) {
+          } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout != currentItemListLayout))) {
+            currentItemListLayout = WidgetSingle.data.design.itemListLayout;
             Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
           }
         }
