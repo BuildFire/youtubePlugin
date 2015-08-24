@@ -17,7 +17,8 @@
     <div class="padded text-left">
       <a class="text-primary">{{video.snippet.title}}</a>
 
-      <p class="margin-bottom-zero">{{video.snippet.description}}</p>
+      <p class="margin-bottom-zero">{{video.snippet.description |
+        limitTo:200}}{{(video.snippet.description.length >200) && "..." || ""}}</p>
       <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
     </div>
   </div></div>
