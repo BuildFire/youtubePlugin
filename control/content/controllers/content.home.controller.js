@@ -3,8 +3,8 @@
 (function (angular) {
     angular
         .module('youtubePluginContent')
-        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS','Utils',
-            function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils) {
+        .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS','Utils','$timeout',
+            function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils,$timeout) {
                 var _data = {
                     "content": {
                         "images": [],
@@ -124,28 +124,6 @@
                     return ContentHome.data;
                 }, saveDataWithDelay, true);
 
-                /*------------------------------------------related to previous code-----------------------------*/
-                /*                */
-                /*
-                 * this is a way you can update only one property without sending the entire object
-                 * */
-                /*
-                 $scope.approve = function () {
-                 if ($scope.id)
-                 buildfire.datastore.update($scope.id, {$set: {"content.approvedOn": new Date()}});
-                 };
-
-
-                 */
-                /*
-                 $scope.resizeImage = function (url) {
-                 if (!url)
-                 return "";
-                 else
-                 return buildfire.imageLib.resizeImage(url, {width: 32});
-                 };*/
-                /*------------------------------------------previous code ends-----------------------------*/
-
                 ContentHome.openAddImagePopUp = function () {
                     var modalInstance = $modal
                         .open({
@@ -230,6 +208,9 @@
                                         console.log(response);
                                         if (response.items && response.items.length) {
                                             ContentHome.validLinkSuccess = true;
+                                            $timeout(function() {
+                                              ContentHome.validLinkSuccess = false;
+                                            }, 3000);
                                             ContentHome.validLinkFailure = false;
                                             ContentHome.data.content.rssUrl = ContentHome.rssLink;
                                             ContentHome.data.content.type = ContentHome.contentType;
@@ -238,16 +219,25 @@
                                         }
                                         else {
                                             ContentHome.validLinkFailure = true;
+                                           $timeout(function() {
+                                            ContentHome.validLinkFailure = false;
+                                          }, 3000);
                                             ContentHome.validLinkSuccess = false;
                                         }
                                     })
                                     .error(function () {
                                         ContentHome.validLinkFailure = true;
+                                    $timeout(function() {
+                                      ContentHome.validLinkFailure = false;
+                                    }, 3000);
                                         ContentHome.validLinkSuccess = false;
                                     });
                             }
                             else {
                                 ContentHome.validLinkFailure = true;
+                              $timeout(function() {
+                                ContentHome.validLinkFailure = false;
+                              }, 3000);
                                 ContentHome.validLinkSuccess = false;
                             }
                             break;
@@ -265,6 +255,9 @@
                                 console.log(response);
                                 if (response.items && response.items.length) {
                                   ContentHome.validLinkSuccess = true;
+                                  $timeout(function() {
+                                    ContentHome.validLinkSuccess = false;
+                                  }, 3000);
                                   ContentHome.validLinkFailure = false;
                                   ContentHome.data.content.rssUrl = ContentHome.rssLink;
                                   ContentHome.data.content.type = ContentHome.contentType;
@@ -274,16 +267,25 @@
                                 }
                                 else {
                                   ContentHome.validLinkFailure = true;
+                                  $timeout(function() {
+                                    ContentHome.validLinkFailure = false;
+                                  }, 3000);
                                   ContentHome.validLinkSuccess = false;
                                 }
                               })
                               .error(function () {
                                 ContentHome.validLinkFailure = true;
+                                $timeout(function() {
+                                  ContentHome.validLinkFailure = false;
+                                }, 3000);
                                 ContentHome.validLinkSuccess = false;
                               });
                           }
                         else {
                             ContentHome.validLinkFailure = true;
+                            $timeout(function() {
+                              ContentHome.validLinkFailure = false;
+                            }, 3000);
                             ContentHome.validLinkSuccess = false;
                           }
                     }
