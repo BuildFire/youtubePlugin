@@ -28,6 +28,7 @@
               if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
                 WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
               }
+              WidgetFeed.loadMore();
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -70,7 +71,6 @@
           YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, null).then(success, error);
         };
 
-        WidgetFeed.loadMore();
         WidgetFeed.safeHtml = function (html) {
           if (html)
             return $sce.trustAsHtml(html);
