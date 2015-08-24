@@ -1,13 +1,14 @@
 describe('Unit : youtubePlugin widget Enums', function () {
-    var TAG_NAMES, STATUS_CODE, CONTENT_TYPE, STATUS_MESSAGES, YOUTUBE_KEYS;
+    var TAG_NAMES, STATUS_CODE, CONTENT_TYPE, STATUS_MESSAGES, YOUTUBE_KEYS,VIDEO_COUNT;
     beforeEach(module('youtubePluginWidget'));
 
-    beforeEach(inject(function (_TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_, _YOUTUBE_KEYS_) {
+    beforeEach(inject(function (_TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_, _YOUTUBE_KEYS_, _VIDEO_COUNT_) {
         TAG_NAMES = _TAG_NAMES_;
         STATUS_CODE = _STATUS_CODE_;
         STATUS_MESSAGES = _STATUS_MESSAGES_;
         CONTENT_TYPE = _CONTENT_TYPE_;
         YOUTUBE_KEYS = _YOUTUBE_KEYS_;
+        VIDEO_COUNT = _VIDEO_COUNT_;
     }));
 
     describe('Enum : TAG_NAMES', function () {
@@ -95,4 +96,12 @@ describe('Unit : youtubePlugin widget Enums', function () {
             expect(YOUTUBE_KEYS.API_KEY).toEqual('AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA');
         });
     });
+    describe('Enum : VIDEO_COUNT', function () {
+      it('VIDEO_COUNT should exist and be an object', function () {
+        expect(typeof VIDEO_COUNT).toEqual('object');
+      });
+      it('VIDEO_COUNT.LIMIT should exist and equals to 8', function () {
+        expect(VIDEO_COUNT.LIMIT).toEqual(8);
+      });
+  });
 });

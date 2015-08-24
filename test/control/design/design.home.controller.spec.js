@@ -46,13 +46,13 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
         it('it should pass if DesignHome.masterData match the result', function () {
             expect(DesignHome.masterData).toEqual({
                 "content": {
-                    "images": [],
-                    "description": '<p><br data-mce-bogus="1"></p>',
+                    "carouselImages": [],
+                    "description": '<p>&nbsp;<br></p>',
                     "rssUrl": "",
-                    "type": CONTENT_TYPE.SINGLE_VIDEO
+                    "type": ""
                 },
                 "design": {
-                    "itemListLayout": DesignHome.layouts.listLayouts[0].name,
+                    "itemListLayout": "",
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
                 }
@@ -63,13 +63,13 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
         it('it should pass if DesignHome.data match the result', function () {
             expect(DesignHome.data).toEqual({
                 "content": {
-                    "images": [],
-                    "description": '<p><br data-mce-bogus="1"></p>',
+                    "carouselImages": [],
+                    "description": '<p>&nbsp;<br></p>',
                     "rssUrl": "",
-                    "type": CONTENT_TYPE.SINGLE_VIDEO
+                    "type": ""
                 },
                 "design": {
-                    "itemListLayout": DesignHome.layouts.listLayouts[0].name,
+                    "itemListLayout": "",
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
                 }
@@ -84,9 +84,6 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
                     {name: "List_Layout_2"},
                     {name: "List_Layout_3"},
                     {name: "List_Layout_4"}
-                ],
-                itemLayouts: [
-                    {name: "Item-Layout-1"}
                 ]
             });
         });

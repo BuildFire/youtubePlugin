@@ -55,40 +55,7 @@
 </div>
 <hr>
 <div class="item clearfix row">
-    <div class="labels col-md-3 padding-right-zero pull-left">
-        <span>Image Carousel</span>
-    </div>
-    <div class="main col-md-9 pull-right">
-        <div class="clearfix">
-            <a class="btn btn-success pull-left"
-               ng-click="ContentHome.openAddImagePopUp()">Add Image</a>
-        </div>
-        <div
-            class="carousel-items draggable-list-view margin-top-twenty border-radius-four border-grey" ui-sortable="ContentHome.imageSortableOptions" ng-model="ContentHome.data.content.images">
-            <div class="d-item" ng-repeat="image in ContentHome.data.content.images">
-                <span class="icon icon-menu pull-left cursor-grab"></span>
-
-                <div class="media-holder pull-left">
-                    <img ng-src="{{image.imageUrl | getImageUrl : 60 :40}}">
-                </div>
-                <div class="copy pull-right">
-                    <span class="title ellipsis">{{image.title}}</span>
-
-                    <div class="pull-right">
-                        <a class="text-primary text"
-                           ng-click="ContentHome.addActionForImage($index)"
-                           ng-show="!image.action">Add
-                          Action</a>
-                      <a class="text-primary text"
-                         ng-click="ContentHome.editActionForImage(image.action, $index)"
-                         ng-hide="!image.action">{{image.action.title}}</a>
-                        <span
-                            class="btn-icon btn-delete-icon btn-danger transition-third" ng-click="ContentHome.removeCarouselImage($index)"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div id="carousel"></div>
 </div>
 <hr>
 <div class="item clearfix row">

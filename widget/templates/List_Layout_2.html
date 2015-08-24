@@ -1,100 +1,24 @@
-<script type="text/javascript" charset="utf-8">
-  $(function(){
-    var slides = $('.plugin-slider .plugin-slide').length;
-
-    // Slider needs at least 2 slides or you'll get an error.
-    if(slides > 1){
-      $('.plugin-slider').owlCarousel({
-        loop:true,
-        nav:false,
-        items:1
-      });
-    }
-  })
-</script>
-<div class="holder padding-zero">
+<div background-image="{{WidgetFeed.data.design.itemListBgImage}}" class="holder padding-zero">
   <div class="media-center-plugin layout3">
     <div class="media-center-banner clearfix border-bottom-grey">
-      <div class="plugin-slider text-center">
-        <div class="plugin-slide">
-          <img src="http://www.placehold.it/1280x720.jpg">
-        </div>
-        <div class="plugin-slide">
-          <img src="http://www.placehold.it/1280x720.jpg">
-        </div>
-        <div class="plugin-slide">
-          <img src="http://www.placehold.it/1280x720.jpg">
-        </div>
-      </div>
+      <div id="carousel" build-fire-carousel=""></div>
     </div>
     <div class="text-left padded padding-bottom-zero clearfix">
-      <p>This is the WYSIWYG Editor. This is the WYSIWYG Editor. This is the WYSIWYG Editor. This is the WYSIWYG Editor. This is the WYSIWYG Editor. This is the WYSIWYG Editor. This is the WYSIWYG Editor. This is the WYSIWYG Editor.</p>
+      <p ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
-    <div class="">
+    <div>
       <div class="list-layout">
-        <div class="list-item">
+        <div class="list-item" ng-repeat="video in WidgetFeed.videos">
           <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
+            <div class="list-media-holder pull-left">
+              <iframe id="player" width="106" height="60"
+                      ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
+                      frameborder="0"></iframe>
             </div>
             <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title This is a title This is a title</a></p>
-              <p class="summary ellipsis margin-zero">Here is where the summary goes and if it's too long it disappears</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
-            </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
-            </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-              <p class="summary ellipsis margin-zero">Here is where the summary goes and if it's too long it disappears</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
-            </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
+              <p class="ellipsis margin-zero"><a class="text-primary" ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet.title}}</a></p>
+              <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
+              <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
             </div>
           </div>
         </div>

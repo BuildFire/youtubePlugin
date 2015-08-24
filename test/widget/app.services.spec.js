@@ -37,20 +37,11 @@ describe('Unit : youtubePlugin widget services', function () {
         it('DataStore.insert should exist and be a function', function () {
             expect(typeof DataStore.insert).toEqual('function');
         });
-        it('DataStore.bulkInsert should exist and be a function', function () {
-            expect(typeof DataStore.bulkInsert).toEqual('function');
-        });
-        it('DataStore.search should exist and be a function', function () {
-            expect(typeof DataStore.search).toEqual('function');
-        });
         it('DataStore.update should exist and be a function', function () {
             expect(typeof DataStore.update).toEqual('function');
         });
         it('DataStore.save should exist and be a function', function () {
             expect(typeof DataStore.save).toEqual('function');
-        });
-        it('DataStore.deleteById should exist and be a function', function () {
-            expect(typeof DataStore.deleteById).toEqual('function');
         });
         it('DataStore.onUpdate should exist and be a function', function () {
             expect(typeof DataStore.onUpdate).toEqual('function');
@@ -129,6 +120,9 @@ describe('Unit : youtubePlugin widget services', function () {
             });
             it('YoutubeApi.getSingleVideoDetails should exist and be a function', function () {
                 expect(typeof YoutubeApi.getSingleVideoDetails).toEqual('function');
+            });
+            it('YoutubeApi.getFeedVideos should exist and be a function', function () {
+              expect(typeof YoutubeApi.getFeedVideos).toEqual('function');
             });
         });
     });

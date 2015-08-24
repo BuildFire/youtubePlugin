@@ -14,26 +14,24 @@
                         {name: "List_Layout_2"},
                         {name: "List_Layout_3"},
                         {name: "List_Layout_4"}
-                    ],
-                    itemLayouts: [
-                        {name: "Item-Layout-1"}
                     ]
                 };
+
                 var _data = {
                     "content": {
-                        "images": [],
-                        "description": '<p><br data-mce-bogus="1"></p>',
+                        "carouselImages": [],
+                        "description": '<p>&nbsp;<br></p>',
                         "rssUrl": "",
-                        "type": CONTENT_TYPE.SINGLE_VIDEO
+                        "type": ""
                     },
                     "design": {
-                        "itemListLayout": DesignHome.layouts.listLayouts[0].name,
+                        "itemListLayout": "",
                         "itemListBgImage": "",
                         "itemDetailsBgImage": ""
                     }
                 };
-                DesignHome.data = angular.copy(_data);
 
+                DesignHome.data = angular.copy(_data);
                 updateMasterItem(_data);
 
                 function updateMasterItem(data) {
@@ -90,7 +88,6 @@
                     DesignHome.data.design.itemDetailsBgImage = null;
                 };
 
-
                 DesignHome.addItemListBackgroundImage = function () {
                     var options = {showIcons: false, multiSelection: false};
                     var success = function (result) {
@@ -103,7 +100,6 @@
                         };
                     ImageLibrary.showDialog(options).then(success, error);
                 };
-
 
                 DesignHome.removeItemListBackgroundImage = function () {
                     DesignHome.data.design.itemListBgImage = null;

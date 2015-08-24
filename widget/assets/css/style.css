@@ -1,0 +1,12 @@
+
+
+/*
+* Styling for list layout elements
+*/
+.list-layout{
+    overflow: hidden;
+}
+.list-layout .list-item.video-box{
+    padding-left: 1%;
+    padding-right: 15px;
+}
