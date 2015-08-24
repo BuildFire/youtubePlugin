@@ -6,80 +6,17 @@
     <div class="text-left padded padding-bottom-zero clearfix">
       <p ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
-    <div class="">
+    <div>
       <div class="list-layout">
-        <div class="list-item">
+        <div class="list-item" ng-repeat="video in WidgetFeed.videos">
           <div class="list-item-media text-left overflow-hidden">
             <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
+              <img ng-src="{{video.snippet.thumbnails.medium.url}}">
             </div>
             <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title This is a title This is a
-                title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes and if it's too long it
-                disappears</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
-            </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
-            </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes and if it's too long it
-                disappears</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-media-holder pull-left play-btn">
-              <img src="http://www.placehold.it/120x70">
-            </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div class="list-item-media text-left overflow-hidden">
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
+              <p class="ellipsis margin-zero"><a class="text-primary">{{video.snippet.title}}</a></p>
+              <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
+              <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
             </div>
           </div>
         </div>

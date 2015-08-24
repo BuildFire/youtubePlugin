@@ -62,7 +62,9 @@
 
         WidgetFeed.loadMore = function () {
           var _playlistId = $routeParams.playlistId;
+
           var success = function (result) {
+              console.log("**************",result.data.items);
               WidgetFeed.videos = result.data.items || [];
             }
             , error = function (err) {
