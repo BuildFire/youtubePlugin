@@ -6,39 +6,20 @@
     <div class="padded text-left">
       <p class="margin-bottom-zero" ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
+    <div ng-repeat="video in WidgetFeed.videos">
     <div class="plugin-banner clearfix border-bottom-grey">
       <div class="plugin-slide text-center">
-        <img src="http://www.placehold.it/1280x720.jpg">
+        <iframe id="player" width="342" height="192"
+                ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
+                frameborder="0"></iframe>
       </div>
     </div>
     <div class="padded text-left">
-      <a class="text-primary">This is a title</a>
+      <a class="text-primary">{{video.snippet.title}}</a>
 
-      <p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua.</p>
-      <span class="list-item-date">Dec 21, 2014</span>
+      <p class="margin-bottom-zero">{{video.snippet.description |
+        limitTo:200}}{{(video.snippet.description.length >200) && "..." || ""}}</p>
+      <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
     </div>
-    <div class="plugin-banner clearfix border-bottom-grey">
-      <div class="plugin-slide text-center">
-        <img src="http://www.placehold.it/1280x720.jpg">
-      </div>
-    </div>
-    <div class="padded text-left">
-      <a class="text-primary">This is a title</a>
-
-      <p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua.</p>
-    </div>
-    <div class="plugin-banner clearfix border-bottom-grey">
-      <div class="plugin-slide text-center">
-        <img src="http://www.placehold.it/1280x720.jpg">
-      </div>
-    </div>
-    <div class="padded text-left">
-      <a class="text-primary">This is a title</a>
-
-      <p class="margin-bottom-zero">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua.</p>
-    </div>
-  </div>
+  </div></div>
 </div>

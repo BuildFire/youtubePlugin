@@ -8,116 +8,22 @@
     </div>
     <div class="padded padding-top-zero">
       <div class="list-layout">
-        <div class="row">
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder play-btn">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
+        <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos">
+          <div class="list-item-media text-center border-radius-three overflow-hidden">
+            <div class="list-media-holder">
+              <iframe id="player" width="137" height="137"
+                      ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
+                      frameborder="0"></iframe>
             </div>
           </div>
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
+          <div class="list-item-copy text-left">
+            <p class="ellipsis margin-zero text-primary"><a
+                class="text-primary"
+                ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet
+              .title}}</a></p>
 
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder play-btn">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder play-btn">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder play-btn">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
-          </div>
-          <div class="list-item col-xs-6 pull-left">
-            <div class="list-item-media text-center border-radius-three overflow-hidden">
-              <div class="list-media-holder">
-                <img src="http://www.placehold.it/200x200">
-              </div>
-            </div>
-            <div class="list-item-copy text-left">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary">This is a title</a></p>
-
-              <p class="summary ellipsis margin-zero">Here is where the summary goes</p>
-              <span class="list-item-date">Dec 21, 2014</span>
-            </div>
+            <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
+            <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
           </div>
         </div>
       </div>
