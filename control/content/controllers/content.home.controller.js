@@ -38,14 +38,14 @@
 
         // this method will be called when a new item added to the list
         editor.onAddItems = function (items) {
-          if(!ContentHome.data.content.carouselImages)
-            ContentHome.data.content.carouselImages=[];
-          ContentHome.data.content.carouselImages.push.apply(ContentHome.data.content.carouselImages,items);
+          if (!ContentHome.data.content.carouselImages)
+            ContentHome.data.content.carouselImages = [];
+          ContentHome.data.content.carouselImages.push.apply(ContentHome.data.content.carouselImages, items);
           $scope.$digest();
         };
         // this method will be called when an item deleted from the list
         editor.onDeleteItem = function (item, index) {
-          ContentHome.data.content.carouselImages.splice(index,1);
+          ContentHome.data.content.carouselImages.splice(index, 1);
           $scope.$digest();
         };
         // this method will be called when you edit item details
@@ -82,8 +82,8 @@
                 ContentHome.contentType = ContentHome.data.content.type;
               if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)
                 ContentHome.rssLink = ContentHome.data.content.rssUrl;
-              if(!ContentHome.data.content.carouselImages)
-              editor.loadItems([]);
+              if (!ContentHome.data.content.carouselImages)
+                editor.loadItems([]);
               else
                 editor.loadItems(ContentHome.data.content.carouselImages);
               updateMasterItem(ContentHome.data);
@@ -142,77 +142,6 @@
         $scope.$watch(function () {
           return ContentHome.data;
         }, saveDataWithDelay, true);
-
-        ContentHome.openAddImagePopUp = function () {
-          var modalInstance = $modal
-            .open({
-              templateUrl: 'templates/modals/add-carousel-image.html',
-              controller: 'AddCarouselImagePopupCtrl',
-              controllerAs: 'AddCarouselImagePopup',
-              size: 'sm'
-            });
-          modalInstance.result.then(function (imageInfo) {
-            if (imageInfo && ContentHome.data) {
-              if (!ContentHome.data.content.images)
-                ContentHome.data.content.images = [];
-              ContentHome.data.content.images.push(JSON.parse(angular.toJson(imageInfo)));
-            } else {
-              console.info('Unable to load data.')
-            }
-          }, function (err) {
-            //do something on cancel
-          });
-        };
-
-        /**
-         * ContentHome.removeCarouselImage($index) used to remove a carousel image
-         * @param $index is the index of carousel image to be remove.
-         */
-        ContentHome.removeCarouselImage = function ($index) {
-          var modalInstance = $modal
-            .open({
-              templateUrl: 'templates/modals/remove-image.html',
-              controller: 'RemoveImagePopupCtrl',
-              controllerAs: 'RemoveImagePopup',
-              size: 'sm',
-              resolve: {
-                imageInfo: function () {
-                  return ContentHome.data.content.images[$index]
-                }
-              }
-            });
-          modalInstance.result.then(function (data) {
-            if (data)
-              ContentHome.data.content.images.splice($index, 1);
-          }, function (data) {
-            //do something on cancel
-          });
-        };
-
-
-        ContentHome.addActionForImage = function (index) {
-          var options = {showIcon: false}
-            , success = function (result) {
-              if (ContentHome.data.content.images[index])
-                ContentHome.data.content.images[index].action = result;
-            }
-            , error = function (error) {
-              console.error('ContentHome.addActionForImage Error:', error);
-            };
-          ActionItems.showDialog(null, options).then(success, error);
-        };
-
-        ContentHome.editActionForImage = function (action, index) {
-          var options = {showIcon: false}
-            , success = function (result) {
-              if (ContentHome.data.content.images[index])
-                ContentHome.data.content.images[index].action = result;
-            }
-            , error = function (error) {
-              console.error('ContentHome.editActionForImage Error:', error);
-            };
-          ActionItems.showDialog(action, options).then(success, error);
-        };
 
         // Function to validate youtube rss feed link entered by user.
 
