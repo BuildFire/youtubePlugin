@@ -22,6 +22,10 @@
                       Location.goTo("#/feed/" + result.data.content.playListID);
                       deferred.resolve();
                     }
+                    else{
+                      Location.goTo("#/feed/1");
+                      deferred.resolve();
+                    }
                   } else {
                     deferred.resolve();
                   }
