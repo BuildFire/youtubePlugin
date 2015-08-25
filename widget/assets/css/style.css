@@ -10,3 +10,12 @@
     padding-left: 1%;
     padding-right: 15px;
 }
+
+
+/*
+* Set height of body to auto for enabling scroll
+*/
+
+.body-scroll{
+    height: auto !important;
+}

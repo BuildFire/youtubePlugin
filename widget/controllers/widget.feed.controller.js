@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope',
-      function (DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope) {
+    .controller('WidgetFeedCtrl', ['DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', '$scope', '$window',
+      function (DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, $scope, $window) {
         var WidgetFeed = this
           , currentItemListBgImage = null;
         WidgetFeed.layouts = {
@@ -18,6 +18,9 @@
         WidgetFeed.data = null;
         //create new instance of buildfire carousel viewer
         var view = null;
+        WidgetFeed.videos = [];
+        WidgetFeed.busy = false;
+        WidgetFeed.nextPageToken = null;
 
         /*
          * Fetch user's data from datastore
@@ -28,7 +31,6 @@
               if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
                 WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
               }
-              WidgetFeed.loadMore();
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -64,16 +66,20 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
+          if (WidgetFeed.busy) return;
+          WidgetFeed.busy = true;
           var _playlistId = $routeParams.playlistId;
-
           var success = function (result) {
-              console.log("**************",result.data.items);
-              WidgetFeed.videos = result.data.items || [];
+              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
+              WidgetFeed.nextPageToken = result.data.nextPageToken;
+              if(WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
+                WidgetFeed.busy = false;
+              }
             }
             , error = function (err) {
               console.error('Error In Fetching Single Video Details', err);
             };
-          YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, null).then(success, error);
+          YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
         };
 
         WidgetFeed.safeHtml = function (html) {
