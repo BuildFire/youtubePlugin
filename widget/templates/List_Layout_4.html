@@ -4,10 +4,13 @@
       <div id="carousel" build-fire-carousel=""></div>
     </div>
     <div class="text-left padded padding-bottom-zero clearfix">
-      <p ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
+      <p
+          ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
     </div>
-    <div class="padded padding-top-zero">
-      <div class="list-layout">
+    <div class="padded padding-top-zero"  ng-if="WidgetFeed.data">
+      <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()"
+           infinite-scroll-distance="1"
+           infinite-scroll-disabled="WidgetFeed.busy">
         <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos">
           <div class="list-item-media text-center border-radius-three overflow-hidden">
             <div class="list-media-holder">

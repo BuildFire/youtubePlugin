@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('youtubePluginWidget', ['ngRoute'])
+  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll'])
     .config(['$routeProvider', function ($routeProvider) {
       /**
        * Disable the pull down refresh
@@ -27,10 +27,12 @@
                       deferred.resolve();
                     }
                   } else {
+                    Location.goTo("#/feed/1");
                     deferred.resolve();
                   }
                 }
                 , error = function (err) {
+                  Location.goTo("#/feed/1");
                   deferred.reject();
                 };
               DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);

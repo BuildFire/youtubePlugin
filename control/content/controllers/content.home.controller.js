@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout',
-      function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout) {
+    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS',
+      function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -13,7 +13,7 @@
             "type": ""
           },
           "design": {
-            "itemListLayout": "",
+            "itemListLayout": LAYOUTS.listLayouts[0].name,
             "itemListBgImage": "",
             "itemDetailsBgImage": ""
           }
@@ -49,12 +49,16 @@
           $scope.$digest();
         };
         // this method will be called when you edit item details
-        editor.onItemChange = function (item) {
-
+        editor.onItemChange = function (item, index) {
+          ContentHome.data.content.carouselImages.splice(index, 1, item);
+          $scope.$digest();
         };
         // this method will be called when you change the order of items
         editor.onOrderChange = function (item, oldIndex, newIndex) {
-
+          var temp = ContentHome.data.content.carouselImages[oldIndex];
+          ContentHome.data.content.carouselImages[oldIndex] = ContentHome.data.content.carouselImages[newIndex];
+          ContentHome.data.content.carouselImages[newIndex] = temp;
+          $scope.$digest();
         };
 
         updateMasterItem(_data);
@@ -236,6 +240,15 @@
                 }, 3000);
                 ContentHome.validLinkSuccess = false;
               }
+          }
+        };
+
+        ContentHome.clearData = function () {
+          if (!ContentHome.rssLink) {
+            ContentHome.data.content.rssUrl = null;
+            ContentHome.data.content.type = CONTENT_TYPE.SINGLE_VIDEO;
+            ContentHome.data.content.videoID = null;
+            ContentHome.data.content.playListID = null;
           }
         };
       }]);

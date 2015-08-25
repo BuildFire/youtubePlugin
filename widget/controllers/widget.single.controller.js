@@ -2,8 +2,9 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location) {
+    .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS) {
       var currentItemDetailsBgImage = '',
+        currentPlayListID = null,
         currentItemListLayout = null;
 
       var WidgetSingle = this;
@@ -13,10 +14,15 @@
       /*
        * Fetch user's data from datastore
        */
+
       var init = function () {
         var success = function (result) {
             WidgetSingle.data = result.data;
+            if (WidgetSingle.data && WidgetSingle.data.design && !WidgetSingle.data.design.itemListLayout) {
+              WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+            }
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
+            currentPlayListID = WidgetSingle.data.content.playListID;
           }
           , error = function (err) {
             console.error('Error while getting data', err);
@@ -43,10 +49,22 @@
 
       var onUpdateCallback = function (event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
-          WidgetSingle.data = event.obj;
+          WidgetSingle.data = event.data;
+          if (!WidgetSingle.data.content.rssUrl) {
+            $routeParams.videoId = '';
+            WidgetSingle.video = null;
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.rssUrl && WidgetSingle.data.content.videoID && !$routeParams.videoId) {
+            $routeParams.videoId = WidgetSingle.data.content.videoID;
+            getSingleVideoDetails(WidgetSingle.data.content.videoID);
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.rssUrl && WidgetSingle.data.content.playListID && !$routeParams.videoId) {
+            currentPlayListID = WidgetSingle.data.content.playListID;
+            Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
+          }
+
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout != currentItemListLayout))) {
+          } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.playListID !== currentPlayListID))) {
+            currentPlayListID = WidgetSingle.data.content.playListID;
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
             Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
           }

@@ -1,29 +1,29 @@
 <div background-image="{{WidgetSingle.data.design.itemDetailsBgImage}}" class="holder padding-zero">
-    <div class="media-center-plugin layout1">
-        <div class="media-center-banner clearfix border-bottom-grey">
-            <div class="plugin-slider text-center">
-                <div class="plugin-slide">
-                    <iframe id="player" width="342" height="192"
-                            ng-src="{{WidgetSingle.video.id | returnYoutubeUrl}}"
+  <div ng-if="WidgetSingle.video.id" class="media-center-plugin layout1">
+    <div class="media-center-banner clearfix border-bottom-grey">
+      <div class="plugin-slider text-center">
+        <div class="plugin-slide">
+          <iframe id="player" width="342" height="192"
+                  ng-src="{{WidgetSingle.video.id | returnYoutubeUrl}}"
                   frameborder="0"></iframe>
-                </div>
-            </div>
         </div>
-        <div class="text-left padded padding-bottom-zero clearfix ">
-            <h4 class="margin-top-zero">{{WidgetSingle.video.snippet.title}}</h4>
-        </div>
-        <div class="padded padding-top-zero">
-            <hr class="small">
-            <div class="link-list">
-                <a class="text-primary" target="_blank" ng-href='{{WidgetSingle.data.content.rssUrl}}'>
-                    View Source
-                </a>
-                <a class="text-primary">Share</a>
-            </div>
-            <hr class="small">
-            <p>
-                {{WidgetSingle.video.snippet.description}}
-            </p>
-        </div>
+      </div>
     </div>
+    <div class="text-left padded padding-bottom-zero clearfix ">
+      <h4 class="margin-top-zero">{{WidgetSingle.video.snippet.title}}</h4>
+    </div>
+    <div class="padded padding-top-zero">
+      <hr class="small">
+      <div class="link-list">
+        <a class="text-primary" target="_blank" ng-href='{{WidgetSingle.data.content.rssUrl}}'>
+          View Source
+        </a>
+        <a class="text-primary">Share</a>
+      </div>
+      <hr class="small">
+      <p>
+        {{WidgetSingle.video.snippet.description}}
+      </p>
+    </div>
+  </div>
 </div>

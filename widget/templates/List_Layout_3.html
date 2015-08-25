@@ -1,25 +1,34 @@
-<div background-image="{{WidgetFeed.data.design.itemListBgImage}}" class="holder padding-zero">
-  <div class="media-center-plugin layout3">
+<div background-image="{{WidgetFeed.data.design.itemListBgImage}}"
+     class="holder padding-zero">
+  <div class="media-center-plugin layout3" id="scroll-infinite">
     <div class="plugin-banner clearfix border-bottom-grey">
       <div id="carousel" build-fire-carousel=""></div>
     </div>
     <div class="padded text-left">
-      <p class="margin-bottom-zero" ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
+      <p class="margin-bottom-zero"
+         ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
     </div>
-    <div ng-repeat="video in WidgetFeed.videos">
-    <div class="plugin-banner clearfix border-bottom-grey">
-      <div class="plugin-slide text-center">
-        <iframe id="player" width="342" height="192"
-                ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
-                frameborder="0"></iframe>
+    <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
+          infinite-scroll-distance="1"
+          infinite-scroll-disabled="WidgetFeed.busy">
+      <div ng-repeat="video in WidgetFeed.videos">
+        <div class="plugin-banner clearfix border-bottom-grey">
+          <div class="plugin-slide text-center">
+            <iframe id="player" width="342" height="192"
+                    ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
+                    frameborder="0"></iframe>
+          </div>
+        </div>
+        <div class="padded text-left">
+          <a class="text-primary"
+             ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet.title}}</a>
+
+          <p class="margin-bottom-zero">{{video.snippet.description |
+            limitTo:200}}{{(video.snippet.description.length >200) && "..." ||
+            ""}}</p>
+          <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
+        </div>
       </div>
     </div>
-    <div class="padded text-left">
-      <a class="text-primary" ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet.title}}</a>
-
-      <p class="margin-bottom-zero">{{video.snippet.description |
-        limitTo:200}}{{(video.snippet.description.length >200) && "..." || ""}}</p>
-      <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
-    </div>
-  </div></div>
+  </div>
 </div>

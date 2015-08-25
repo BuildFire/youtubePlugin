@@ -26,7 +26,8 @@
         <div class="pull-left col-md-8 padding-zero">
             <input type="text" class="form-control"
                    placeholder="Enter your channel or video URL"
-                   ng-model="ContentHome.rssLink">
+                   ng-model="ContentHome.rssLink"
+                   ng-change="ContentHome.clearData()">
         </div>
         <div class="col-md-4 pull-right">
             <button class="btn btn-primary pull-right stretch"
