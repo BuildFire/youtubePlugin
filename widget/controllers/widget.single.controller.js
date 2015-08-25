@@ -2,7 +2,7 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS) {
+    .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS) {
       var currentItemDetailsBgImage = '',
         currentPlayListID = null,
         currentItemListLayout = null;
@@ -53,10 +53,10 @@
           if (!WidgetSingle.data.content.rssUrl) {
             $routeParams.videoId = '';
             WidgetSingle.video = null;
-          } else if (!WidgetSingle.video && WidgetSingle.data.content.rssUrl && WidgetSingle.data.content.videoID && !$routeParams.videoId) {
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.videoID && !$routeParams.videoId) {
             $routeParams.videoId = WidgetSingle.data.content.videoID;
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (!WidgetSingle.video && WidgetSingle.data.content.rssUrl && WidgetSingle.data.content.playListID && !$routeParams.videoId) {
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.playListID && !$routeParams.videoId) {
             currentPlayListID = WidgetSingle.data.content.playListID;
             Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
           }
@@ -71,5 +71,9 @@
         }
       };
       DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+      $scope.$on("$destroy", function () {
+        DataStore.clearListener();
+      });
     }])
 })(window.angular);

@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
-      function (DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
+    .controller('WidgetFeedCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
+      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
         var WidgetFeed = this;
 
         WidgetFeed.data = null;
@@ -85,7 +85,7 @@
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
               WidgetFeed.nextPageToken = null;
-            } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.rssUrl && WidgetFeed.data.content.playListID) {
+            } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.playListID) {
               currentPlayListId = WidgetFeed.data.content.playListID;
               getFeedVideos(WidgetFeed.data.content.playListID);
             }
@@ -113,6 +113,8 @@
         WidgetFeed.showDescription = function (description) {
           return !(description == '<p>&nbsp;<br></p>');
         };
-
+        $scope.$on("$destroy", function () {
+          DataStore.clearListener();
+        });
       }])
 })(window.angular);
