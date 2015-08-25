@@ -43,7 +43,7 @@
 
       var onUpdateCallback = function (event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
-          WidgetSingle.data = event.obj;
+          WidgetSingle.data = event.data;
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
           } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout != currentItemListLayout))) {

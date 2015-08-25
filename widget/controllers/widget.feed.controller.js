@@ -52,7 +52,10 @@
 
         var onUpdateCallback = function (event) {
           if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
-            WidgetFeed.data = event.obj;
+            WidgetFeed.data = event.data;
+            if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
+              WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
+            }
             view.loadItems(WidgetFeed.data.content.carouselImages);
             if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
