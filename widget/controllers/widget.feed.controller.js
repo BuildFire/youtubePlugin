@@ -12,6 +12,7 @@
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = null;
+        var currentListLayout = null;
 
         /*
          * Fetch user's data from datastore
@@ -22,6 +23,7 @@
               if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              currentListLayout = WidgetFeed.data.design.itemListLayout;
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -49,10 +51,17 @@
             if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
-            if (view) {
-              view.loadItems(WidgetFeed.data.content.carouselImages);
-            }
 
+            if (currentListLayout != WidgetFeed.data.design.itemListLayout) {
+              view._destroySlider();
+              view = null;
+            }
+            else {
+              if (view) {
+                view.loadItems(WidgetFeed.data.content.carouselImages);
+              }
+            }
+            currentListLayout = WidgetFeed.data.design.itemListLayout;
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== $routeParams.playlistId)) {
               $routeParams.playlistId = WidgetFeed.data.content.playListID;
               Location.goTo("#/feed/" + WidgetFeed.data.content.playListID);
@@ -69,7 +78,7 @@
           var success = function (result) {
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
               WidgetFeed.nextPageToken = result.data.nextPageToken;
-              if(WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
+              if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
                 WidgetFeed.busy = false;
               }
             }

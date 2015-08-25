@@ -19,3 +19,11 @@
 .body-scroll{
     height: auto !important;
 }
+
+/*
+* Carousel container styling
+*/
+
+#carousel{
+    overflow: hidden !important;
+}
