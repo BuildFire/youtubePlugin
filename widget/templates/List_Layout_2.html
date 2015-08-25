@@ -3,7 +3,7 @@
     <div class="media-center-banner clearfix border-bottom-grey">
       <div id="carousel" build-fire-carousel=""></div>
     </div>
-    <div class="text-left padded padding-bottom-zero clearfix">
+    <div class="text-left padded padding-bottom-zero clearfix"  ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)">
       <p ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
     <div>

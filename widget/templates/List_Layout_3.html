@@ -6,7 +6,7 @@
     </div>
     <div class="padded text-left">
       <p class="margin-bottom-zero"
-         ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
+         ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
     </div>
     <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
           infinite-scroll-distance="1"

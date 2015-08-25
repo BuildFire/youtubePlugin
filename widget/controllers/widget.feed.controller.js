@@ -93,5 +93,9 @@
             return $sce.trustAsHtml(html);
         };
 
+        WidgetFeed.showDescription = function (description) {
+         return !(description == '<p>&nbsp;<br></p>');
+        };
+
       }])
 })(window.angular);
