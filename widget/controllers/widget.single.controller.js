@@ -2,7 +2,7 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location) {
+    .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS) {
       var currentItemDetailsBgImage = '',
         currentItemListLayout = null;
 
@@ -13,9 +13,13 @@
       /*
        * Fetch user's data from datastore
        */
+
       var init = function () {
         var success = function (result) {
             WidgetSingle.data = result.data;
+            if (WidgetSingle.data && WidgetSingle.data.design && !WidgetSingle.data.design.itemListLayout) {
+              WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+            }
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
           }
           , error = function (err) {

@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout',
-      function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout) {
+    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS',
+      function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -13,7 +13,7 @@
             "type": ""
           },
           "design": {
-            "itemListLayout": "",
+            "itemListLayout": LAYOUTS.listLayouts[0].name,
             "itemListBgImage": "",
             "itemDetailsBgImage": ""
           }
