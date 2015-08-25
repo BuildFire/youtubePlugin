@@ -55,7 +55,7 @@
 
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== $routeParams.playlistId)) {
               $routeParams.playlistId = WidgetFeed.data.content.playListID;
-              WidgetFeed.loadMore();
+              Location.goTo("#/feed/" + WidgetFeed.data.content.playListID);
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
