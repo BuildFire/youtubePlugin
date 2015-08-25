@@ -49,8 +49,9 @@
           $scope.$digest();
         };
         // this method will be called when you edit item details
-        editor.onItemChange = function (item) {
-
+        editor.onItemChange = function (item, index) {
+          ContentHome.data.content.carouselImages.splice(index, 1, item);
+          $scope.$digest();
         };
         // this method will be called when you change the order of items
         editor.onOrderChange = function (item, oldIndex, newIndex) {
