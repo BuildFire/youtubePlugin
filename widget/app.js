@@ -27,10 +27,12 @@
                       deferred.resolve();
                     }
                   } else {
+                    Location.goTo("#/feed/1");
                     deferred.resolve();
                   }
                 }
                 , error = function (err) {
+                  Location.goTo("#/feed/1");
                   deferred.reject();
                 };
               DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);

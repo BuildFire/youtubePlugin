@@ -2,18 +2,9 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', '$scope', '$window',
-      function (DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, $scope, $window) {
-        var WidgetFeed = this
-          , currentItemListBgImage = null;
-        WidgetFeed.layouts = {
-          listLayouts: [
-            {name: "List_Layout_1"},
-            {name: "List_Layout_2"},
-            {name: "List_Layout_3"},
-            {name: "List_Layout_4"}
-          ]
-        };
+    .controller('WidgetFeedCtrl', ['DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
+      function (DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
+        var WidgetFeed = this;
 
         WidgetFeed.data = null;
         //create new instance of buildfire carousel viewer
@@ -29,7 +20,7 @@
           var success = function (result) {
               WidgetFeed.data = result.data;
               if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
-                WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
+                WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
             }
             , error = function (err) {
@@ -56,10 +47,16 @@
           if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
             WidgetFeed.data = event.data;
             if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
-              WidgetFeed.data.design.itemListLayout = WidgetFeed.layouts.listLayouts[0].name;
+              WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
-            view.loadItems(WidgetFeed.data.content.carouselImages);
-            if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
+            if (view) {
+              view.loadItems(WidgetFeed.data.content.carouselImages);
+            }
+
+            if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== $routeParams.playlistId)) {
+              $routeParams.playlistId = WidgetFeed.data.content.playListID;
+              WidgetFeed.loadMore();
+            } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
         };
