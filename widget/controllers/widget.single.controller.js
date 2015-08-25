@@ -4,6 +4,7 @@
   angular.module('youtubePluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', function ($routeParams, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS) {
       var currentItemDetailsBgImage = '',
+        currentPlayListID = null,
         currentItemListLayout = null;
 
       var WidgetSingle = this;
@@ -21,6 +22,7 @@
               WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
+            currentPlayListID = WidgetSingle.data.content.playListID;
           }
           , error = function (err) {
             console.error('Error while getting data', err);
@@ -50,7 +52,8 @@
           WidgetSingle.data = event.data;
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout != currentItemListLayout))) {
+          } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.playListID !== currentPlayListID))) {
+            currentPlayListID = WidgetSingle.data.content.playListID;
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
             Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
           }
