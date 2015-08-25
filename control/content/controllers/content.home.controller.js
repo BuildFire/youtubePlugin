@@ -55,7 +55,10 @@
         };
         // this method will be called when you change the order of items
         editor.onOrderChange = function (item, oldIndex, newIndex) {
-
+          var temp = ContentHome.data.content.carouselImages[oldIndex];
+          ContentHome.data.content.carouselImages[oldIndex] = ContentHome.data.content.carouselImages[newIndex];
+          ContentHome.data.content.carouselImages[newIndex] = temp;
+          $scope.$digest();
         };
 
         updateMasterItem(_data);
