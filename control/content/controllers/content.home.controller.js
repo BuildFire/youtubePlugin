@@ -242,5 +242,14 @@
               }
           }
         };
+
+        ContentHome.clearData = function () {
+          if (!ContentHome.rssLink) {
+            ContentHome.data.content.rssUrl = null;
+            ContentHome.data.content.type = CONTENT_TYPE.SINGLE_VIDEO;
+            ContentHome.data.content.videoID = null;
+            ContentHome.data.content.playListID = null;
+          }
+        };
       }]);
 })(window.angular);

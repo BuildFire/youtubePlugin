@@ -50,6 +50,17 @@
       var onUpdateCallback = function (event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
           WidgetSingle.data = event.data;
+          if (!WidgetSingle.data.content.rssUrl) {
+            $routeParams.videoId = '';
+            WidgetSingle.video = null;
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.rssUrl && WidgetSingle.data.content.videoID && !$routeParams.videoId) {
+            $routeParams.videoId = WidgetSingle.data.content.videoID;
+            getSingleVideoDetails(WidgetSingle.data.content.videoID);
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.rssUrl && WidgetSingle.data.content.playListID && !$routeParams.videoId) {
+            currentPlayListID = WidgetSingle.data.content.playListID;
+            Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
+          }
+
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
           } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.playListID !== currentPlayListID))) {

@@ -13,6 +13,7 @@
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = null;
         var currentListLayout = null;
+        var currentPlayListId = $routeParams.playlistId;
 
         /*
          * Fetch user's data from datastore
@@ -24,6 +25,9 @@
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
+              if (!currentPlayListId) {
+                currentPlayListId = WidgetFeed.data.content.playListID;
+              }
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -45,6 +49,20 @@
           }
         });
 
+        var getFeedVideos = function (_playlistId) {
+          var success = function (result) {
+              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
+              WidgetFeed.nextPageToken = result.data.nextPageToken;
+              if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
+                WidgetFeed.busy = false;
+              }
+            }
+            , error = function (err) {
+              console.error('Error In Fetching Single Video Details', err);
+            };
+          YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
+        };
+
         var onUpdateCallback = function (event) {
           if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
             WidgetFeed.data = event.data;
@@ -62,8 +80,18 @@
               }
             }
             currentListLayout = WidgetFeed.data.design.itemListLayout;
-            if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== $routeParams.playlistId)) {
-              $routeParams.playlistId = WidgetFeed.data.content.playListID;
+
+            if (!WidgetFeed.data.content.rssUrl) {
+              WidgetFeed.videos = [];
+              WidgetFeed.busy = false;
+              WidgetFeed.nextPageToken = null;
+            } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.rssUrl && WidgetFeed.data.content.playListID) {
+              currentPlayListId = WidgetFeed.data.content.playListID;
+              getFeedVideos(WidgetFeed.data.content.playListID);
+            }
+
+            if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== currentPlayListId)) {
+              currentPlayListId = WidgetFeed.data.content.playListID;
               Location.goTo("#/feed/" + WidgetFeed.data.content.playListID);
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
@@ -74,18 +102,7 @@
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
-          var _playlistId = $routeParams.playlistId;
-          var success = function (result) {
-              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
-              WidgetFeed.nextPageToken = result.data.nextPageToken;
-              if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
-                WidgetFeed.busy = false;
-              }
-            }
-            , error = function (err) {
-              console.error('Error In Fetching Single Video Details', err);
-            };
-          YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
+          getFeedVideos(currentPlayListId);
         };
 
         WidgetFeed.safeHtml = function (html) {
@@ -94,7 +111,7 @@
         };
 
         WidgetFeed.showDescription = function (description) {
-         return !(description == '<p>&nbsp;<br></p>');
+          return !(description == '<p>&nbsp;<br></p>');
         };
 
       }])
