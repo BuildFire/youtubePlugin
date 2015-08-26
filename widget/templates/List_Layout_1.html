@@ -16,9 +16,7 @@
              ng-repeat="video in WidgetFeed.videos">
           <div class="list-item-media text-center border-radius-three overflow-hidden">
             <div class="list-media-holder">
-              <iframe id="player" width="152" height="101"
-                      ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
-                      frameborder="0"></iframe>
+              <a ng-href="#/video/{{video.snippet.resourceId.videoId}}"><img ng-src="{{video.snippet.thumbnails.medium.url}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-left">

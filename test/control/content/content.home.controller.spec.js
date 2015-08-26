@@ -1,8 +1,8 @@
 describe('Unit : youtubePlugin content.home.controller.js', function () {
-  var ContentHome, scope, $rootScope, $controller, Buildfire, ActionItems, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE, q;
+  var ContentHome, scope, $rootScope, $controller, Buildfire, ActionItems, TAG_NAMES, STATUS_CODE, LAYOUTS, STATUS_MESSAGES, CONTENT_TYPE, q;
   beforeEach(module('youtubePluginContent'));
 
-  beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_, _CONTENT_TYPE_) {
+  beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _Buildfire_, _TAG_NAMES_, _STATUS_CODE_, _LAYOUTS_, _STATUS_MESSAGES_, _CONTENT_TYPE_) {
     $rootScope = _$rootScope_;
     q = _$q_;
     scope = $rootScope.$new();
@@ -12,6 +12,19 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
     STATUS_CODE = _STATUS_CODE_;
     STATUS_MESSAGES = _STATUS_MESSAGES_;
     CONTENT_TYPE = _CONTENT_TYPE_;
+    LAYOUTS = _LAYOUTS_;
+    Buildfire = {
+      components: {
+        carousel: {
+          editor: function (name) {
+            return {}
+          },
+          viewer: function (name) {
+            return {}
+          }
+        }
+      }
+    };
     ActionItems = jasmine.createSpyObj('ActionItems', ['showDialog']);
   }));
 
@@ -23,7 +36,8 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
       TAG_NAMES: TAG_NAMES,
       ActionItems: ActionItems,
       STATUS_CODE: STATUS_CODE,
-      CONTENT_TYPE: CONTENT_TYPE
+      CONTENT_TYPE: CONTENT_TYPE,
+      LAYOUTS: LAYOUTS
     });
   });
 
@@ -53,12 +67,12 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
       expect(ContentHome.masterData).toEqual({
         "content": {
           "carouselImages": [],
-          "description": "<p>&nbsp;<br></p>",
+          "description": '<p>&nbsp;<br></p>',
           "rssUrl": "",
           "type": ""
         },
         "design": {
-          "itemListLayout": "",
+          "itemListLayout": LAYOUTS.listLayouts[0].name,
           "itemListBgImage": "",
           "itemDetailsBgImage": ""
         }
@@ -77,16 +91,17 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
       expect(ContentHome.data).toEqual({
         "content": {
           "carouselImages": [],
-          "description": "<p>&nbsp;<br></p>",
+          "description": '<p>&nbsp;<br></p>',
           "rssUrl": "",
           "type": ""
         },
         "design": {
-          "itemListLayout": "",
+          "itemListLayout": LAYOUTS.listLayouts[0].name,
           "itemListBgImage": "",
           "itemDetailsBgImage": ""
         }
       });
     });
   });
-});
+})
+;
