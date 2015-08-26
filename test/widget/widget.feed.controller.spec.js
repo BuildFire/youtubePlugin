@@ -1,10 +1,11 @@
 describe("Unit : youtubePlugin widget.feed.controller.js", function () {
-  var WidgetFeed, $controller, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, Location, $routeParams, VIDEO_COUNT;
+  var WidgetFeed, $controller, DataStore, $scope, TAG_NAMES, STATUS_CODE, YoutubeApi, Location, $routeParams, VIDEO_COUNT;
 
   beforeEach(module('youtubePluginWidget'));
 
-  beforeEach(inject(function (_$controller_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _YoutubeApi_, _Location_, _VIDEO_COUNT_) {
+  beforeEach(inject(function (_$controller_, _$rootScope_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _YoutubeApi_, _Location_, _VIDEO_COUNT_) {
     $controller = _$controller_;
+    $scope = _$rootScope_.$new();
     DataStore = _DataStore_;
     TAG_NAMES = _TAG_NAMES_;
     STATUS_CODE = _STATUS_CODE_;
@@ -17,7 +18,9 @@ describe("Unit : youtubePlugin widget.feed.controller.js", function () {
   }));
 
   beforeEach(function () {
-    WidgetFeed = $controller('WidgetFeedCtrl', {});
+    WidgetFeed = $controller('WidgetFeedCtrl', {
+      $scope: $scope
+    });
   });
 
   describe('Unit : units should be Defined', function () {

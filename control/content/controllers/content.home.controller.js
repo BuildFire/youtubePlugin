@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS',
-      function ($scope, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS) {
+    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'ActionItems', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS',
+      function ($scope, Buildfire, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -34,7 +34,7 @@
         };
 
         // create a new instance of the buildfire carousel editor
-        var editor = new buildfire.components.carousel.editor("#carousel");
+        var editor = new Buildfire.components.carousel.editor("#carousel");
 
         // this method will be called when a new item added to the list
         editor.onAddItems = function (items) {

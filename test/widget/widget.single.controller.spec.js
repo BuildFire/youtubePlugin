@@ -1,9 +1,10 @@
 describe('Unit : youtubePlugin widget.single.controller.js', function () {
   describe('Unit : when routeParams.videoId is undefined', function () {
-    var WidgetSingle, $controller, routeParams;
+    var WidgetSingle, $controller, routeParams, $scope;
     beforeEach(module('youtubePluginWidget'));
-    beforeEach(inject(function (_$controller_) {
+    beforeEach(inject(function (_$controller_, _$rootScope_) {
       $controller = _$controller_;
+      $scope = _$rootScope_.$new();
       routeParams = {
         videoId: ""
       };
@@ -11,7 +12,8 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
 
     beforeEach(function () {
       WidgetSingle = $controller('WidgetSingleCtrl', {
-        $routeParams: routeParams
+        $routeParams: routeParams,
+        $scope: $scope
       });
     });
 
@@ -23,11 +25,12 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
   });
 
   describe('Unit :  when routeParams.videoId is defined', function () {
-    var WidgetSingle, YoutubeApi, $httpBackend, _url, videoItemDetailMoke, YOUTUBE_KEYS, $rootScope, q, $controller, DataStore, routeParams, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
+    var WidgetSingle, YoutubeApi, $httpBackend, $scope, _url, videoItemDetailMoke, YOUTUBE_KEYS, $rootScope, q, $controller, DataStore, routeParams, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
     beforeEach(module('youtubePluginWidget'));
     beforeEach(inject(function (_$rootScope_, _$q_, _$httpBackend_, _$controller_, _YOUTUBE_KEYS_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
       q = _$q_;
       $rootScope = _$rootScope_;
+      $scope = _$rootScope_.$new();
       $controller = _$controller_;
       DataStore = _DataStore_;
       TAG_NAMES = _TAG_NAMES_;
@@ -44,6 +47,7 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
       WidgetSingle = $controller('WidgetSingleCtrl', {
         $routeParams: routeParams,
         $q: q,
+        $scope: $scope,
         DataStore: DataStore,
         TAG_NAMES: TAG_NAMES,
         STATUS_CODE: STATUS_CODE,

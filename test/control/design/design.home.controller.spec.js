@@ -1,11 +1,11 @@
 describe('Unit : youtubePlugin design.home.controller.js', function () {
-    var scope, DesignHome, $rootScope, q, $controller, DataStore, ImageLibrary, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
+    var $scope, DesignHome, $rootScope, q, $controller, DataStore, ImageLibrary, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
     beforeEach(module('youtubePluginDesign'));
 
     beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _DataStore_, _ImageLibrary_, _TAG_NAMES_, _CONTENT_TYPE_, _STATUS_CODE_, _STATUS_MESSAGES_) {
         $rootScope = _$rootScope_;
         q = _$q_;
-        scope = $rootScope.$new();
+        $scope = $rootScope.$new();
         $controller = _$controller_;
         DataStore = _DataStore_;
         TAG_NAMES = _TAG_NAMES_;
@@ -18,7 +18,7 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
 
     beforeEach(function () {
         DesignHome = $controller('DesignHomeCtrl', {
-            $scope: scope,
+            $scope: $scope,
             $q: q,
             DataStore: DataStore,
             ImageLibrary: ImageLibrary,
@@ -45,35 +45,35 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
     describe('DesignHome.masterData', function () {
         it('it should pass if DesignHome.masterData match the result', function () {
             expect(DesignHome.masterData).toEqual({
-                "content": {
-                    "carouselImages": [],
-                    "description": '<p>&nbsp;<br></p>',
-                    "rssUrl": "",
-                    "type": ""
-                },
-                "design": {
-                    "itemListLayout": "",
-                    "itemListBgImage": "",
-                    "itemDetailsBgImage": ""
-                }
-            });
+          "content": {
+            "carouselImages": [],
+            "description": '<p>&nbsp;<br></p>',
+            "rssUrl": "",
+            "type": ""
+          },
+          "design": {
+            "itemListLayout": DesignHome.layouts.listLayouts[0].name,
+            "itemListBgImage": "",
+            "itemDetailsBgImage": ""
+          }
+        });
         });
     });
     describe('Variable Unit: DesignHome.data', function () {
         it('it should pass if DesignHome.data match the result', function () {
             expect(DesignHome.data).toEqual({
-                "content": {
-                    "carouselImages": [],
-                    "description": '<p>&nbsp;<br></p>',
-                    "rssUrl": "",
-                    "type": ""
-                },
-                "design": {
-                    "itemListLayout": "",
-                    "itemListBgImage": "",
-                    "itemDetailsBgImage": ""
-                }
-            });
+          "content": {
+            "carouselImages": [],
+            "description": '<p>&nbsp;<br></p>',
+            "rssUrl": "",
+            "type": ""
+          },
+          "design": {
+            "itemListLayout": DesignHome.layouts.listLayouts[0].name,
+            "itemListBgImage": "",
+            "itemDetailsBgImage": ""
+          }
+        });
         });
     });
     describe('Variable Unit: DesignHome.layouts', function () {
