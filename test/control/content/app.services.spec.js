@@ -36,12 +36,6 @@ describe('Unit : youtubePlugin content services', function () {
     it('DataStore.insert should exist and be a function', function () {
       expect(typeof DataStore.insert).toEqual('function');
     });
-    it('DataStore.bulkInsert should exist and be a function', function () {
-      expect(typeof DataStore.bulkInsert).toEqual('function');
-    });
-    it('DataStore.search should exist and be a function', function () {
-      expect(typeof DataStore.search).toEqual('function');
-    });
     it('DataStore.update should exist and be a function', function () {
       expect(typeof DataStore.update).toEqual('function');
     });
