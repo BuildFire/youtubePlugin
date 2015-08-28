@@ -21,7 +21,7 @@ describe('Unit : youtubePlugin design services', function () {
             Buildfire = {
                 datastore: {}
             };
-            Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get', 'bulkInsert', 'insert', 'search', 'update', 'save', 'delete']);
+            Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get','insert','update', 'save', 'delete']);
         }));
 
         it('DataStore should exist and be an object', function () {
@@ -35,12 +35,6 @@ describe('Unit : youtubePlugin design services', function () {
         });
         it('DataStore.insert should exist and be an function', function () {
             expect(typeof DataStore.insert).toEqual('function');
-        });
-        it('DataStore.bulkInsert should exist and be an function', function () {
-            expect(typeof DataStore.bulkInsert).toEqual('function');
-        });
-        it('DataStore.search should exist and be an function', function () {
-            expect(typeof DataStore.search).toEqual('function');
         });
         it('DataStore.update should exist and be an function', function () {
             expect(typeof DataStore.update).toEqual('function');

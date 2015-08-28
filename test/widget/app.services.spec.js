@@ -22,7 +22,7 @@ describe('Unit : youtubePlugin widget services', function () {
             Buildfire = {
                 datastore: {}
             };
-            Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get', 'bulkInsert', 'insert', 'search', 'update', 'save', 'delete']);
+            Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get','insert', 'update', 'save', 'delete']);
         }));
 
         it('DataStore should exist and be an object', function () {
