@@ -70,7 +70,7 @@
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
 
-            if (currentListLayout != WidgetFeed.data.design.itemListLayout && view) {
+            if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
               view._destroySlider();
               view = null;
             }
