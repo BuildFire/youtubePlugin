@@ -12,6 +12,7 @@
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = null;
+        WidgetFeed.showSpinner = false;
         var currentListLayout = null;
         var currentPlayListId = $routeParams.playlistId;
 
@@ -50,7 +51,9 @@
         });
 
         var getFeedVideos = function (_playlistId) {
+          WidgetFeed.showSpinner = true;
           var success = function (result) {
+              WidgetFeed.showSpinner = false;
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
               WidgetFeed.nextPageToken = result.data.nextPageToken;
               if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
@@ -58,6 +61,7 @@
               }
             }
             , error = function (err) {
+              WidgetFeed.showSpinner = false;
               console.error('Error In Fetching Single Video Details', err);
             };
           YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
