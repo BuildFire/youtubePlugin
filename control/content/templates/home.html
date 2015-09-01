@@ -43,8 +43,7 @@
              ng-show="ContentHome.validLinkSuccess">Feed
           successfully validated</div>
         <div class="alert alert-danger alert-sm text-center"
-             ng-show="ContentHome.validLinkFailure">Error. Please
-          check and try again</div>
+             ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}</div>
     </div>
 </div>
 <br>
