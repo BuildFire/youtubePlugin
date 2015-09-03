@@ -1,22 +1,21 @@
 {
-  "author":"[Your Name here]"
-,"pluginName":"[Your Plugin Name here]"
-,"pluginDescription":"[A short description of what your plugin does]"
-,"supportEmail":"[Your support Email]"
-,"control":{
-  "content":{
-    "enabled":true
-  }
-, "design":{
-    "enabled":true
-  }
-, "settings":{
-    "enabled":false
-  }
-}
-,"widget":{
-
-},
-  "features" : [],
-  "languages" : ["en"]
+  "author": "BuildFire",
+  "pluginName": "youtubePlugin",
+  "pluginDescription": "Helps you to import YouTube videos into your app",
+  "supportEmail": "support@buildfire.com",
+  "control": {
+    "content": {
+      "enabled": true
+    },
+    "design": {
+      "enabled": true
+    },
+    "settings": {
+      "enabled": false
+    }
+  },
+  "widget": {
+  },
+  "features": [],
+  "languages": ["en"]
 }
