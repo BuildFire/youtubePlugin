@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore','TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS',
-      function ($scope, Buildfire, DataStore,TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS) {
+    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -83,15 +83,19 @@
           var success = function (result) {
               console.info('init success result:', result);
               ContentHome.data = result.data;
-              if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.type)
-                ContentHome.contentType = ContentHome.data.content.type;
-              if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)
-                ContentHome.rssLink = ContentHome.data.content.rssUrl;
-              if (!ContentHome.data.content.carouselImages)
-                editor.loadItems([]);
-              else
-                editor.loadItems(ContentHome.data.content.carouselImages);
-              updateMasterItem(ContentHome.data);
+              if (ContentHome.data) {
+                if (!ContentHome.data.content)
+                  ContentHome.data.content = {};
+                if (ContentHome.data.content.type)
+                  ContentHome.contentType = ContentHome.data.content.type;
+                if (ContentHome.data.content.rssUrl)
+                  ContentHome.rssLink = ContentHome.data.content.rssUrl;
+                if (!ContentHome.data.content.carouselImages)
+                  editor.loadItems([]);
+                else
+                  editor.loadItems(ContentHome.data.content.carouselImages);
+                updateMasterItem(ContentHome.data);
+              }
               if (tmrDelay)clearTimeout(tmrDelay);
             }
             , error = function (err) {
@@ -189,7 +193,7 @@
                   });
               }
               else {
-                if(Utils.extractChannelId(ContentHome.rssLink)){
+                if (Utils.extractChannelId(ContentHome.rssLink)) {
                   ContentHome.failureMessage = "Seems like you have entered feed url. Please choose correct option to validate url."
                 }
                 ContentHome.validLinkFailure = true;
@@ -243,7 +247,7 @@
                   });
               }
               else {
-                if(Utils.extractSingleVideoId(ContentHome.rssLink)){
+                if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
                   ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url."
                 }
                 ContentHome.validLinkFailure = true;

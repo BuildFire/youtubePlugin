@@ -22,7 +22,9 @@
         var init = function () {
           var success = function (result) {
               WidgetFeed.data = result.data;
-              if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
+              if (!WidgetFeed.data.design)
+                WidgetFeed.data.design = {};
+              if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
@@ -70,7 +72,9 @@
         var onUpdateCallback = function (event) {
           if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
             WidgetFeed.data = event.data;
-            if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
+            if (!WidgetFeed.data.design)
+              WidgetFeed.data.design = {};
+            if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
 
