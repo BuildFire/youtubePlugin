@@ -18,7 +18,9 @@
       var init = function () {
         var success = function (result) {
             WidgetSingle.data = result.data;
-            if (WidgetSingle.data && WidgetSingle.data.design && !WidgetSingle.data.design.itemListLayout) {
+            if (!WidgetSingle.data.design)
+              WidgetSingle.data.design = {};
+            if (!WidgetSingle.data.design.itemListLayout) {
               WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
@@ -50,6 +52,8 @@
       var onUpdateCallback = function (event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
           WidgetSingle.data = event.data;
+          if (!WidgetSingle.data.design)
+            WidgetSingle.data.design = {};
           if (!WidgetSingle.data.content.rssUrl) {
             $routeParams.videoId = '';
             WidgetSingle.video = null;

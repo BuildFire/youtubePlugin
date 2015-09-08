@@ -75,6 +75,14 @@
         }
       };
     }])
+    .directive("triggerNgRepeatRender", [function () {
+      return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+          var a = $(elem).width();
+        }
+      };
+    }])
     .directive("backgroundImage", ['$filter', function ($filter) {
       return {
         restrict: 'A',

@@ -11,7 +11,7 @@
     <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
           infinite-scroll-distance="1"
           infinite-scroll-disabled="WidgetFeed.busy">
-      <div ng-repeat="video in WidgetFeed.videos">
+      <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
         <div class="plugin-banner clearfix border-bottom-grey">
           <div class="plugin-slide text-center">
             <iframe id="player" width="342" height="192"
