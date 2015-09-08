@@ -11,7 +11,8 @@
       <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()"
            infinite-scroll-distance="1"
            infinite-scroll-disabled="WidgetFeed.busy">
-        <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos">
+        <div class="list-item col-xs-6 pull-left"
+             ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
           <div class="list-item-media text-center border-radius-three overflow-hidden">
             <div class="list-media-holder">
               <a ng-href="#/video/{{video.snippet.resourceId.videoId}}"><img ng-src="{{video.snippet.thumbnails.medium.url}}"></a>

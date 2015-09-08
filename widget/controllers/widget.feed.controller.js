@@ -6,7 +6,7 @@
       function ($scope, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
         var WidgetFeed = this;
 
-        WidgetFeed.data = null;
+        WidgetFeed.data = {};
         //create new instance of buildfire carousel viewer
         var view = null;
         WidgetFeed.videos = [];
