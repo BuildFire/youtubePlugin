@@ -10,7 +10,10 @@
             "carouselImages": [],
             "description": '<p>&nbsp;<br></p>',
             "rssUrl": "",
-            "type": ""
+            "type": "",
+            "playListID": null,
+            "videoID": null
+
           },
           "design": {
             "itemListLayout": LAYOUTS.listLayouts[0].name,
