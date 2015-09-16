@@ -74,6 +74,8 @@
             WidgetFeed.data = event.data;
             if (!WidgetFeed.data.design)
               WidgetFeed.data.design = {};
+            if (!WidgetFeed.data.content)
+              WidgetFeed.data.content = {};
             if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
