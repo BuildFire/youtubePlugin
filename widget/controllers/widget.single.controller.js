@@ -20,6 +20,8 @@
             WidgetSingle.data = result.data;
             if (!WidgetSingle.data.design)
               WidgetSingle.data.design = {};
+            if (!WidgetSingle.data.content)
+              WidgetSingle.data.content = {};
             if (!WidgetSingle.data.design.itemListLayout) {
               WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
@@ -54,6 +56,8 @@
           WidgetSingle.data = event.data;
           if (!WidgetSingle.data.design)
             WidgetSingle.data.design = {};
+          if (!WidgetSingle.data.content)
+            WidgetSingle.data.content = {};
           if (!WidgetSingle.data.content.rssUrl) {
             $routeParams.videoId = '';
             WidgetSingle.video = null;
