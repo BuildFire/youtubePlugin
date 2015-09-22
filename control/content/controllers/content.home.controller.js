@@ -27,7 +27,7 @@
         ContentHome.data = angular.copy(_data);
         ContentHome.validLinkSuccess = false;
         ContentHome.validLinkFailure = false;
-        ContentHome.contentType = CONTENT_TYPE.SINGLE_VIDEO;
+        ContentHome.contentType = CONTENT_TYPE.CHANNEL_FEED;
         ContentHome.failureMessage = "Error. Please check and try again";
 
         ContentHome.descriptionWYSIWYGOptions = {
@@ -265,8 +265,9 @@
 
         ContentHome.clearData = function () {
           if (!ContentHome.rssLink) {
+            ContentHome.contentType = ContentHome.CONTENT_TYPE.CHANNEL_FEED;
             ContentHome.data.content.rssUrl = null;
-            ContentHome.data.content.type = CONTENT_TYPE.SINGLE_VIDEO;
+            ContentHome.data.content.type = ContentHome.contentType;
             ContentHome.data.content.videoID = null;
             ContentHome.data.content.playListID = null;
           }
