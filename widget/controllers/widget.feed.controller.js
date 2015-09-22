@@ -27,7 +27,7 @@
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (!currentPlayListId) {
+              if (WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
               }
             }
@@ -112,7 +112,9 @@
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
-          getFeedVideos(currentPlayListId);
+          if (currentPlayListId && currentPlayListId !== '1') {
+            getFeedVideos(currentPlayListId);
+          }
         };
 
         WidgetFeed.safeHtml = function (html) {
