@@ -85,7 +85,9 @@
         var init = function () {
           var success = function (result) {
               console.info('init success result:', result);
-              ContentHome.data = result.data;
+              if (Object.keys(result.data).length > 0) {
+                ContentHome.data = result.data;
+              }
               if (ContentHome.data) {
                 if (!ContentHome.data.content)
                   ContentHome.data.content = {};

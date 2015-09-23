@@ -27,7 +27,7 @@
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (WidgetFeed.data.content.playListID) {
+              if (WidgetFeed.data && WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
               }
             }
@@ -80,7 +80,8 @@
             }
 
             if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
-              view._destroySlider();
+              if (WidgetFeed.data.content.carouselImages.length)
+                view._destroySlider();
               view = null;
             }
             else {

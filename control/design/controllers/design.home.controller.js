@@ -42,7 +42,9 @@
 
         var init = function () {
           var success = function (result) {
-              DesignHome.data = result.data;
+              if (Object.keys(result.data).length > 0) {
+                DesignHome.data = result.data;
+              }
               if (DesignHome.data && !DesignHome.data.design) {
                 DesignHome.data.design = {};
               }
