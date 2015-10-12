@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
-      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
         var WidgetFeed = this;
 
         WidgetFeed.data = {};
@@ -12,7 +12,6 @@
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = null;
-        WidgetFeed.showSpinner = false;
         var currentListLayout = null;
         var currentPlayListId = $routeParams.playlistId;
 
@@ -28,7 +27,7 @@
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (!currentPlayListId) {
+              if (WidgetFeed.data && WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
               }
             }
@@ -43,7 +42,7 @@
         init();
         $rootScope.$on("Carousel:LOADED", function () {
           if (!view) {
-            view = new buildfire.components.carousel.view("#carousel", []);
+            view = new Buildfire.components.carousel.view("#carousel", []);
           }
           if (WidgetFeed.data.content && WidgetFeed.data.content.carouselImages) {
             view.loadItems(WidgetFeed.data.content.carouselImages);
@@ -53,9 +52,9 @@
         });
 
         var getFeedVideos = function (_playlistId) {
-          WidgetFeed.showSpinner = true;
+          Buildfire.spinner.show();
           var success = function (result) {
-              WidgetFeed.showSpinner = false;
+              Buildfire.spinner.hide();
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
               WidgetFeed.nextPageToken = result.data.nextPageToken;
               if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
@@ -63,7 +62,7 @@
               }
             }
             , error = function (err) {
-              WidgetFeed.showSpinner = false;
+              Buildfire.spinner.hide();
               console.error('Error In Fetching Single Video Details', err);
             };
           YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
@@ -81,7 +80,8 @@
             }
 
             if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
-              view._destroySlider();
+              if (WidgetFeed.data.content.carouselImages.length)
+                view._destroySlider();
               view = null;
             }
             else {
@@ -95,7 +95,8 @@
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
               WidgetFeed.nextPageToken = null;
-            } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.playListID) {
+            }
+            else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.playListID) {
               currentPlayListId = WidgetFeed.data.content.playListID;
               getFeedVideos(WidgetFeed.data.content.playListID);
             }
@@ -112,7 +113,9 @@
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
-          getFeedVideos(currentPlayListId);
+          if (currentPlayListId && currentPlayListId !== '1') {
+            getFeedVideos(currentPlayListId);
+          }
         };
 
         WidgetFeed.safeHtml = function (html) {
@@ -121,7 +124,7 @@
         };
 
         WidgetFeed.showDescription = function (description) {
-          return !(description == '<p>&nbsp;<br></p>');
+          return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>'));
         };
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
