@@ -12,6 +12,10 @@
 }
 
 
+.list-layout .list-item-copy {
+    min-height: 80px !important;
+}
+
 /*
 * Set height of body to auto for enabling scroll
 */
