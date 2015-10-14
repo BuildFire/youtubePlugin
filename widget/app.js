@@ -2,7 +2,13 @@
 
 (function (angular, buildfire) {
   angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll'])
-    .config(['$routeProvider', function ($routeProvider) {
+    .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
+
+      /**
+       * To make href urls safe on mobile
+       */
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile):/);
+
       $routeProvider
         .when('/', {
           resolve: {
