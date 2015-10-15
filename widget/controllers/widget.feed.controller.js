@@ -52,7 +52,7 @@
         });
 
         var getFeedVideos = function (_playlistId) {
-          alert(">>>>>",_playlistId);
+          alert(">>>>>"+_playlistId);
           Buildfire.spinner.show();
           var success = function (result) {
               Buildfire.spinner.hide();
