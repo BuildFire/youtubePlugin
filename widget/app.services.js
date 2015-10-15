@@ -167,26 +167,15 @@
           else
             _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
         }
-        /*$http.get(_url).then(function (response) {
-         // this callback will be called asynchronously
-         // when the response is available
-         deferred.resolve(response);
-         }, function (error) {
-         // called asynchronously if an error occurs
-         // or server returns response with an error status.
-         deferred.reject(error);
-         });*/
-        alert("******" + _url);
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-          alert("&&&&&&&&&&&&&&&&&&&&&");
-          if (xhr.readyState == 4) {
-            alert(xhr.responseText+ ">>>>>>>>>>>>>>" + xhr.statusText);
-            deferred.resolve(xhr.responseText);
-          }
-        };
-        xhr.open('GET', _url, true);
-        xhr.send(null);
+        $http.get(_url).then(function (response) {
+          // this callback will be called asynchronously
+          // when the response is available
+          deferred.resolve(response);
+        }, function (error) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          deferred.reject(error);
+        });
         return deferred.promise;
       };
       return {
