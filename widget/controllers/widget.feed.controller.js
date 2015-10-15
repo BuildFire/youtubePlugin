@@ -64,7 +64,7 @@
               }
             }
             , error = function (err) {
-              alert(">>>>>Error>>>>>>>" + err);
+              alert(">>>>>Error>>>>>>>" + JSON.stringify(err));
               Buildfire.spinner.hide();
               console.error('Error In Fetching Single Video Details', err);
             };
