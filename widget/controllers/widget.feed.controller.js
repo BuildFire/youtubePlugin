@@ -52,9 +52,9 @@
         });
 
         var getFeedVideos = function (_playlistId) {
+          alert(">>>>>",_playlistId);
           Buildfire.spinner.show();
           var success = function (result) {
-              alert(">>>>>"+ result);
               Buildfire.spinner.hide();
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
               WidgetFeed.nextPageToken = result.data.nextPageToken;
@@ -112,6 +112,7 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
+          alert(">>>>>");
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
           if (currentPlayListId && currentPlayListId !== '1') {
