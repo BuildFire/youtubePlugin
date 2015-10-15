@@ -7,6 +7,8 @@
       <p
           ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
 		</div>
+    >>>>>>>{{WidgetFeed.data}}<br>
+    *********{{WidgetFeed.videos.length}}
 		<div class="padded padding-top-zero" ng-if="WidgetFeed.data">
 			<div class="list-layout"
            infinite-scroll="WidgetFeed.loadMore()"
