@@ -33,7 +33,7 @@
       SINGLE_VIDEO: 'Single Video'
     })
     .constant('YOUTUBE_KEYS', {
-      API_KEY: 'AIzaSyAD7vgWXeGQu88lZu-_ArRJwiC0rsS8-0o'
+      API_KEY: 'AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA'
     })
     .constant('VIDEO_COUNT', {
       LIMIT: 8
