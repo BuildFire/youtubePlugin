@@ -25,7 +25,7 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
   });
 
   describe('Unit :  when routeParams.videoId is defined', function () {
-    var WidgetSingle, YoutubeApi, $httpBackend, $scope, _url, videoItemDetailMoke, YOUTUBE_KEYS, $rootScope, q, $controller, DataStore, routeParams, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
+    var WidgetSingle, YoutubeApi, $httpBackend, $scope, _url, videoItemDetailMock, YOUTUBE_KEYS, $rootScope, q, $controller, DataStore, routeParams, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
     beforeEach(module('youtubePluginWidget'));
     beforeEach(inject(function (_$rootScope_, _$q_, _$httpBackend_, _$controller_, _YOUTUBE_KEYS_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _STATUS_MESSAGES_) {
       q = _$q_;
@@ -78,35 +78,20 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
 
     describe('Function : WidgetSingle.getSingleVideoDetails returns success', function () {
       beforeEach(function () {
-        videoItemDetailMoke = {
+        videoItemDetailMock = {
           etag: "sGDdEsjSJ_SnACpEvVQ6MtTzkrI/IxajpjgxoSVBKHzwLRKViG4vav4",
           id: "U9kCY9psgOc",
           kind: "youtube#video",
           snippet: {}
         };
-        _url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + routeParams.videoId + '&key=' + YOUTUBE_KEYS.API_KEY;
-        $httpBackend.expectGET(_url).respond({
-          items: [videoItemDetailMoke]
-        });
+        _url = 'https://plugin-proxy-server.herokuapp.com/video';
+        $httpBackend.expectPOST(_url, {
+          id: routeParams.videoId
+        }).respond(videoItemDetailMock);
         $httpBackend.flush();
       });
-      it('it should if WidgetSingle.data is not null', function () {
-        expect(WidgetSingle.video).toEqual(videoItemDetailMoke);
-      });
-    });
-    describe('Function : WidgetSingle.getSingleVideoDetails returns error', function () {
-      beforeEach(function () {
-        var deferred = q.defer();
-        deferred.reject(new Error({
-          code: STATUS_CODE.UNDEFINED_VIDEO_ID,
-          message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
-        }));
-        _url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + routeParams.videoId + '&key=' + YOUTUBE_KEYS.API_KEY;
-        $httpBackend.expectGET(_url).respond(deferred.promise);
-        $httpBackend.flush();
-      });
-      it('it should pass if WidgetSingle.data is null', function () {
-        expect(WidgetSingle.video).toEqual(null);
+      it('it should pass if WidgetSingle.data is not null', function () {
+        expect(WidgetSingle.video).toEqual(videoItemDetailMock);
       });
     });
   });
