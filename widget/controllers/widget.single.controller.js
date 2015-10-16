@@ -36,7 +36,6 @@
       init();
 
       var getSingleVideoDetails = function (_videoId) {
-        alert(">>>>>>>" + _videoId);
         var success = function (result) {
             WidgetSingle.video = result;
           }

@@ -54,7 +54,6 @@
         var getFeedVideos = function (_playlistId) {
           Buildfire.spinner.show();
           var success = function (result) {
-              alert(">>>>>Success>>>>>>>" + result.items.length);
               Buildfire.spinner.hide();
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
               WidgetFeed.nextPageToken = result.nextPageToken;
@@ -63,7 +62,6 @@
               }
             }
             , error = function (err) {
-              alert(">>>>>Error>>>>>>>" + JSON.stringify(err));
               Buildfire.spinner.hide();
               console.error('Error In Fetching Single Video Details', err);
             };
