@@ -58,7 +58,7 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
     });
 
     describe('Function : WidgetSingle.getSingleVideoDetails returns success', function () {
-      it('DataStore.get should exist and be a function', function () {
+      it('It should mock the getSingleVideoDetails function', function () {
         YoutubeApi.getSingleVideoDetails.and.callFake(function () {
           var deferred = q.defer();
           deferred.resolve();
