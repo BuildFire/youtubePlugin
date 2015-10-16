@@ -127,62 +127,65 @@
         }
       }
     }])
-    .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'VIDEO_COUNT', function (YOUTUBE_KEYS, $q, $http, STATUS_CODE, STATUS_MESSAGES, VIDEO_COUNT) {
-      var getSingleVideoDetails = function (videoId) {
-        var deferred = $q.defer();
-        var _url = '';
-        if (!videoId) {
-          deferred.reject(new Error({
-            code: STATUS_CODE.UNDEFINED_VIDEO_ID,
-            message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
-          }));
-        } else {
-          _url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + videoId + '&key=' + YOUTUBE_KEYS.API_KEY;
+    .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'VIDEO_COUNT', 'PROXY_SERVER',
+      function (YOUTUBE_KEYS, $q, $http, STATUS_CODE, STATUS_MESSAGES, VIDEO_COUNT, PROXY_SERVER) {
+        var getSingleVideoDetails = function (videoId) {
+          var deferred = $q.defer();
+          var _url = '';
+          if (!videoId) {
+            deferred.reject(new Error({
+              code: STATUS_CODE.UNDEFINED_VIDEO_ID,
+              message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
+            }));
+          } else {
+            $http.post(PROXY_SERVER.serverUrl + '/video', {
+              id: videoId
+            })
+              .success(function (response) {
+                if (response.statusCode == 200)
+                  deferred.resolve(response.video);
+                else
+                  deferred.resolve(null);
+              })
+              .error(function (error) {
+                deferred.reject(error);
+              });
+          }
+          return deferred.promise;
+        };
+
+        var getFeedVideos = function (playlistId, countLimit, pageToken) {
+          var deferred = $q.defer();
+          var _url = "";
+          if (!countLimit)
+            countLimit = VIDEO_COUNT.LIMIT || 8;
+          if (!playlistId) {
+            deferred.reject(new Error({
+              code: STATUS_CODE.UNDEFINED_PLAYLIST_ID,
+              message: STATUS_MESSAGES.UNDEFINED_PLAYLIST_ID
+            }));
+          } else {
+            if (pageToken)
+              _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&pageToken=" + pageToken + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
+            else
+              _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
+          }
           $http.get(_url).then(function (response) {
             // this callback will be called asynchronously
             // when the response is available
-            deferred.resolve(response.data);
+            deferred.resolve(response);
           }, function (error) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
             deferred.reject(error);
           });
-        }
-        return deferred.promise;
-      };
-
-      var getFeedVideos = function (playlistId, countLimit, pageToken) {
-        var deferred = $q.defer();
-        var _url = "";
-        if (!countLimit)
-          countLimit = VIDEO_COUNT.LIMIT || 8;
-        if (!playlistId) {
-          deferred.reject(new Error({
-            code: STATUS_CODE.UNDEFINED_PLAYLIST_ID,
-            message: STATUS_MESSAGES.UNDEFINED_PLAYLIST_ID
-          }));
-        } else {
-          if (pageToken)
-            _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&pageToken=" + pageToken + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
-          else
-            _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
-        }
-        $http.get(_url).then(function (response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          deferred.resolve(response);
-        }, function (error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          deferred.reject(error);
-        });
-        return deferred.promise;
-      };
-      return {
-        getSingleVideoDetails: getSingleVideoDetails,
-        getFeedVideos: getFeedVideos
-      };
-    }])
+          return deferred.promise;
+        };
+        return {
+          getSingleVideoDetails: getSingleVideoDetails,
+          getFeedVideos: getFeedVideos
+        };
+      }])
     .factory('Location', [function () {
       var _location = window.location;
       return {

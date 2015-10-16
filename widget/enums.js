@@ -45,5 +45,8 @@
         {name: "List_Layout_3"},
         {name: "List_Layout_4"}
       ]
+    })
+    .constant('PROXY_SERVER', {
+      serverUrl: "https://plugin-proxy-server.herokuapp.com"
     });
 })(window.angular);

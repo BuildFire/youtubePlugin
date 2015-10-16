@@ -36,8 +36,9 @@
       init();
 
       var getSingleVideoDetails = function (_videoId) {
+        alert(">>>>>>>" + _videoId);
         var success = function (result) {
-            WidgetSingle.video = result.items && result.items[0];
+            WidgetSingle.video = result;
           }
           , error = function (err) {
             console.error('Error In Fetching Single Video Details', err);
