@@ -54,11 +54,11 @@
         var getFeedVideos = function (_playlistId) {
           Buildfire.spinner.show();
           var success = function (result) {
-              alert(">>>>>Success>>>>>>>" + result.data.items.length);
+              alert(">>>>>Success>>>>>>>" + result.items.length);
               Buildfire.spinner.hide();
-              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
-              WidgetFeed.nextPageToken = result.data.nextPageToken;
-              if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
+              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
+              WidgetFeed.nextPageToken = result.nextPageToken;
+              if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
                 WidgetFeed.busy = false;
               }
             }

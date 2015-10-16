@@ -165,20 +165,21 @@
               message: STATUS_MESSAGES.UNDEFINED_PLAYLIST_ID
             }));
           } else {
-            if (pageToken)
-              _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&pageToken=" + pageToken + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
-            else
-              _url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=" + countLimit + "&playlistId=" + playlistId + "&key=" + YOUTUBE_KEYS.API_KEY;
+            $http.post(PROXY_SERVER.serverUrl + '/videos', {
+              playlistId: playlistId,
+              pageToken: pageToken,
+              countLimit: countLimit
+            })
+              .success(function (response) {
+                if (response.statusCode == 200)
+                  deferred.resolve(response.videos);
+                else
+                  deferred.resolve(null);
+              })
+              .error(function (error) {
+                deferred.reject(error);
+              });
           }
-          $http.get(_url).then(function (response) {
-            // this callback will be called asynchronously
-            // when the response is available
-            deferred.resolve(response);
-          }, function (error) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-            deferred.reject(error);
-          });
           return deferred.promise;
         };
         return {
