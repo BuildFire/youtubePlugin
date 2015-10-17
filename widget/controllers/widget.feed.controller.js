@@ -75,6 +75,8 @@
               WidgetFeed.data.design = {};
             if (!WidgetFeed.data.content)
               WidgetFeed.data.content = {};
+            if(WidgetFeed.data.content.type)
+            $rootScope.contentType = WidgetFeed.data.content.type;
             if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }

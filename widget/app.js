@@ -12,10 +12,11 @@
       $routeProvider
         .when('/', {
           resolve: {
-            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location) {
+            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location','$rootScope', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location,$rootScope) {
               var deferred = $q.defer();
               var success = function (result) {
                   if (result.data && result.data.content) {
+                    $rootScope.contentType = result.data.content.type;
                     if (result.data.content.type && result.data.content.type === CONTENT_TYPE.SINGLE_VIDEO && result.data.content.videoID) {
                       Location.goTo("#/video/" + result.data.content.videoID);
                       deferred.resolve();
@@ -110,12 +111,17 @@
         }
       };
     }])
-    .run(['Location', '$location', function (Location, $location) {
+    .run(['Location', '$location','$rootScope', function (Location, $location,$rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/feed/;
-        if (!($location.path().match(reg))) {
-          Location.goTo('#/');
-        } else {
+         if ($rootScope.contentType == "Channel Feed"){
+          if (!($location.path().match(reg))) {
+            Location.goTo('#/');
+          } else {
+            buildfire.navigation.navigateHome();
+          }
+      }
+        else{
           buildfire.navigation.navigateHome();
         }
       };
