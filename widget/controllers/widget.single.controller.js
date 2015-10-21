@@ -2,7 +2,7 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS','$rootScope', function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope) {
+    .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope) {
       var currentItemDetailsBgImage = '',
         currentPlayListID = null,
         currentItemListLayout = null;
@@ -58,7 +58,7 @@
             WidgetSingle.data.design = {};
           if (!WidgetSingle.data.content)
             WidgetSingle.data.content = {};
-          if(WidgetSingle.data.content.type)
+          if (WidgetSingle.data.content.type)
             $rootScope.contentType = WidgetSingle.data.content.type;
           if (!WidgetSingle.data.content.rssUrl) {
             $routeParams.videoId = '';
