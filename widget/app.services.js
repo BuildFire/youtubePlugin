@@ -195,5 +195,16 @@
         }
       };
     }])
+    .factory('VideoCache', [function () {
+      var video = null;
+      return {
+        setCache: function (data) {
+          video = data;
+        },
+        getCache: function () {
+          return video;
+        }
+      };
+    }])
   ;
 })(window.angular, window.buildfire);

@@ -21,7 +21,8 @@
         </div>
         <div class="padded text-left">
           <a class="text-primary"
-             ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet.title}}</a>
+             href="javascript:void(0)"
+             ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
 
           <p class="margin-bottom-zero">{{video.snippet.description |
             limitTo:200}}{{(video.snippet.description.length >200) && "..." ||

@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache) {
         var WidgetFeed = this;
 
         WidgetFeed.data = {};
@@ -128,6 +128,12 @@
         WidgetFeed.showDescription = function (description) {
           return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>'));
         };
+
+        WidgetFeed.openDetailsPage = function (video) {
+          VideoCache.setCache(video);
+          Location.goTo('#/video/'+ video.snippet.resourceId.videoId);
+        };
+
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
