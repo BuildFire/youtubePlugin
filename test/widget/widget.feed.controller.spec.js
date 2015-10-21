@@ -15,6 +15,7 @@ describe("Unit : youtubePlugin widget.feed.controller.js", function () {
     $routeParams = {
       playlistId: ''
     };
+    YoutubeApi = jasmine.createSpyObj('YoutubeApi', ['getFeedVideos']);
   }));
 
   beforeEach(function () {
@@ -50,6 +51,17 @@ describe("Unit : youtubePlugin widget.feed.controller.js", function () {
     });
     it('it should pass if VIDEO_COUNT is defined', function () {
       expect(VIDEO_COUNT).not.toBeUndefined();
+    });
+  });
+
+  describe('Function : WidgetFeed.getFeedVideos returns success', function () {
+    it('It should mock the getFeedVideos function', function () {
+      YoutubeApi.getFeedVideos.and.callFake(function () {
+        var deferred = q.defer();
+        deferred.resolve();
+        deferred.$promise = deferred.promise;
+        return deferred;
+      });
     });
   });
 });
