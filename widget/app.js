@@ -1,21 +1,22 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll'])
+  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll','ngAnimate'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
        * To make href urls safe on mobile
        */
-      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile):/);
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
       $routeProvider
         .when('/', {
           resolve: {
-            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location) {
+            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location','$rootScope', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location,$rootScope) {
               var deferred = $q.defer();
               var success = function (result) {
                   if (result.data && result.data.content) {
+                    $rootScope.contentType = result.data.content.type;
                     if (result.data.content.type && result.data.content.type === CONTENT_TYPE.SINGLE_VIDEO && result.data.content.videoID) {
                       Location.goTo("#/video/" + result.data.content.videoID);
                       deferred.resolve();
@@ -70,7 +71,7 @@
     }])
     .filter('returnYoutubeUrl', ['$sce', function ($sce) {
       return function (id) {
-        return $sce.trustAsResourceUrl("//www.youtube.com/embed/" + id);
+        return $sce.trustAsResourceUrl("http://www.youtube.com/embed/" + id);
       }
     }])
     .directive("buildFireCarousel", ["$rootScope", function ($rootScope) {
@@ -110,11 +111,18 @@
         }
       };
     }])
-    .run(['Location', '$location', function (Location, $location) {
+    .run(['Location', '$location','$rootScope', function (Location, $location,$rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/feed/;
-        if (!($location.path().match(reg))) {
-          Location.goTo('#/');
+         if ($rootScope.contentType == "Channel Feed"){
+          if (!($location.path().match(reg))) {
+            Location.goTo('#/');
+          } else {
+            buildfire.navigation.navigateHome();
+          }
+      }
+        else{
+          buildfire.navigation.navigateHome();
         }
       };
 

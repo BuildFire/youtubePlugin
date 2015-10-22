@@ -1,38 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="youtubePluginWidget" >
+<html lang="en" ng-app="youtubePluginWidget">
 <head>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../../../styles/bootstrap.css">
-    <link rel="stylesheet" href="../../../styles/siteIcons.css">
-    <link rel="stylesheet" href="../../../styles/appStyle.css">
-    <link rel="stylesheet" href="../../../styles/helper.css">
-    
-	<!--Angular, jQuery & Owl Carousel -->
-	<script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-	<script src="../../../scripts/buildfire.js"></script>
-  <script type="text/javascript" src="../../../scripts/owlCarousel/owlCarousel.js"></script>
-  <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
-	<script src="../../../scripts/angular/angular.min.js"></script>
-	<script src="../../../scripts/angular/angular-route.min.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="../../../styles/bootstrap.css">
+  <link rel="stylesheet" href="../../../styles/siteIcons.css">
+  <link rel="stylesheet" href="../../../styles/appStyle.css">
+  <link rel="stylesheet" href="../../../styles/helper.css">
+
+  <!--Angular, jQuery & Owl Carousel -->
+  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="../../../scripts/buildfire.js"></script>
+  <script type="text/javascript"
+          src="../../../scripts/owlCarousel/owlCarousel.js"></script>
+  <script
+      src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+  <script src="../../../scripts/angular/angular.min.js"></script>
+  <script src="../../../scripts/angular/angular-route.min.js"></script>
   <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
   <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- App -->
-  <script src="assets/js/ng-infinite-scroll.js" type="application/javascript"></script>
-	<script src="app.js" type="application/javascript"></script>
-	<script src="enums.js" type="application/javascript"></script>
-	<script src="app.services.js" type="application/javascript"></script>
-	<script src="controllers/widget.feed.controller.js" type="application/javascript"></script>
-	<script src="controllers/widget.single.controller.js" type="application/javascript"></script>
+  <!-- App -->
+  <script src="assets/js/ng-infinite-scroll.js"
+          type="application/javascript"></script>
+  <script src="app.js" type="application/javascript"></script>
+  <script src="enums.js" type="application/javascript"></script>
+  <script src="app.services.js" type="application/javascript"></script>
+  <script src="controllers/widget.feed.controller.js"
+          type="application/javascript"></script>
+  <script src="controllers/widget.single.controller.js"
+          type="application/javascript"></script>
+  <script src="../../../scripts/angular/angular-animate.min.js"></script>
+  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
 </head>
 <body class="body-scroll">
 <div class="main_view">
-	<div class="content" ng-view=""></div>
+  <div class="slide content" ng-view=""></div>
 </div>
 </body>
 </html>

@@ -15,13 +15,15 @@
              ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
           <div class="list-item-media text-center border-radius-three overflow-hidden">
             <div class="list-media-holder">
-              <a ng-href="#/video/{{video.snippet.resourceId.videoId}}"><img ng-src="{{video.snippet.thumbnails.medium.url}}"></a>
+              <a href="javascript:void(0)"
+                 ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.snippet.thumbnails.medium.url}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-left">
             <p class="ellipsis margin-zero text-primary"><a
                 class="text-primary"
-                ng-href="#/video/{{video.snippet.resourceId.videoId}}">{{video.snippet
+                href="javascript:void(0)"
+                ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet
               .title}}</a></p>
 
             <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>

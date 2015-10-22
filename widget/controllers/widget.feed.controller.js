@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache) {
         var WidgetFeed = this;
 
         WidgetFeed.data = {};
@@ -54,11 +54,10 @@
         var getFeedVideos = function (_playlistId) {
           Buildfire.spinner.show();
           var success = function (result) {
-              alert(">>>>>"+ result);
               Buildfire.spinner.hide();
-              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.items) : result.data.items;
-              WidgetFeed.nextPageToken = result.data.nextPageToken;
-              if (WidgetFeed.videos.length < result.data.pageInfo.totalResults) {
+              WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
+              WidgetFeed.nextPageToken = result.nextPageToken;
+              if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
                 WidgetFeed.busy = false;
               }
             }
@@ -76,6 +75,8 @@
               WidgetFeed.data.design = {};
             if (!WidgetFeed.data.content)
               WidgetFeed.data.content = {};
+            if (WidgetFeed.data.content.type)
+              $rootScope.contentType = WidgetFeed.data.content.type;
             if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
@@ -127,6 +128,12 @@
         WidgetFeed.showDescription = function (description) {
           return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>'));
         };
+
+        WidgetFeed.openDetailsPage = function (video) {
+          VideoCache.setCache(video);
+          Location.goTo('#/video/'+ video.snippet.resourceId.videoId);
+        };
+
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
