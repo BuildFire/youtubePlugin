@@ -14,7 +14,7 @@
           <div class="list-item-media text-left overflow-hidden">
             <div class="list-media-holder pull-left">
               <a href="javascript:void(0)"
-                 ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.snippet.thumbnails.medium.url}}"></a>
+                 ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}"></a>
             </div>
             <div class="list-item-copy text-left padding-left-ten padding-right-ten">
               <p class="ellipsis margin-zero"><a class="text-primary" href="javascript:void(0)"
