@@ -1,27 +1,26 @@
-
-
 /*
 * Styling for list layout elements
 */
-.list-layout{
+.list-layout {
     overflow: hidden;
 }
-.list-layout .list-item.video-box{
+
+.list-layout .list-item.video-box {
     padding-left: 2%;
     padding-right: 2%;
 
 }
 
-
-.list-layout .list-item-copy {
-
+.layout1 .list-layout .list-item-copy,
+.layout4 .list-layout .list-item-copy {
+    min-height: 80px;
 }
 
 /*
 * Set height of body to auto for enabling scroll
 */
 
-.body-scroll{
+.body-scroll {
     height: auto !important;
 }
 
@@ -29,6 +28,6 @@
 * Carousel container styling
 */
 
-#carousel{
+#carousel {
     overflow: hidden !important;
 }
