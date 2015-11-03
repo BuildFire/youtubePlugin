@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll','ngAnimate'])
+  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll', 'ngAnimate'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
@@ -9,10 +9,17 @@
        */
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
+
+      /**
+       *To disable pull don to refresh functionality
+       * */
+
+      buildfire.datastore.disableRefresh();
+
       $routeProvider
         .when('/', {
           resolve: {
-            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location','$rootScope', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location,$rootScope) {
+            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', '$rootScope', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location, $rootScope) {
               var deferred = $q.defer();
               var success = function (result) {
                   if (result.data && result.data.content) {
@@ -111,17 +118,17 @@
         }
       };
     }])
-    .run(['Location', '$location','$rootScope', function (Location, $location,$rootScope) {
+    .run(['Location', '$location', '$rootScope', function (Location, $location, $rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/feed/;
-         if ($rootScope.contentType == "Channel Feed"){
+        if ($rootScope.contentType == "Channel Feed") {
           if (!($location.path().match(reg))) {
             Location.goTo('#/');
           } else {
             buildfire.navigation.navigateHome();
           }
-      }
-        else{
+        }
+        else {
           buildfire.navigation.navigateHome();
         }
       };
