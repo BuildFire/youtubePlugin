@@ -17,7 +17,8 @@
                  ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}"></a>
             </div>
             <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero"><a class="text-primary" href="javascript:void(0)"
+              <p class="ellipsis margin-zero text-primary"><a class="text-primary"
+                                                  href="javascript:void(0)"
                                                  ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a></p>
               <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
               <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
