@@ -18,7 +18,7 @@
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)"><img
-                  ng-src="{{video.snippet.thumbnails.medium.url}}"></a>
+                  ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:240:160}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-left">
@@ -26,7 +26,7 @@
                 class="ellipsis margin-zero"><a class="text-primary" href="javascript:void(0)"
                                                 ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a></p>
             <p class="summary ellipsis margin-zero">{{video.snippet.description}}</p>
-            <span class="list-item-date">{{video.snippet.publishedAt | date:'medium'}}</span>
+            <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
           </div>
         </div>
 			</div>
