@@ -10,11 +10,12 @@
     </div>
     <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
           infinite-scroll-distance="1"
+          data-infinite-container=".infinite-scroll-parent"
           infinite-scroll-disabled="WidgetFeed.busy">
       <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
-        <div class="plugin-banner clearfix border-bottom-grey">
+        <div class="plugin-banner clearfix">
           <div class="plugin-slide text-center">
-            <iframe id="player" width="342" height="192"
+            <iframe id="player" width="100%" height="192"
                     ng-src="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}"
                     frameborder="0"></iframe>
           </div>
@@ -24,7 +25,7 @@
              href="javascript:void(0)"
              ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
 
-          <p class="margin-bottom-zero">{{video.snippet.description |
+          <p class="margin-bottom-zero" style="max-width: 240px">{{video.snippet.description |
             limitTo:200}}{{(video.snippet.description.length >200) && "..." ||
             ""}}</p>
           <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>

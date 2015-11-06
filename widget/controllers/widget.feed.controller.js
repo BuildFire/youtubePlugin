@@ -130,6 +130,7 @@
         };
 
         WidgetFeed.openDetailsPage = function (video) {
+         video.id = video.snippet.resourceId.videoId;
           VideoCache.setCache(video);
           Location.goTo('#/video/'+ video.snippet.resourceId.videoId);
         };
