@@ -1,4 +1,5 @@
 /* ng-infinite-scroll - v1.0.0 - 2013-02-23 */
+/*This is custom versiom on infinite-scroll, we have added infiniteContainer attribute which accept container name on which we are applying the scroll*/
 var mod;
 
 mod = angular.module('infinite-scroll', []);
@@ -7,8 +8,8 @@ mod.directive('infiniteScroll', [
   '$rootScope', '$window', '$timeout', function($rootScope, $window, $timeout) {
     return {
       link: function(scope, elem, attrs) {
-        var checkWhenEnabled, handler, scrollDistance, scrollEnabled;
-        $window = angular.element($window);
+        var checkWhenEnabled, handler, scrollDistance, scrollEnabled, $parent;
+        $parent = angular.element(attrs.infiniteContainer || $window);
         scrollDistance = 0;
         if (attrs.infiniteScrollDistance != null) {
           scope.$watch(attrs.infiniteScrollDistance, function(value) {
@@ -28,10 +29,10 @@ mod.directive('infiniteScroll', [
         }
         handler = function() {
           var elementBottom, remaining, shouldScroll, windowBottom;
-          windowBottom = $window.height() + $window.scrollTop();
+          windowBottom = $parent.height() + $parent.scrollTop();
           elementBottom = elem.offset().top + elem.height();
           remaining = elementBottom - windowBottom;
-          shouldScroll = remaining <= $window.height() * scrollDistance;
+          shouldScroll = remaining <= $parent.height() * scrollDistance;
           if (shouldScroll && scrollEnabled) {
             if ($rootScope.$$phase) {
               return scope.$eval(attrs.infiniteScroll);
@@ -42,9 +43,9 @@ mod.directive('infiniteScroll', [
             return checkWhenEnabled = true;
           }
         };
-        $window.on('scroll', handler);
+        $parent.on('scroll', handler);
         scope.$on('$destroy', function() {
-          return $window.off('scroll', handler);
+          return $parent.off('scroll', handler);
         });
         return $timeout((function() {
           if (attrs.infiniteScrollImmediateCheck) {

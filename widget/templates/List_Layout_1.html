@@ -11,6 +11,7 @@
 			<div class="list-layout"
            infinite-scroll="WidgetFeed.loadMore()"
            infinite-scroll-distance="1"
+           data-infinite-container=".infinite-scroll-parent"
            infinite-scroll-disabled="WidgetFeed.busy">
         <div class="list-item col-xs-6 pull-left video-box"
              ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>

@@ -10,6 +10,7 @@
     </div>
     <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
           infinite-scroll-distance="1"
+          data-infinite-container=".infinite-scroll-parent"
           infinite-scroll-disabled="WidgetFeed.busy">
       <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
         <div class="plugin-banner clearfix border-bottom-grey">
