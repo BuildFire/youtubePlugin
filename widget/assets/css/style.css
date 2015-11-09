@@ -31,3 +31,8 @@
 #carousel {
     overflow: hidden !important;
 }
+
+.description-width{
+    max-width: 310px;
+    text-align: justify;
+}
