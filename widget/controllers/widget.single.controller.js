@@ -7,7 +7,7 @@
         var currentItemDetailsBgImage = '',
           currentPlayListID = null,
           currentItemListLayout = null;
-
+        $rootScope.showFeed = false;
         var WidgetSingle = this;
         WidgetSingle.data = null;
         WidgetSingle.video = null;

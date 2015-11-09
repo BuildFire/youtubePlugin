@@ -41,7 +41,14 @@
 </head>
 <body class="body-scroll">
 <div class="main_view">
-  <div class="slide content infinite-scroll-parent" ng-view=""></div>
+  <div class="slide content infinite-scroll-parent">
+    <div ng-controller="WidgetFeedCtrl as WidgetFeed">
+      <div ng-if="WidgetFeed.data.design.itemListLayout"
+           ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'" ng-show="showFeed">
+      </div>
+    </div>
+  </div>
+  <div ng-view="" class="slide content" ng-hide="showFeed"></div>
 </div>
 </body>
 </html>
