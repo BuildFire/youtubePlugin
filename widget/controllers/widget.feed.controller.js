@@ -29,6 +29,8 @@
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              if (WidgetFeed.data.content.type)
+                $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
@@ -108,7 +110,10 @@
 
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== currentPlayListId)) {
               currentPlayListId = WidgetFeed.data.content.playListID;
-              Location.goTo("#/feed/" + WidgetFeed.data.content.playListID);
+              WidgetFeed.videos = [];
+              WidgetFeed.busy = false;
+              WidgetFeed.nextPageToken = null;
+              WidgetFeed.loadMore();
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
@@ -141,6 +146,20 @@
           VideoCache.setCache(video);
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
+
+        $rootScope.$on("ROUTE_CHANGED", function (e, itemListLayout, playlistId) {
+          if (!WidgetFeed.data.design)
+            WidgetFeed.data.design = {};
+          if (!WidgetFeed.data.content)
+            WidgetFeed.data.content = {};
+          WidgetFeed.data.design.itemListLayout = itemListLayout;
+          if (!(WidgetFeed.videos.length > 0) && playlistId) {
+            currentPlayListId = playlistId;
+            WidgetFeed.data.content.playListID = playlistId;
+            getFeedVideos(WidgetFeed.data.content.playListID);
+          }
+          DataStore.onUpdate().then(null, null, onUpdateCallback);
+        });
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();

@@ -75,7 +75,8 @@
               getSingleVideoDetails(WidgetSingle.data.content.videoID);
             } else if (!WidgetSingle.video && WidgetSingle.data.content.playListID && !$routeParams.videoId) {
               currentPlayListID = WidgetSingle.data.content.playListID;
-              Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
+              $rootScope.showFeed = true;
+              Location.goTo("#/");
             }
 
             if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
@@ -83,7 +84,8 @@
             } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.playListID !== currentPlayListID))) {
               currentPlayListID = WidgetSingle.data.content.playListID;
               currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-              Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
+              $rootScope.showFeed = true;
+              Location.goTo("#/");
             }
           }
         };
@@ -91,6 +93,7 @@
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
+          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data.design.itemListLayout,WidgetSingle.data.content.playListID);
         });
       }])
 })(window.angular);

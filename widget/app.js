@@ -88,12 +88,13 @@
     }])
     .run(['Location', '$location', '$rootScope', function (Location, $location, $rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
-        if ($location.path() != "/video") {
+        var reg = /^\/video/;
+        if (reg.test($location.path()) && $rootScope.contentType == "Channel Feed") {
           $rootScope.showFeed = true;
           Location.goTo('#/');
         }
         else {
-          buildfire.navigation.navigateHome ();
+          buildfire.navigation.navigateHome();
         }
       };
 
