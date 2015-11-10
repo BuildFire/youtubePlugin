@@ -15,24 +15,6 @@ describe('Unit: youtubePlugin widget app', function () {
                     $httpBackend.expectGET('/')
                         .respond(200);
                 }));
-            it('should resolve initial values for my Controller', function () {
-                expect(route.routes['/'].resolve.videoData).toBeDefined(); //or whatever test you want
-            });
-        });
-        describe('feed route', function () {
-            beforeEach(inject(
-                function ($httpBackend) {
-                    $httpBackend.expectGET('templates/home.html')
-                        .respond(200);
-                    $httpBackend.expectGET('/feed/:playlistId')
-                        .respond(200);
-                }));
-
-            it('should load the home page on successful load of location path /feed/:playlistId', function () {
-                location.path('/feed/:playlistId');
-                rootScope.$digest();
-                expect(route.current.controller).toBe('WidgetFeedCtrl')
-            });
         });
         describe('video route', function () {
             beforeEach(inject(
