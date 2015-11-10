@@ -7,7 +7,6 @@
         var currentItemDetailsBgImage = '',
           currentPlayListID = null,
           currentItemListLayout = null;
-
         var WidgetSingle = this;
         WidgetSingle.data = null;
         WidgetSingle.video = null;
@@ -38,9 +37,11 @@
 
         var getSingleVideoDetails = function (_videoId) {
           var success = function (result) {
+              $rootScope.showFeed = false;
               WidgetSingle.video = result;
             }
             , error = function (err) {
+              $rootScope.showFeed = false;
               console.error('Error In Fetching Single Video Details', err);
             };
           YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
@@ -48,6 +49,7 @@
 
         if ($routeParams.videoId) {
           if (VideoCache.getCache()) {
+            $rootScope.showFeed = false;
             WidgetSingle.video = VideoCache.getCache();
           }
           else
@@ -73,7 +75,8 @@
               getSingleVideoDetails(WidgetSingle.data.content.videoID);
             } else if (!WidgetSingle.video && WidgetSingle.data.content.playListID && !$routeParams.videoId) {
               currentPlayListID = WidgetSingle.data.content.playListID;
-              Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
+              $rootScope.showFeed = true;
+              Location.goTo("#/");
             }
 
             if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
@@ -81,7 +84,8 @@
             } else if (WidgetSingle.data.content.playListID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.playListID !== currentPlayListID))) {
               currentPlayListID = WidgetSingle.data.content.playListID;
               currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-              Location.goTo("#/feed/" + WidgetSingle.data.content.playListID);
+              $rootScope.showFeed = true;
+              Location.goTo("#/");
             }
           }
         };
@@ -89,6 +93,7 @@
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
+          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data.design.itemListLayout,WidgetSingle.data.content.playListID);
         });
       }])
 })(window.angular);

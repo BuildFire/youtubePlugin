@@ -4,7 +4,7 @@
       <div id="carousel" build-fire-carousel=""></div>
     </div>
     <div class="text-left padded padding-bottom-zero clearfix">
-      <p
+      <p class="break-word"
           ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
 		</div>
 		<div class="padded padding-top-zero" ng-if="WidgetFeed.data">
@@ -15,11 +15,11 @@
            infinite-scroll-disabled="WidgetFeed.busy">
         <div class="list-item col-xs-6 pull-left video-box"
              ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
-          <div class="list-item-media text-center border-radius-three overflow-hidden">
+          <div class="list-item-media text-center overflow-hidden">
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)"><img
-                  ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:240:160}}"></a>
+                  ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:160:90}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-left">

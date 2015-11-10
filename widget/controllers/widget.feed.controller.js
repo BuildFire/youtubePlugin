@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache) {
         var WidgetFeed = this;
 
         WidgetFeed.data = {};
@@ -12,8 +12,9 @@
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = null;
+        $rootScope.showFeed = true;
         var currentListLayout = null;
-        var currentPlayListId = $routeParams.playlistId;
+        var currentPlayListId = null;
 
         /*
          * Fetch user's data from datastore
@@ -23,11 +24,15 @@
               WidgetFeed.data = result.data;
               if (!WidgetFeed.data.design)
                 WidgetFeed.data.design = {};
+              if (!WidgetFeed.data.content)
+                WidgetFeed.data.content = {};
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              if (WidgetFeed.data.content.type)
+                $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (WidgetFeed.data && WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
+              if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
               }
             }
@@ -105,7 +110,10 @@
 
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== currentPlayListId)) {
               currentPlayListId = WidgetFeed.data.content.playListID;
-              Location.goTo("#/feed/" + WidgetFeed.data.content.playListID);
+              WidgetFeed.videos = [];
+              WidgetFeed.busy = false;
+              WidgetFeed.nextPageToken = null;
+              WidgetFeed.loadMore();
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
@@ -117,6 +125,10 @@
           WidgetFeed.busy = true;
           if (currentPlayListId && currentPlayListId !== '1') {
             getFeedVideos(currentPlayListId);
+          }
+          else {
+            if (WidgetFeed.data.content.videoID)
+              Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
         };
 
@@ -130,13 +142,29 @@
         };
 
         WidgetFeed.openDetailsPage = function (video) {
-         video.id = video.snippet.resourceId.videoId;
+          video.id = video.snippet.resourceId.videoId;
           VideoCache.setCache(video);
-          Location.goTo('#/video/'+ video.snippet.resourceId.videoId);
+          Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
+
+        $rootScope.$on("ROUTE_CHANGED", function (e, itemListLayout, playlistId) {
+          if (!WidgetFeed.data.design)
+            WidgetFeed.data.design = {};
+          if (!WidgetFeed.data.content)
+            WidgetFeed.data.content = {};
+          WidgetFeed.data.design.itemListLayout = itemListLayout;
+          if (!(WidgetFeed.videos.length > 0) && playlistId) {
+            currentPlayListId = playlistId;
+            WidgetFeed.data.content.playListID = playlistId;
+            getFeedVideos(WidgetFeed.data.content.playListID);
+          }
+          DataStore.onUpdate().then(null, null, onUpdateCallback);
+        });
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
-      }])
-})(window.angular);
+      }
+    ])
+})
+(window.angular);

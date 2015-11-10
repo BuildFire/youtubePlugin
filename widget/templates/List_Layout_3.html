@@ -4,8 +4,9 @@
     <div class="plugin-banner clearfix">
       <div id="carousel" build-fire-carousel=""></div>
     </div>
-    <div ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)" class="padded text-left">
-      <p class="margin-bottom-zero"
+    <div
+        ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)" class="padded text-left">
+      <p class="margin-bottom-zero break-word"
          ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
     <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
@@ -25,10 +26,10 @@
              href="javascript:void(0)"
              ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
 
-          <p class="margin-bottom-zero" style="max-width: 240px">{{video.snippet.description |
+          <p class="margin-bottom-zero break-word">{{video.snippet.description |
             limitTo:200}}{{(video.snippet.description.length >200) && "..." ||
             ""}}</p>
-          <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+          <i><span class="list-item-date">{{video.snippet.publishedAt | date}}</span></i>
         </div>
       </div>
     </div>
