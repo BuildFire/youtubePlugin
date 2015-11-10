@@ -7,7 +7,6 @@
         var currentItemDetailsBgImage = '',
           currentPlayListID = null,
           currentItemListLayout = null;
-        $rootScope.showFeed = false;
         var WidgetSingle = this;
         WidgetSingle.data = null;
         WidgetSingle.video = null;
@@ -38,9 +37,11 @@
 
         var getSingleVideoDetails = function (_videoId) {
           var success = function (result) {
+              $rootScope.showFeed = false;
               WidgetSingle.video = result;
             }
             , error = function (err) {
+              $rootScope.showFeed = false;
               console.error('Error In Fetching Single Video Details', err);
             };
           YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
@@ -48,6 +49,7 @@
 
         if ($routeParams.videoId) {
           if (VideoCache.getCache()) {
+            $rootScope.showFeed = false;
             WidgetSingle.video = VideoCache.getCache();
           }
           else
