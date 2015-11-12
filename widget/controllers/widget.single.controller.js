@@ -92,8 +92,9 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         $scope.$on("$destroy", function () {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",WidgetSingle.data);
           DataStore.clearListener();
-          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data.design.itemListLayout,WidgetSingle.data.content.playListID);
+          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data);
         });
       }])
 })(window.angular);
