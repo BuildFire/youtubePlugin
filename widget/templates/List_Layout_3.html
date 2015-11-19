@@ -26,8 +26,9 @@
              href="javascript:void(0)"
              ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
 
-          <p class="margin-bottom-zero break-word">{{video.snippet.description |
-            limitTo:200}}{{(video.snippet.description.length >200) && "..." ||
+          <p class="margin-bottom-zero break-word" style="max-width: 310px"
+              >{{video.snippet.description |
+            limitTo:220}}{{(video.snippet.description.length >220) && "..." ||
             ""}}</p>
           <i><span class="list-item-date">{{video.snippet.publishedAt | date}}</span></i>
         </div>
