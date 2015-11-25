@@ -1,71 +1,84 @@
 <div class="item clearfix row">
-    <div class="labels col-md-3 padding-right-zero pull-left">
-        <span>Content Type</span>
+  <div class="labels col-md-3 padding-right-zero pull-left">
+    <span>Content Type</span>
+  </div>
+  <div class="main pull-right col-md-9 padding-left-zero row">
+    <div class="radio radio-primary radio-inline">
+      <input id="channel" type="radio" ng-model="ContentHome.contentType"
+             ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
+             name="contenttype" ng-se="">
+      <label for="channel">Channel Feed</label>
     </div>
-    <div class="main pull-right col-md-9 padding-left-zero row">
-        <div class="radio radio-primary radio-inline">
-            <input id="channel" type="radio" ng-model="ContentHome.contentType"
-                   ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
-                   name="contenttype" ng-se="">
-            <label for="channel">Channel Feed</label>
-        </div>
-        <div class="radio radio-primary radio-inline">
-            <input id="video" type="radio" ng-model="ContentHome.contentType"
-                   ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
-                   name="contenttype">
-            <label for="video">Single Video</label>
-        </div>
+    <div class="radio radio-primary radio-inline">
+      <input id="video" type="radio" ng-model="ContentHome.contentType"
+             ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
+             name="contenttype">
+      <label for="video">Single Video</label>
     </div>
+  </div>
 </div>
 <hr class="none">
 <div class="item clearfix row">
-    <div class="labels col-md-3 padding-right-zero pull-left">
-        <span>URL</span>
+  <div class="labels col-md-3 padding-right-zero pull-left">
+    <span>URL</span>
+  </div>
+  <div class="main pull-right col-md-9 padding-left-zero row">
+    <div class="pull-left col-md-8 padding-zero">
+      <input type="text" class="form-control"
+             placeholder="Enter your channel or video URL"
+             ng-model="ContentHome.rssLink"
+             ng-change="ContentHome.clearData()">
     </div>
-    <div class="main pull-right col-md-9 padding-left-zero row">
-        <div class="pull-left col-md-8 padding-zero">
-            <input type="text" class="form-control"
-                   placeholder="Enter your channel or video URL"
-                   ng-model="ContentHome.rssLink"
-                   ng-change="ContentHome.clearData()">
-        </div>
-        <div class="col-md-4 pull-right">
-            <button class="btn btn-primary pull-right stretch"
-                    ng-disabled="!(ContentHome.rssLink)" ng-click="ContentHome.validateRssLink()">
-              Validate</button>
-        </div>
+    <div class="col-md-4 pull-right">
+      <button class="btn btn-primary pull-right stretch"
+              ng-disabled="!(ContentHome.rssLink)"
+              ng-click="ContentHome.validateRssLink()">
+        Validate
+      </button>
     </div>
+  </div>
 </div>
 <hr class="none">
 <div class="item clearfix row">
-    <div class="main pull-right col-md-9">
-        <div class="alert alert-success alert-sm text-center"
-             ng-show="ContentHome.validLinkSuccess">Feed
-          successfully validated</div>
-        <div class="alert alert-danger alert-sm text-center"
-             ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}</div>
+  <div class="main pull-right col-md-9">
+    <div class="alert alert-success alert-sm text-center"
+         ng-show="ContentHome.validLinkSuccess">Feed
+      successfully validated
     </div>
+    <div class="alert alert-danger alert-sm text-center"
+         ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}
+    </div>
+  </div>
 </div>
 <br>
 <div class="item clearfix row">
-    <div class="main pull-right col-md-9">
-        <p>Having problems with your feed? Ensure that is a valid feed by naming it through an RSS feed validator
-            <a href="https://validator.w3.org/feed" target="_blank">HERE</a></p>
-    </div>
+  <div class="main pull-right col-md-9">
+    <p ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED">
+      Example :
+      <a href="http://youtube.com/user/gopromx"
+         target="_blank">http://youtube.com/user/gopromx</a>
+    </p>
+
+    <p ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">
+      Example : <a href="https://www.youtube.com/watch?v=wTcNtgA6gHs"
+                   target="_blank">https://www.youtube.com/watch?v=wTcNtgA6gHs</a>
+    </p>
+  </div>
 </div>
 <hr>
 <div id="carousel"></div>
 <hr>
 <div class="item clearfix row">
-    <div class="labels col-md-3 padding-right-zero pull-left">
-        <span>Text</span>
-    </div>
+  <div class="labels col-md-3 padding-right-zero pull-left">
+    <span>Text</span>
+  </div>
 </div>
 <hr class="none">
 <div class="item clearfix row">
-    <div class="main col-md-12 pull-left">
+  <div class="main col-md-12 pull-left">
         <textarea id="text" rows="5" width="100%" class="form-control"
-                  ui-tinymce="ContentHome.descriptionWYSIWYGOptions" ng-model="ContentHome.data.content.description"
+                  ui-tinymce="ContentHome.descriptionWYSIWYGOptions"
+                  ng-model="ContentHome.data.content.description"
                   placeholder="WYSIWYG"></textarea>
-    </div>
+  </div>
 </div>
