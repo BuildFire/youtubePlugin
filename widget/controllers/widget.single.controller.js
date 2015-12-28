@@ -1,6 +1,6 @@
 'use strict';
 
-(function (angular) {
+(function (angular, buildfire) {
   angular.module('youtubePluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', 'VideoCache',
       function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope, VideoCache) {
@@ -10,6 +10,10 @@
         var WidgetSingle = this;
         WidgetSingle.data = null;
         WidgetSingle.video = null;
+        WidgetSingle.viewSource = function (link) {
+          if (link)
+            buildfire.navigation.openWindow(link);
+        };
 
         /*
          * Fetch user's data from datastore
@@ -92,9 +96,9 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         $scope.$on("$destroy", function () {
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",WidgetSingle.data);
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", WidgetSingle.data);
           DataStore.clearListener();
           $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data);
         });
       }])
-})(window.angular);
+})(window.angular, window.buildfire);

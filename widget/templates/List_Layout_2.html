@@ -1,29 +1,41 @@
-<div background-image="{{WidgetFeed.data.design.itemListBgImage}}" class="holder padding-zero">
+<div background-image="{{WidgetFeed.data.design.itemListBgImage}}"
+     class="holder padding-zero">
   <div class="media-center-plugin layout3" id="scroll-infinite">
     <div class="media-center-banner clearfix">
       <div id="carousel" build-fire-carousel=""></div>
     </div>
-    <div class="text-left padded padding-bottom-zero clearfix"  ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)">
+    <div class="text-left padded padding-bottom-zero clearfix"
+         ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)">
       <p class="break-word"
-          ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
+         ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
     <div>
-      <div class="list-layout"  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
+      <div class="list-layout" ng-if="WidgetFeed.data"
+           infinite-scroll="WidgetFeed.loadMore()"
            infinite-scroll-distance="1"
            data-infinite-container=".infinite-scroll-parent"
            infinite-scroll-disabled="WidgetFeed.busy">
-        <div class="list-item" ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
+        <div class="list-item" ng-repeat="video in WidgetFeed.videos"
+             trigger-ng-repeat-render>
           <div class="list-item-media text-left overflow-hidden">
             <div class="list-media-holder pull-left">
               <a href="javascript:void(0)"
-                 ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}"></a>
+                 ng-click="WidgetFeed.openDetailsPage(video)">
+                <img load-image="16x9"
+                     data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}"></a>
             </div>
-            <div class="list-item-copy text-left padding-left-ten padding-right-ten">
-              <p class="ellipsis margin-zero text-primary"><a class="text-primary"
-                                                  href="javascript:void(0)"
-                                                 ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a></p>
-              <p class="summary ellipsis margin-zero" style="max-width: 240px">{{video.snippet.description}}</p>
-              <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+            <div
+                class="list-item-copy text-left padding-left-ten padding-right-ten">
+              <p class="ellipsis margin-zero text-primary"><a
+                  class="text-primary"
+                  href="javascript:void(0)"
+                  ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
+              </p>
+
+              <p class="summary ellipsis margin-zero" style="max-width: 240px">
+                {{video.snippet.description}}</p>
+              <span
+                  class="list-item-date">{{video.snippet.publishedAt | date}}</span>
             </div>
           </div>
         </div>
