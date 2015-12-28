@@ -47,13 +47,13 @@
         return $sce.trustAsResourceUrl("http://www.youtube.com/embed/" + id);
       }
     }])
-    .directive("buildFireCarousel", ["$rootScope",'$timeout', function ($rootScope,$timeout) {
+    .directive("buildFireCarousel", ["$rootScope", '$timeout', function ($rootScope, $timeout) {
       return {
         restrict: 'A',
         link: function (scope, elem, attrs) {
-          $timeout(function(){
+          $timeout(function () {
             $rootScope.$broadcast("Carousel:LOADED");
-          },100);
+          }, 100);
         }
       };
     }])
@@ -83,6 +83,21 @@
           attrs.$observe('backgroundImage', function (newValue) {
             setBackgroundImage(newValue);
           });
+        }
+      };
+    }])
+    .directive("loadImage", [function () {
+      return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+          element.attr("src","assets/images/" + attrs.loadImage + ".png");
+
+          var elem = $("<img>");
+          elem[0].onload = function () {
+            element.attr("src", attrs.finalSrc);
+            elem.remove();
+          };
+          elem.attr("src", attrs.finalSrc);
         }
       };
     }])

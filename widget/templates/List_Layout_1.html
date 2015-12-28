@@ -19,7 +19,8 @@
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)"><img
-                  ng-src="{{video.snippet.thumbnails.medium.url | getImageUrl:160:90}}"></a>
+                  load-image="16x9"
+                  data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:160:90}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-left">
