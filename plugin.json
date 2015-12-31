@@ -1,7 +1,7 @@
 {
   "author": "BuildFire",
   "pluginName": "Youtube",
-  "pluginDescription": "Helps you to import YouTube videos into your app",
+  "pluginDescription": "Sync your YouTube channel feed or a single video and to give your users a fresh viewing experience. When you upload new videos, they'll automatically be pulled into your app.",
   "supportEmail": "support@buildfire.com",
   "control": {
     "content": {
