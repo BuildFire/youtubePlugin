@@ -50,4 +50,41 @@ describe('Unit: youtubePlugin widget app', function () {
             expect(result).toEqual('http://s7obnu.cloudimage.io/s/crop/88x124/https://imagelibserver.s3.amazonaws.com/25935164-2add-11e5-9d04-02f7ca55c361/950a50c0-400a-11e5-9af5-3f5e0d725ccb.jpg');
         });
     });
+
+  describe('Unit: backgroundImage directive', function () {
+    describe('backgroundImage directive have assigned a url value', function () {
+      var $compile, $rootScope, backgroundImage, $scope;
+      beforeEach(module('youtubePluginWidget'));
+      beforeEach(inject(function (_$compile_, _$rootScope_) {
+        $compile = _$compile_;
+        $rootScope = _$rootScope_;
+        $scope = _$rootScope_.$new();
+      }));
+      beforeEach(function () {
+        backgroundImage = $compile('<div background-image="https://imagelibserver.s3.amazonaws.com/25935164-2add-11e5-9d04-02f7ca55c386/6256a8e0-4b0e-11e5-8618-af6c4fe89f23.png"></div>')($scope);
+        $rootScope.$digest();
+      });
+
+      it('it should pass and background of div should be given image url', function () {
+        expect(backgroundImage.css('background')).toEqual('rgb(1, 1, 1) url(http://s7obnu.cloudimage.io/s/resizenp/342x770/https://imagelibserver.s3.amazonaws.com/25935164-2add-11e5-9d04-02f7ca55c386/6256a8e0-4b0e-11e5-8618-af6c4fe89f23.png) repeat fixed 50% 0%');
+      });
+    });
+    describe('backgroundImage directive have assigned a false value', function () {
+      var $compile, $rootScope, backgroundImage, $scope;
+      beforeEach(module('youtubePluginWidget'));
+      beforeEach(inject(function (_$compile_, _$rootScope_) {
+        $compile = _$compile_;
+        $rootScope = _$rootScope_;
+        $scope = _$rootScope_.$new();
+      }));
+      beforeEach(function () {
+        backgroundImage = $compile('<div background-image=""></div>')($scope);
+        $rootScope.$digest();
+      });
+
+      it('it should pass and background of div should be none', function () {
+        expect(backgroundImage.css('background')).toEqual('none');
+      });
+    });
+  });
 });
