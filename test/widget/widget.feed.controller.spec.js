@@ -1,5 +1,5 @@
 describe("Unit : youtubePlugin widget.feed.controller.js", function () {
-  var WidgetFeed, $controller, DataStore, $scope, TAG_NAMES, STATUS_CODE, YoutubeApi, Location, $routeParams, VIDEO_COUNT;
+  var WidgetFeed, $controller, DataStore, $scope, TAG_NAMES, STATUS_CODE, YoutubeApi, Location, $routeParams, VIDEO_COUNT,$rootScope;
 
   beforeEach(module('youtubePluginWidget'));
 
@@ -12,6 +12,7 @@ describe("Unit : youtubePlugin widget.feed.controller.js", function () {
     YoutubeApi = _YoutubeApi_;
     Location = _Location_;
     VIDEO_COUNT = _VIDEO_COUNT_;
+    $rootScope = _$rootScope_;
     $routeParams = {
       playlistId: ''
     };
@@ -54,6 +55,15 @@ describe("Unit : youtubePlugin widget.feed.controller.js", function () {
     });
   });
 
+  describe('Function : WidgetFeed.safeHtml function', function () {
+    it('it should if WidgetFeed.safeHtml  returns $sce.trustAsHtml', function () {
+      var html = '<p>&nbsp;Buildfire<br></p>';
+      var trustAsHtml = WidgetFeed.safeHtml(html);
+      $rootScope.$digest();
+      expect(typeof trustAsHtml).toEqual('object');
+    });
+  });
+
   describe('Function : WidgetFeed.getFeedVideos returns success', function () {
     it('It should mock the getFeedVideos function', function () {
       YoutubeApi.getFeedVideos.and.callFake(function () {
@@ -62,6 +72,21 @@ describe("Unit : youtubePlugin widget.feed.controller.js", function () {
         deferred.$promise = deferred.promise;
         return deferred;
       });
+    });
+  });
+
+  describe('Function :  WidgetFeed.showDescription function', function () {
+    it('it should pass if WidgetFeed.showDescription called and returns true', function () {
+      var description = '<p>&nbsp; Buildfire <br></p>';
+      var isDescription = WidgetFeed.showDescription(description);
+      $rootScope.$digest();
+      expect(isDescription).toEqual(true);
+    });
+    it('it should pass if WidgetFeed.showDescription called and returns false', function () {
+      var description = '<p>&nbsp;<br></p>';
+      var isDescription = WidgetFeed.showDescription(description);
+      $rootScope.$digest();
+      expect(isDescription).toEqual(false);
     });
   });
 });
