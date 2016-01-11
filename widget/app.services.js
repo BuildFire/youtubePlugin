@@ -23,47 +23,6 @@
           });
           return deferred.promise;
         },
-        getById: function (_id, _tagName) {
-          var deferred = $q.defer();
-          if (typeof _id == 'undefined') {
-            return deferred.reject(new Error({
-              code: STATUS_CODE.UNDEFINED_ID,
-              message: STATUS_MESSAGES.UNDEFINED_ID
-            }));
-          }
-          Buildfire.datastore.get(_tagName, function (err, result) {
-            if (err) {
-              return deferred.reject(err);
-            } else if (result) {
-              return deferred.resolve(result);
-            }
-          });
-          return deferred.promise;
-        },
-        insert: function (_item, _tagName) {
-          var deferred = $q.defer();
-          if (typeof _item == 'undefined') {
-            return deferred.reject(new Error({
-              code: STATUS_CODE.UNDEFINED_DATA,
-              message: STATUS_MESSAGES.UNDEFINED_DATA
-            }));
-          }
-          if (Array.isArray(_item)) {
-            return deferred.reject(new Error({
-              code: STATUS_CODE.ITEM_ARRAY_FOUND,
-              message: STATUS_MESSAGES.ITEM_ARRAY_FOUND
-            }));
-          } else {
-            Buildfire.datastore.insert(_item, _tagName, false, function (err, result) {
-              if (err) {
-                return deferred.reject(err);
-              } else if (result) {
-                return deferred.resolve(result);
-              }
-            });
-          }
-          return deferred.promise;
-        },
         update: function (_id, _item, _tagName) {
           var deferred = $q.defer();
           if (typeof _id == 'undefined') {
@@ -79,23 +38,6 @@
             }));
           }
           Buildfire.datastore.update(_id, _item, _tagName, function (err, result) {
-            if (err) {
-              return deferred.reject(err);
-            } else if (result) {
-              return deferred.resolve(result);
-            }
-          });
-          return deferred.promise;
-        },
-        save: function (_item, _tagName) {
-          var deferred = $q.defer();
-          if (typeof _item == 'undefined') {
-            return deferred.reject(new Error({
-              code: STATUS_CODE.UNDEFINED_DATA,
-              message: STATUS_MESSAGES.UNDEFINED_DATA
-            }));
-          }
-          Buildfire.datastore.save(_item, _tagName, function (err, result) {
             if (err) {
               return deferred.reject(err);
             } else if (result) {
