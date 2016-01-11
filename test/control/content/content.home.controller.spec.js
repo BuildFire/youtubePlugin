@@ -67,7 +67,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
       expect(ContentHome.masterData).toEqual({
         "content": {
           "carouselImages": [],
-          "description": '<p>&nbsp;<br></p>',
+          "description": '',
           "rssUrl": "",
           "type": "",
           "playListID": null,
@@ -93,7 +93,7 @@ describe('Unit : youtubePlugin content.home.controller.js', function () {
       expect(ContentHome.data).toEqual({
         "content": {
           "carouselImages": [],
-          "description": '<p>&nbsp;<br></p>',
+          "description": '',
           "rssUrl": "",
           "type": "",
           "playListID": null,
