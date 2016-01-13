@@ -8,7 +8,7 @@
         var _data = {
           "content": {
             "carouselImages": [],
-            "description": '<p>&nbsp;<br></p>',
+            "description": '',
             "rssUrl": "",
             "type": "",
             "playListID": null,
