@@ -30,20 +30,8 @@ describe('Unit : youtubePlugin content services', function () {
     it('DataStore.get should exist and be a function', function () {
       expect(typeof DataStore.get).toEqual('function');
     });
-    it('DataStore.getById should exist and be a function', function () {
-      expect(typeof DataStore.getById).toEqual('function');
-    });
-    it('DataStore.insert should exist and be a function', function () {
-      expect(typeof DataStore.insert).toEqual('function');
-    });
-    it('DataStore.update should exist and be a function', function () {
-      expect(typeof DataStore.update).toEqual('function');
-    });
     it('DataStore.save should exist and be a function', function () {
       expect(typeof DataStore.save).toEqual('function');
-    });
-    it('DataStore.deleteById should exist and be a function', function () {
-      expect(typeof DataStore.deleteById).toEqual('function');
     });
   });
   describe('Unit : Utils Factory', function () {

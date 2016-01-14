@@ -23,7 +23,6 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
       });
     });
   });
-
   describe('Unit :  when routeParams.videoId is defined', function () {
     var WidgetSingle, YoutubeApi, $httpBackend, $scope, _url, videoItemDetailMock, YOUTUBE_KEYS, $rootScope, q, $controller, DataStore, routeParams, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
     beforeEach(module('youtubePluginWidget'));
@@ -67,6 +66,7 @@ describe('Unit : youtubePlugin widget.single.controller.js', function () {
         });
       })
     });
+
     describe('Units: units should be Defined', function () {
       it('it should pass if routeParams is defined', function () {
         expect(routeParams).toBeDefined();
