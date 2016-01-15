@@ -1,3 +1,212 @@
+/* Plugin CSS */
+.media-center-plugin.layout2 .people-banner .people-bg{
+	background:rgba(0,0,0,0.8);
+}
+.media-center-plugin.layout2 .people-banner .people-info{
+	color:#fff;
+}
+.media-center-plugin.layout3 .list-layout .list-item-media .list-media-holder{
+	background:none;
+}
+.media-layout .media-item:nth-child(odd){
+	padding-left:15px !important;
+	padding-right:7.5px !important;
+}
+.media-layout .media-item:nth-child(even){
+	padding-left:7.5px !important;
+	padding-right:15px !important;
+}
+.media-layout .media-item{
+	margin-bottom:15px;
+}
+.media-layout .media-item .media-holder{
+	background:#eef0f0;
+	position:relative;
+	border-radius:3px 3px 0 0;
+	overflow:hidden;
+}
+.media-layout .media-item .media-copy{
+	border-radius:0 0 3px 3px;
+	padding:6px 10px;
+}
+.media-layout .media-item .media-holder .media-img-holder{
+	max-width:450px;
+	margin:0 auto;
+}
+.ecommerce-plugin.layout1 .media-layout .media-item:nth-child(odd){
+	padding-left:10px !important;
+	padding-right:5px !important;
+}
+.ecommerce-plugin.layout1 .media-layout .media-item:nth-child(even){
+	padding-left:5px !important;
+	padding-right:10px !important;
+}
+.ecommerce-plugin.layout1 .media-layout .media-item{
+	margin-bottom:10px;
+}
+.ecommerce-plugin.layout1 .media-layout .media-item .media-holder .media-img-holder{
+	max-width:200px;
+}
+.ecommerce-plugin.layout1 .media-layout .media-item .info-bar{
+	padding:6px 0;
+}
+
+/* List Items */
+.list-items .list-item{
+	position:relative;
+}
+.list-items .list-item:before,
+.layout3 .list-layout .list-item:after{
+	content:'';
+	border-top:1px solid #ddd !important;
+	opacity:0.25;
+	top:0;
+	left:0;
+	width:100%;
+	position:absolute;
+}
+.layout3 .list-layout .list-item:after{
+	border-top:none !important;
+	top:inherit;
+	bottom:0;
+	border-bottom:1px solid #ddd !important;
+}
+.list-items .list-item + .list-item{
+	padding-top:10px;
+	margin-top:10px;
+}
+.list-items .list-item .media{
+	width:100px;
+}
+.list-items .list-item .content{
+	padding-left:110px;
+	width:100%;
+}
+
+/* List Layout Grids */
+.list-layout .list-item{
+	padding-left:15px;
+	padding-right:8px;
+}
+.list-layout .list-item + .list-item{
+	padding-left:8px;
+	padding-right:15px;
+}
+.list-layout .list-item-media{
+	position:relative;
+	left:0;
+	-moz-transition: all 0.35s;
+	-o-transition: all 0.35s;
+	-webkit-transition: all 0.35s;
+	transition: all 0.35s;
+}
+.list-layout .list-item-media.now-playing:after{
+	content:'';
+	position:absolute;
+	top:0;
+	left:0;
+	width:3px;
+	height:100%;
+	background:#09a3ee;
+}
+.list-layout .list-item-media.edit{
+	left:-60px;
+}
+.list-layout .list-item-media .remove-btn{
+	position:absolute;
+	top:0;
+	right:-120px;
+	padding:25px 0;
+	width:100px;
+	height:100%;
+	color:#fff;
+	-moz-transition: all 0.35s;
+	-o-transition: all 0.35s;
+	-webkit-transition: all 0.35s;
+	transition: all 0.35s;
+}
+.list-layout .list-item-media.edit .remove-btn{
+	right:-60px;
+}
+.list-layout .list-item-media.edit .btns{
+	right:58px;
+}
+.list-layout .list-item-media .list-media-holder{
+	margin:0 auto;
+	max-width:240px;
+}
+.layout4 .list-layout .list-item-media .list-media-holder{
+	max-width:200px;
+}
+.list-layout .list-item-copy{
+	padding:10px 0;
+	min-height:70px;
+}
+.list-layout .list-item-copy p.summary{
+	font-size:13px;
+}
+.list-layout span.list-item-date{
+	font-size:11px;
+	font-style:italic;
+	display:block;
+	margin:-4px 0 -4px;
+}
+.layout3 .list-layout{
+	position:relative;
+}
+.layout3 .list-layout:before{
+	content:'';
+	border-top:1px solid #ddd !important;
+	opacity:0.25;
+	top:0;
+	left:0;
+	position:absolute;
+	width:100%;
+}
+.layout3 .list-layout .list-item-media{
+	background:none;
+}
+.layout3 .list-layout .list-item-media .list-media-holder{
+	width:110px;
+	height:60px;
+	line-height:58px;
+	margin:inherit;
+	margin-right:10px;
+	background:#efefef;
+	border-radius:4px;
+	margin:5px 10px 5px 5px;
+	text-align:center;
+}
+.media-center-plugin.layout3 .list-layout .list-item-media .list-media-holder{
+	background:none;
+}
+html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holder{
+	line-height:60px;
+}
+.layout3 .list-layout .list-item-media .list-media-holder.square-icon{
+	width:60px;
+}
+.layout3 .list-layout .list-item-media .list-media-holder img{
+	max-width:100%;
+	max-height:100%;
+	vertical-align:middle;
+	border-radius:2px;
+}
+.layout3 .list-layout .list-item-media .list-media-holder .main-icon{
+	font-size:44px;
+	position:relative;
+	top:8px;
+}
+.layout3 .list-layout .list-item{
+	padding:0;
+	min-height:71px;
+	position:relative;
+}
+.layout3 .list-layout .list-item-copy{
+	padding:6px 10px 5px;
+}
+/* End Plugin CSS */
+
 /*
 * Styling for list layout elements
 */
@@ -30,4 +239,37 @@
 
 #carousel {
     overflow: hidden !important;
+}
+
+/* Play Btn */
+.play-btn{
+	position:relative;
+}
+.play-btn:after{
+	content:"\e612";
+	font-family:'icomoon';
+	position:absolute;
+	width:30px;
+	height:26px;
+	color:#fff;	
+	font-size:30px;
+	line-height:24px;
+	top:50%;
+	left:50%;
+	margin-top:-12px;
+	margin-left:-15px;
+}
+.list-item-media .list-media-holder.play-btn:after{
+	font-size:24px;
+	width:24px;
+	margin-left:-12px;
+	margin-top:-12px;
+}
+
+/* Link Items */
+.link-list{
+	padding-top:2px;
+}
+.link-list a + a{
+	margin-left:10px;
 }
