@@ -44,7 +44,7 @@
     }])
     .filter('returnYoutubeUrl', ['$sce', function ($sce) {
       return function (id) {
-        return $sce.trustAsResourceUrl("http://www.youtube.com/embed/" + id);
+        return $sce.trustAsResourceUrl("http://www.youtube.com/embed/" + id + "?enablejsapi");
       }
     }])
     .directive("buildFireCarousel", ["$rootScope", '$timeout', function ($rootScope, $timeout) {
