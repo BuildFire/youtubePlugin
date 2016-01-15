@@ -32,13 +32,21 @@
 </div>
 
 <script>
-  var monitor = setInterval(function(){
-    var elem = document.activeElement;
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      events: {
+        'onStateChange': function(e){
+          if(e.data == 1)
+          {
+            console.log('video played');
+            var audioPlayer = window.buildfire.services.media.audioPlayer;
+            audioPlayer.pause();
+          }
+        }
+      }
+    });
+  }
+  setTimeout(function(){onYouTubeIframeAPIReady();},1000);
 
-    if(elem && elem.tagName == 'IFRAME' && elem.id == 'player'){
-      var audioPlayer = window.buildfire.services.media.audioPlayer;
-      audioPlayer.pause();
-      clearInterval(monitor);
-    }
-  }, 100);
 </script>
