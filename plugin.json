@@ -3,6 +3,7 @@
   "pluginName": "Youtube",
   "pluginDescription": "Sync your YouTube channel feed or a single video and to give your users a fresh viewing experience. When you upload new videos, they'll automatically be pulled into your app.",
   "supportEmail": "support@buildfire.com",
+  "supportSite":"http://support.appdocumentation.com/knowledge-base/youtube-plugin-tutorial/",
   "control": {
     "content": {
       "enabled": true
