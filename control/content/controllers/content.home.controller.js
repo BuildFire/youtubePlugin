@@ -3,7 +3,7 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS','$rootScope',
+    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS', '$rootScope',
       function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS, $rootScope) {
         var _data = {
           "content": {
@@ -24,7 +24,7 @@
         var ContentHome = this;
         ContentHome.masterData = null;
         ContentHome.CONTENT_TYPE = CONTENT_TYPE;
-        ContentHome.data = angular.copy(_data);
+        //ContentHome.data = angular.copy(_data);
         ContentHome.validLinkSuccess = false;
         ContentHome.validLinkFailure = false;
         ContentHome.contentType = CONTENT_TYPE.CHANNEL_FEED;
@@ -88,7 +88,9 @@
               if (Object.keys(result.data).length > 0) {
                 ContentHome.data = result.data;
               }
-              if (ContentHome.data) {
+              if (!ContentHome.data) {
+                ContentHome.data = angular.copy(_data);
+              } else {
                 if (!ContentHome.data.content)
                   ContentHome.data.content = {};
                 if (ContentHome.data.content.type)
@@ -99,8 +101,8 @@
                   editor.loadItems([]);
                 else
                   editor.loadItems(ContentHome.data.content.carouselImages);
-                updateMasterItem(ContentHome.data);
               }
+              updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
             }
             , error = function (err) {
