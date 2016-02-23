@@ -72,7 +72,7 @@
             }
             , error = function (err) {
               Buildfire.spinner.hide();
-              console.error('Error In Fetching Single Video Details', err);
+              console.error('Error In Fetching feed Videos', err);
             };
           YoutubeApi.getFeedVideos(_playlistId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
         };
@@ -143,9 +143,11 @@
 
         WidgetFeed.showDescription = function (description) {
           var _retVal = false;
-          description = description.trim();
-          if(description && (description !== '<p>&nbsp;<br></p>') && (description !== '<p><br data-mce-bogus="1"></p>')) {
-            _retVal = true;
+          if (description) {
+            description = description.trim();
+            if ((description !== '<p>&nbsp;<br></p>') && (description !== '<p><br data-mce-bogus="1"></p>')) {
+              _retVal = true;
+            }
           }
           return _retVal;
         };

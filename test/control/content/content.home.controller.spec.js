@@ -111,43 +111,6 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
             expect(ContentHome.CONTENT_TYPE).toBeDefined();
         });
     });
-
-    describe('ContentHome.data', function () {
-        it('it should pass if ContentHome.data is match the result', function () {
-            expect(ContentHome.data).toEqual({
-                "content": {
-                    "carouselImages": [],
-                    "description": '',
-                    "rssUrl": "",
-                    "type": "",
-                    "playListID": null,
-                    "videoID": null
-                },
-                "design": {
-                    "itemListLayout": LAYOUTS.listLayouts[0].name,
-                    "itemListBgImage": "",
-                    "itemDetailsBgImage": ""
-                }
-            });
-        });
-        it('it should pass if ContentHome.data is match the result', function () {
-            ContentHome.data = {"content": {
-                    "carouselImages": [],
-                    "description": 'hello',
-                    "rssUrl": "",
-                    "type": "",
-                    "playListID": null,
-                    "videoID": null
-                },
-                    "design": {
-                        "itemListLayout": LAYOUTS.listLayouts[0].name,
-                        "itemListBgImage": "",
-                        "itemDetailsBgImage": ""
-                    }
-                };
-            $rootScope.$digest();
-        });
-    });
 });
 describe('Unit : youtubePlugin content.home.controller.js when datastore.get result content is not defined', function () {
     var ContentHome, scope, $rootScope, $controller, Buildfire, DataStore, ActionItems, TAG_NAMES, STATUS_CODE, LAYOUTS, STATUS_MESSAGES, CONTENT_TYPE, $q;
