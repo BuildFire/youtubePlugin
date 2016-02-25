@@ -15,7 +15,9 @@
         $rootScope.showFeed = true;
         var currentListLayout = null;
         var currentPlayListId = null;
-
+        WidgetFeed.masterData = {
+            playListId : ""
+        }
         /*
          * Fetch user's data from datastore
          */
@@ -34,6 +36,7 @@
               currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
+                  WidgetFeed.masterData.playListId = currentPlayListId;
               }
               if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
                 console.log('single video detected');
@@ -111,9 +114,10 @@
               currentPlayListId = WidgetFeed.data.content.playListID;
               getFeedVideos(WidgetFeed.data.content.playListID);
             }
-
-            if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== currentPlayListId)) {
+            console.log("+++++++++++++vl5", WidgetFeed.data.content.playListID, WidgetFeed.masterData.playListId)
+            if (WidgetFeed.data.content && WidgetFeed.data.content.playListID && (WidgetFeed.data.content.playListID !== WidgetFeed.masterData.playListId)) {
               currentPlayListId = WidgetFeed.data.content.playListID;
+              WidgetFeed.masterData.playListId = currentPlayListId;
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
               WidgetFeed.nextPageToken = null;
@@ -164,8 +168,16 @@
             WidgetFeed.data.design = {};
           if (!WidgetFeed.data.content)
             WidgetFeed.data.content = {};
-          if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.playlistId) {
-            currentPlayListId = WidgetFeed.data.content.playlistId;
+          if(WidgetFeed.masterData.playListId !=WidgetFeed.data.content.playListID){
+                WidgetFeed.busy = false;
+                WidgetFeed.nextPageToken = null;
+                WidgetFeed.videos = [];
+                WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
+                getFeedVideos(WidgetFeed.data.content.playListID);
+             }
+          if (!(WidgetFeed.videos.length >= 0) && WidgetFeed.data.content.playlistId) {
+            currentPlayListId = WidgetFeed.data.content.playListID;
+              WidgetFeed.masterData.playListId = currentPlayListId;
             getFeedVideos(WidgetFeed.data.content.playListID);
           }
           if (!view) {
