@@ -29,6 +29,10 @@
               if (!WidgetSingle.data.design.itemListLayout) {
                 WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+                if (WidgetSingle.data.design.itemDetailsBgImage) {
+                  $rootScope.backgroundImage = WidgetSingle.data.design.itemDetailsBgImage;
+                }
+
               currentItemListLayout = WidgetSingle.data.design.itemListLayout;
               currentPlayListID = WidgetSingle.data.content.playListID;
             }
@@ -69,6 +73,11 @@
               WidgetSingle.data.design = {};
             if (!WidgetSingle.data.content)
               WidgetSingle.data.content = {};
+            if (WidgetSingle.data.design.itemDetailsBgImage) {
+              $rootScope.backgroundImage = WidgetSingle.data.design.itemDetailsBgImage;
+            }else{
+              $rootScope.backgroundImage="";
+            }
             if (WidgetSingle.data.content.type)
               $rootScope.contentType = WidgetSingle.data.content.type;
             if (!WidgetSingle.data.content.rssUrl) {

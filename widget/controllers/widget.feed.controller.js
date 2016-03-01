@@ -18,6 +18,11 @@
         WidgetFeed.masterData = {
             playListId : ""
         }
+
+        /*declare the device width heights*/
+        $rootScope.deviceHeight = window.innerHeight;
+        $rootScope.deviceWidth = window.innerWidth;
+
         /*
          * Fetch user's data from datastore
          */
@@ -31,7 +36,11 @@
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
-              if (WidgetFeed.data.content.type)
+                if (WidgetFeed.data.design.itemListBgImage) {
+                  $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+                }
+
+                if (WidgetFeed.data.content.type)
                 $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
@@ -91,6 +100,12 @@
               $rootScope.contentType = WidgetFeed.data.content.type;
             if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+            }
+            if (WidgetFeed.data.design.itemListBgImage) {
+              $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+            }
+            else{
+              $rootScope.backgroundListImage="";
             }
 
             if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
@@ -175,6 +190,12 @@
                 WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
                 getFeedVideos(WidgetFeed.data.content.playListID);
              }
+          if (WidgetFeed.data.design.itemListBgImage) {
+            $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+          }
+          else{
+            $rootScope.backgroundListImage="";
+          }
           if (!(WidgetFeed.videos.length >= 0) && WidgetFeed.data.content.playlistId) {
             currentPlayListId = WidgetFeed.data.content.playListID;
               WidgetFeed.masterData.playListId = currentPlayListId;
