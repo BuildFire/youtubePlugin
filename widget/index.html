@@ -45,14 +45,14 @@
 </head>
 <body class="body-scroll">
 <div class="main_view">
-  <div class="slide content infinite-scroll-parent">
+  <div class="slide content infinite-scroll-parent" data-ng-attr-style="{{backgroundListImage ? 'background: url(' + (backgroundListImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}">
     <div ng-controller="WidgetFeedCtrl as WidgetFeed">
       <div ng-if="WidgetFeed.data.design.itemListLayout"
            ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'">
       </div>
     </div>
   </div>
-  <div ng-view="" class="slide content" ng-hide="showFeed"></div>
+  <div ng-view="" class="slide content" ng-hide="showFeed" data-ng-attr-style="{{backgroundImage ? 'background: url(' + (backgroundImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}"></div>
 </div>
 </body>
 </html>
