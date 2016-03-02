@@ -4,6 +4,12 @@
   angular.module('youtubePluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', 'VideoCache',
       function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope, VideoCache) {
+
+
+        buildfire.datastore.onRefresh(function () {
+          // Don't do anything on pull down
+        });
+
         var currentItemDetailsBgImage = '',
           currentPlayListID = null,
           currentItemListLayout = null;
