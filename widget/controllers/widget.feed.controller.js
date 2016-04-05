@@ -14,9 +14,9 @@
         WidgetFeed.nextPageToken = null;
         $rootScope.showFeed = true;
         var currentListLayout = null;
-        var currentPlayListId = null;
+        var currentPlayListId = TAG_NAMES.DEFAULT_FEED_ID;
         WidgetFeed.masterData = {
-            playListId : ""
+            playListId : TAG_NAMES.DEFAULT_FEED_ID
         }
 
         /*declare the device width heights*/
@@ -39,7 +39,9 @@
                 if (WidgetFeed.data.design.itemListBgImage) {
                   $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
                 }
-
+                if(!result.id) {
+                    WidgetFeed.data.content.playListID = TAG_NAMES.DEFAULT_FEED_ID;
+                }
                 if (WidgetFeed.data.content.type)
                 $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
