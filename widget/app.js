@@ -94,6 +94,26 @@
         }
       };
     }])
+    .directive("loadIframe", [function () {
+      return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+          var iframe = document.createElement('iframe'),
+            img = $(element).find("img");
+          iframe.onload = function () {
+            iframe.classList.remove("ng-hide");
+            img.remove();
+
+          }; // before setting 'src'
+          iframe.src = attrs.loadIframe;
+          iframe.width = "100%";
+          iframe.classList.add("ng-hide");
+          iframe.height = "192px";
+          iframe.frameborder = "0";
+          $(element).append(iframe);
+        }
+      };
+    }])
     .run(['Location', '$location', '$rootScope', function (Location, $location, $rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/video/;
@@ -102,16 +122,16 @@
           Location.goTo('#/');
         }
         else {
-            buildfire.navigation._goBackOne();
+          buildfire.navigation._goBackOne();
         }
       };
 
     }]).filter('cropImage', [function () {
-        return function (url, width, height, type) {
-          return buildfire.imageLib.cropImage(url, {
-            width: width,
-            height: height
-          });
-        }
-      }]);
+      return function (url, width, height, type) {
+        return buildfire.imageLib.cropImage(url, {
+          width: width,
+          height: height
+        });
+      }
+    }]);
 })(window.angular, window.buildfire);
