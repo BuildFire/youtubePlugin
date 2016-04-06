@@ -9,7 +9,7 @@
           "content": {
             "carouselImages": [],
             "description": '',
-            "rssUrl": "",
+            "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
             "type": "",
             "playListID": null,
             "videoID": null
@@ -22,7 +22,7 @@
           }
         };
         var ContentHome = this;
-        ContentHome.masterData = null;
+        ContentHome.masterData = angular.copy(_data);
         ContentHome.CONTENT_TYPE = CONTENT_TYPE;
         //ContentHome.data = angular.copy(_data);
         ContentHome.validLinkSuccess = false;
@@ -88,8 +88,9 @@
               if (Object.keys(result.data).length > 0) {
                 ContentHome.data = result.data;
               }
-              if (!ContentHome.data) {
+              if (result && !result.id) {
                 ContentHome.data = angular.copy(_data);
+                ContentHome.rssLink = ContentHome.data.content.rssUrl;
               } else {
                 if (!ContentHome.data.content)
                   ContentHome.data.content = {};

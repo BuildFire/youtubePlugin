@@ -3,7 +3,9 @@
 (function (angular) {
   angular.module('youtubePluginWidget')
     .constant('TAG_NAMES', {
-      YOUTUBE_INFO: 'YouTubeInfo'
+      YOUTUBE_INFO: 'YouTubeInfo',
+      DEFAULT_FEED_URL: 'http://www.youtube.com/user/goprocamera',
+      DEFAULT_FEED_ID: 'UUqhnX4jA0A5paNd1v-zEysw'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',
