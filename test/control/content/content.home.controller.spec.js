@@ -101,7 +101,8 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
                     "itemListLayout": LAYOUTS.listLayouts[0].name,
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
-                }
+                },
+                "default": true
             });
         });
     });
@@ -187,7 +188,8 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
                     "itemListLayout": LAYOUTS.listLayouts[0].name,
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
-                }
+                },
+                "default": true
             });
         });
     });

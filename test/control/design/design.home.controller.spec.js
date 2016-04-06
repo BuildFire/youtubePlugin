@@ -27,7 +27,8 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
               "itemListLayout": LAYOUTS.listLayouts[0].name,
               "itemListBgImage": "",
               "itemDetailsBgImage": ""
-          }
+          },
+          "default": true
       };
   }));
 

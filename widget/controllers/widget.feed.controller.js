@@ -93,6 +93,7 @@
 
         var onUpdateCallback = function (event) {
           if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
+              console.log('KKKKKKKKKKK', event.data);
             WidgetFeed.data = event.data;
             if (!WidgetFeed.data.design)
               WidgetFeed.data.design = {};
@@ -121,6 +122,7 @@
               }
             }
             currentListLayout = WidgetFeed.data.design.itemListLayout;
+            currentPlayListId = WidgetFeed.data.content.playListID;
 
             if (!WidgetFeed.data.content.rssUrl) {
               WidgetFeed.videos = [];

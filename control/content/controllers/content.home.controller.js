@@ -18,7 +18,8 @@
             "itemListLayout": LAYOUTS.listLayouts[0].name,
             "itemListBgImage": "",
             "itemDetailsBgImage": ""
-          }
+          },
+          "default": true
         };
         var ContentHome = this;
         ContentHome.masterData = angular.copy(_data);
@@ -148,6 +149,14 @@
               clearTimeout(tmrDelay);
             }
             tmrDelay = setTimeout(function () {
+              if(newObj && newObj.default) {
+                  if(newObj.content.rssUrl == TAG_NAMES.DEFAULT_FEED_URL) {
+                      newObj.content.rssUrl = '';
+                      ContentHome.data.content.rssUrl = '';
+                      ContentHome.rssLink = ContentHome.data.content.rssUrl;
+                      delete newObj.default;
+                  }
+              }
               saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.YOUTUBE_INFO);
             }, 500);
           }
