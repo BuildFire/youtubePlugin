@@ -14,9 +14,9 @@
         WidgetFeed.nextPageToken = null;
         $rootScope.showFeed = true;
         var currentListLayout = null;
-        var currentPlayListId = TAG_NAMES.DEFAULT_FEED_ID;
+        var currentPlayListId = null;
         WidgetFeed.masterData = {
-            playListId : TAG_NAMES.DEFAULT_FEED_ID
+            playListId : ""
         }
 
         /*declare the device width heights*/
