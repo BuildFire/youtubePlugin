@@ -93,7 +93,6 @@
 
         var onUpdateCallback = function (event) {
           if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
-              console.log('KKKKKKKKKKK', event.data);
             WidgetFeed.data = event.data;
             if (!WidgetFeed.data.design)
               WidgetFeed.data.design = {};
