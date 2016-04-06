@@ -13,7 +13,6 @@
             "type": "",
             "playListID": null,
             "videoID": null
-
           },
           "design": {
             "itemListLayout": LAYOUTS.listLayouts[0].name,

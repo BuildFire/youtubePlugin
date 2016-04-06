@@ -12,8 +12,8 @@
         var _data = {
           "content": {
             "carouselImages": [],
-            "description": '<p>&nbsp;<br></p>',
-            "rssUrl": "",
+            "description": '',
+            "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
             "type": "",
             "playListID": null,
             "videoID": null
@@ -25,7 +25,7 @@
           }
         };
 
-        DesignHome.data = angular.copy(_data);
+//        DesignHome.data = angular.copy(_data);
         updateMasterItem(_data);
 
         function updateMasterItem(data) {
@@ -45,11 +45,16 @@
               if (Object.keys(result.data).length > 0) {
                 DesignHome.data = result.data;
               }
-              if (DesignHome.data && !DesignHome.data.design) {
-                DesignHome.data.design = {};
-              }
-              if (DesignHome.data && DesignHome.data.design && !DesignHome.data.design.itemListLayout) {
-                                DesignHome.data.design.itemListLayout = DesignHome.layouts.listLayouts[0].name;
+              if (result && !result.id) {
+                  DesignHome.data = angular.copy(_data);
+                  DesignHome.rssLink = DesignHome.data.content.rssUrl;
+              } else {
+                  if (DesignHome.data && !DesignHome.data.design) {
+                      DesignHome.data.design = {};
+                  }
+                  if (DesignHome.data && DesignHome.data.design && !DesignHome.data.design.itemListLayout) {
+                      DesignHome.data.design.itemListLayout = DesignHome.layouts.listLayouts[0].name;
+                  }
               }
               updateMasterItem(DesignHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
