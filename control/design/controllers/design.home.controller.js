@@ -140,8 +140,8 @@
               if(newObj && newObj.default) {
                   if(newObj.content.rssUrl == TAG_NAMES.DEFAULT_FEED_URL) {
                       newObj.content.rssUrl = '';
-                      delete newObj.default;
                   }
+                  delete newObj.default;
               }
               saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.YOUTUBE_INFO);
             }, 500);
