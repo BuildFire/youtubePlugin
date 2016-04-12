@@ -105,6 +105,7 @@
             img.remove();
 
           }; // before setting 'src'
+          //iframe.id = 'whateverID';
           iframe.src = attrs.loadIframe;
           iframe.width = "100%";
           iframe.classList.add("ng-hide");
