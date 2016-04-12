@@ -17,7 +17,7 @@
         var currentPlayListId = null;
         WidgetFeed.masterData = {
             playListId : ""
-        }
+        };
 
         /*declare the device width heights*/
         $rootScope.deviceHeight = window.innerHeight;

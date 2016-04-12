@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="screen layoutgrid pull-right margin-left-zero border-grey border-radius-three">
-                <a ng-repeat="listLayout in DesignHome.layouts.listLayouts"
+                <a ng-repeat="listLayout in DesignHome.layouts.listLayouts" data-number="{{$index + 1}}"
                    class="layouticon border-grey border-radius-three default-background-hover text-center"
                    ng-click="DesignHome.changeListLayout(this.listLayout.name)">
                     <!--<span class="add-icon hidden">+</span>
