@@ -9,20 +9,20 @@
           "content": {
             "carouselImages": [],
             "description": '',
-            "rssUrl": "",
+            "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
             "type": "",
             "playListID": null,
             "videoID": null
-
           },
           "design": {
             "itemListLayout": LAYOUTS.listLayouts[0].name,
             "itemListBgImage": "",
             "itemDetailsBgImage": ""
-          }
+          },
+          "default": true
         };
         var ContentHome = this;
-        ContentHome.masterData = null;
+        ContentHome.masterData = angular.copy(_data);
         ContentHome.CONTENT_TYPE = CONTENT_TYPE;
         //ContentHome.data = angular.copy(_data);
         ContentHome.validLinkSuccess = false;
@@ -88,8 +88,9 @@
               if (Object.keys(result.data).length > 0) {
                 ContentHome.data = result.data;
               }
-              if (!ContentHome.data) {
+              if (result && !result.id) {
                 ContentHome.data = angular.copy(_data);
+                ContentHome.rssLink = ContentHome.data.content.rssUrl;
               } else {
                 if (!ContentHome.data.content)
                   ContentHome.data.content = {};
@@ -148,6 +149,14 @@
               clearTimeout(tmrDelay);
             }
             tmrDelay = setTimeout(function () {
+              if(newObj && newObj.default) {
+                  if(newObj.content.rssUrl == TAG_NAMES.DEFAULT_FEED_URL) {
+                      newObj.content.rssUrl = '';
+                      ContentHome.data.content.rssUrl = '';
+                      ContentHome.rssLink = ContentHome.data.content.rssUrl;
+                  }
+                  delete newObj.default;
+              }
               saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.YOUTUBE_INFO);
             }, 500);
           }

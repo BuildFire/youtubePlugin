@@ -17,7 +17,7 @@
         var currentPlayListId = null;
         WidgetFeed.masterData = {
             playListId : ""
-        }
+        };
 
         /*declare the device width heights*/
         $rootScope.deviceHeight = window.innerHeight;
@@ -39,7 +39,9 @@
                 if (WidgetFeed.data.design.itemListBgImage) {
                   $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
                 }
-
+                if(!result.id) {
+                    WidgetFeed.data.content.playListID = TAG_NAMES.DEFAULT_FEED_ID;
+                }
                 if (WidgetFeed.data.content.type)
                 $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
@@ -119,6 +121,7 @@
               }
             }
             currentListLayout = WidgetFeed.data.design.itemListLayout;
+            currentPlayListId = WidgetFeed.data.content.playListID;
 
             if (!WidgetFeed.data.content.rssUrl) {
               WidgetFeed.videos = [];

@@ -1,8 +1,8 @@
 describe('Unit : youtubePlugin design.home.controller.js', function () {
-  var $scope, DesignHome, $rootScope, q, $controller, DataStore, ImageLibrary, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, CONTENT_TYPE;
+  var $scope, DesignHome, $rootScope, q, $controller, DataStore, ImageLibrary, TAG_NAMES, STATUS_CODE, STATUS_MESSAGES, LAYOUTS, CONTENT_TYPE, _mockData;
   beforeEach(module('youtubePluginDesign'));
 
-  beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _DataStore_, _ImageLibrary_, _TAG_NAMES_, _CONTENT_TYPE_, _STATUS_CODE_, _STATUS_MESSAGES_) {
+  beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _DataStore_, _ImageLibrary_, _TAG_NAMES_, _CONTENT_TYPE_, _STATUS_CODE_, _STATUS_MESSAGES_, _LAYOUTS_) {
     $rootScope = _$rootScope_;
     q = _$q_;
     $scope = $rootScope.$new();
@@ -12,8 +12,24 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
     CONTENT_TYPE = _CONTENT_TYPE_;
     STATUS_CODE = _STATUS_CODE_;
     STATUS_MESSAGES = _STATUS_MESSAGES_;
+    LAYOUTS = _LAYOUTS_;
     ImageLibrary = jasmine.createSpyObj('ImageLibrary', ['showDialog']);
-
+      _mockData = {
+          "content": {
+              "carouselImages": [],
+              "description": '',
+              "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
+              "type": "",
+              "playListID": null,
+              "videoID": null
+          },
+          "design": {
+              "itemListLayout": LAYOUTS.listLayouts[0].name,
+              "itemListBgImage": "",
+              "itemDetailsBgImage": ""
+          },
+          "default": true
+      };
   }));
 
   beforeEach(function () {
@@ -25,6 +41,7 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
       TAG_NAMES: TAG_NAMES,
       CONTENT_TYPE: CONTENT_TYPE
     });
+    DesignHome.data = _mockData;
   });
 
   describe('Units: units should be Defined', function () {
@@ -44,40 +61,12 @@ describe('Unit : youtubePlugin design.home.controller.js', function () {
 
   describe('DesignHome.masterData', function () {
     it('it should pass if DesignHome.masterData match the result', function () {
-      expect(DesignHome.masterData).toEqual({
-        "content": {
-          "carouselImages": [],
-          "description": '<p>&nbsp;<br></p>',
-          "rssUrl": "",
-          "type": "",
-          "playListID": null,
-          "videoID": null
-        },
-        "design": {
-          "itemListLayout": DesignHome.layouts.listLayouts[0].name,
-          "itemListBgImage": "",
-          "itemDetailsBgImage": ""
-        }
-      });
+      expect(DesignHome.masterData).toEqual(_mockData);
     });
   });
   describe('Variable Unit: DesignHome.data', function () {
     it('it should pass if DesignHome.data match the result', function () {
-      expect(DesignHome.data).toEqual({
-        "content": {
-          "carouselImages": [],
-          "description": '<p>&nbsp;<br></p>',
-          "rssUrl": "",
-          "type": "",
-          "playListID": null,
-          "videoID": null
-        },
-        "design": {
-          "itemListLayout": DesignHome.layouts.listLayouts[0].name,
-          "itemListBgImage": "",
-          "itemDetailsBgImage": ""
-        }
-      });
+      expect(DesignHome.data).toEqual(_mockData);
     });
   });
   describe('Variable Unit: DesignHome.layouts', function () {

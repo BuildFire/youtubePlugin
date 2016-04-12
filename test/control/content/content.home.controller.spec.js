@@ -92,8 +92,8 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
                 "content": {
                     "carouselImages": [],
                     "description": '',
-                    "rssUrl": "url",
-                    "type": "abc",
+                    "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
+                    "type": "",
                     "playListID": null,
                     "videoID": null
                 },
@@ -101,7 +101,8 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
                     "itemListLayout": LAYOUTS.listLayouts[0].name,
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
-                }
+                },
+                "default": true
             });
         });
     });
@@ -175,12 +176,20 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
         it('it should pass if ContentHome.masterData match the result', function () {
             $rootScope.$digest();
             expect(ContentHome.masterData).toEqual({
-                "content": {},
+                "content": {
+                    "carouselImages": [],
+                    "description": '',
+                    "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
+                    "type": "",
+                    "playListID": null,
+                    "videoID": null
+                },
                 "design": {
                     "itemListLayout": LAYOUTS.listLayouts[0].name,
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
-                }
+                },
+                "default": true
             });
         });
     });

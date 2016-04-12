@@ -2,10 +2,8 @@
   <div ng-if="WidgetSingle.video.id" class="media-center-plugin layout1">
     <div class="media-center-banner clearfix border-bottom-grey">
       <div class="plugin-slider text-center">
-        <div class="plugin-slide">
-          <iframe id="player" width="100%" height="192"
-                  ng-src="{{WidgetSingle.video.id | returnYoutubeUrl}}"
-                  frameborder="0"></iframe>
+        <div class="plugin-slide" data-ng-attr-load-iframe="{{WidgetSingle.video.id | returnYoutubeUrl}}">
+          <img src="../../../styles/media/holder-16x9.gif">
         </div>
       </div>
     </div>
@@ -24,6 +22,7 @@
         </a>
         <!--<a class="text-primary">Share</a>-->
       </div>
+        <!--<div><a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;playVideo&quot;)">Start</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;pauseVideo&quot;)">Pause</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;stopVideo&quot;)">Stop</a></div>-->
       <hr class="small">
       <p class="break-word">
         {{WidgetSingle.video.snippet.description}}
