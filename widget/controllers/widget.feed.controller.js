@@ -2,8 +2,8 @@
 
 (function (angular, buildfire) {
   angular.module('youtubePluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache','$modal',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache, $modal) {
         var WidgetFeed = this;
 
         WidgetFeed.data = {};
@@ -183,9 +183,31 @@
         };
 
         WidgetFeed.openDetailsPage = function (video) {
-          video.id = video.snippet.resourceId.videoId;
-          VideoCache.setCache(video);
-          Location.goTo('#/video/' + video.snippet.resourceId.videoId);
+          if(!navigator.onLine) {
+            $modal
+                .open({
+                  template: [
+                    '<div class="padded clearfix">',
+                    '<div class="content text-center">',
+                    '<p>No internet connection was found. please try again later</p>',
+                    '<a class="margin-zero"  ng-click="NoInternetFound.ok()">OK</a>',
+                    '</div>',
+                    '</div></div>'
+                  ].join(''),
+                  controller: 'NoInternetFoundCtrl',
+                  controllerAs: 'NoInternetFound',
+                  size: 'sm',
+                  resolve: {
+                    Info: function () {
+                      return {};
+                    }
+                  }
+                });
+          }else {
+            video.id = video.snippet.resourceId.videoId;
+            VideoCache.setCache(video);
+            Location.goTo('#/video/' + video.snippet.resourceId.videoId);
+          }
         };
 
         $rootScope.$on("ROUTE_CHANGED", function (e, data) {
