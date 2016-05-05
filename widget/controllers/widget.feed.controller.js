@@ -183,7 +183,7 @@
         };
 
         WidgetFeed.openDetailsPage = function (video) {
-          if(!navigator.onLine) {
+      /*    if(!navigator.onLine) {
             $modal
                 .open({
                   template: [
@@ -203,11 +203,11 @@
                     }
                   }
                 });
-          }else {
+          }else {*/
             video.id = video.snippet.resourceId.videoId;
             VideoCache.setCache(video);
             Location.goTo('#/video/' + video.snippet.resourceId.videoId);
-          }
+         // }
         };
 
         $rootScope.$on("ROUTE_CHANGED", function (e, data) {
