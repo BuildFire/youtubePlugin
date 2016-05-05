@@ -21,7 +21,7 @@
 
         /*declare the device width heights*/
         $rootScope.deviceHeight = window.innerHeight;
-        $rootScope.deviceWidth = window.innerWidth;
+        $rootScope.deviceWidth = window.innerWidth || 320;
 
         /*
          * Fetch user's data from datastore
