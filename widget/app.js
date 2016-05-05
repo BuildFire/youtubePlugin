@@ -94,10 +94,11 @@
         }
       };
     }])
-    .directive("loadIframe", [function () {
+    .directive("loadIframe", ['$rootScope',function ($rootScope) {
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
+          $rootScope.appHeight = window.innerHeight/2.83;
           var iframe = document.createElement('iframe'),
             img = $(element).find("img");
           iframe.onload = function () {
@@ -109,7 +110,7 @@
           iframe.src = attrs.loadIframe;
           iframe.width = "100%";
           iframe.classList.add("ng-hide");
-          iframe.height = "192px";
+          iframe.height = $rootScope.appHeight+"px";
           iframe.frameborder = "0";
           $(element).append(iframe);
         }
