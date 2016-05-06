@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll', 'ngAnimate'])
+  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll', 'ngAnimate', 'ui.bootstrap'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
@@ -94,10 +94,11 @@
         }
       };
     }])
-    .directive("loadIframe", [function () {
+    .directive("loadIframe", ['$rootScope',function ($rootScope) {
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
+          $rootScope.appHeight = window.innerHeight/2.83;
           var iframe = document.createElement('iframe'),
             img = $(element).find("img");
           iframe.onload = function () {
@@ -105,11 +106,11 @@
             img.remove();
 
           }; // before setting 'src'
-          //iframe.id = 'whateverID';
+          iframe.id = 'ytPlayer';
           iframe.src = attrs.loadIframe;
           iframe.width = "100%";
           iframe.classList.add("ng-hide");
-          iframe.height = "192px";
+          iframe.height = $rootScope.appHeight+"px";
           iframe.frameborder = "0";
           $(element).append(iframe);
         }
@@ -127,6 +128,12 @@
         }
       };
 
+        if(buildfire.device) {
+          buildfire.device.onAppBackgrounded(function () {
+            //pause the video on fone lock
+            callPlayer('ytPlayer', 'pauseVideo');
+          });
+        }
     }]).filter('cropImage', [function () {
       return function (url, width, height, type) {
         return buildfire.imageLib.cropImage(url, {
