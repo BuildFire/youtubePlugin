@@ -128,10 +128,12 @@
         }
       };
 
-        buildfire.device.onAppBackgrounded(function () {
-          //pause the video on fone lock
-          callPlayer('ytPlayer', 'pauseVideo');
-        });
+        if(buildfire.device) {
+          buildfire.device.onAppBackgrounded(function () {
+            //pause the video on fone lock
+            callPlayer('ytPlayer', 'pauseVideo');
+          });
+        }
     }]).filter('cropImage', [function () {
       return function (url, width, height, type) {
         return buildfire.imageLib.cropImage(url, {
