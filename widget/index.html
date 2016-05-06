@@ -2,77 +2,120 @@
 <html lang="en" ng-app="youtubePluginWidget">
 <head>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="../../../styles/bootstrap.css">
-  <link rel="stylesheet" href="../../../styles/siteIcons.css">
-  <link rel="stylesheet" href="../../../styles/helper.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../styles/bootstrap.css">
+    <link rel="stylesheet" href="../../../styles/siteIcons.css">
+    <link rel="stylesheet" href="../../../styles/helper.css">
 
-  <!--Angular, jQuery & Owl Carousel -->
-  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-  <script src="../../../scripts/buildfire.js"></script>
-  <script type="text/javascript"
-          src="../../../scripts/owlCarousel/owlCarousel.js"></script>
-  <script
-      src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
-  <script src="../../../scripts/angular/angular.min.js"></script>
-  <script src="../../../scripts/angular/angular-route.min.js"></script>
-  <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+    <!--Angular, jQuery & Owl Carousel -->
+    <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script src="../../../scripts/buildfire.js"></script>
+    <script type="text/javascript"
+            src="../../../scripts/owlCarousel/owlCarousel.js"></script>
+    <script
+            src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+    <script src="../../../scripts/angular/angular.min.js"></script>
+    <script src="../../../scripts/angular/angular-route.min.js"></script>
+    <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Meta -->
-  <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0,minimum-scale=1.0,
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0,
         maximum-scale=1.0">
 
-  <!-- App -->
-  <script src="assets/js/ng-infinite-scroll.custom.js"
-          type="application/javascript"></script>
-  <script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
-  <script src="app.js" type="application/javascript"></script>
-  <script src="enums.js" type="application/javascript"></script>
-  <script src="app.services.js" type="application/javascript"></script>
-  <script src="modal.js" type="application/javascript"></script>
-  <script src="controllers/widget.feed.controller.js"
-          type="application/javascript"></script>
-  <script src="controllers/widget.single.controller.js"
-          type="application/javascript"></script>
-  <script src="../../../scripts/angular/angular-animate.min.js"></script>
-  <script>
-    if (!window['YT']) {var YT = {loading: 0,loaded: 0};}if (!window['YTConfig']) {var YTConfig = {'host': 'http://www.youtube.com'};}if (!YT.loading) {YT.loading = 1;(function(){var l = [];YT.ready = function(f) {if (YT.loaded) {f();} else {l.push(f);}};window.onYTReady = function() {YT.loaded = 1;for (var i = 0; i < l.length; i++) {try {l[i]();} catch (e) {}}};YT.setConfig = function(c) {for (var k in c) {if (c.hasOwnProperty(k)) {YTConfig[k] = c[k];}}};var a = document.createElement('script');a.type = 'text/javascript';a.id = 'www-widgetapi-script';a.src = 'https:' + '//s.ytimg.com/yts/jsbin/www-widgetapi-vfl5HrK_Z/www-widgetapi.js';a.async = true;var b = document.getElementsByTagName('script')[0];b.parentNode.insertBefore(a, b);})();}
-  </script>
-  <!-- Audio player-->
-  <script src="../../../scripts/buildfire/services/media/audioPlayer.js"></script>
-  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
+    <!-- App -->
+    <script src="assets/js/ng-infinite-scroll.custom.js"
+            type="application/javascript"></script>
+    <script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
+    <script src="app.js" type="application/javascript"></script>
+    <script src="enums.js" type="application/javascript"></script>
+    <script src="app.services.js" type="application/javascript"></script>
+    <script src="modal.js" type="application/javascript"></script>
+    <script src="controllers/widget.feed.controller.js"
+            type="application/javascript"></script>
+    <script src="controllers/widget.single.controller.js"
+            type="application/javascript"></script>
+    <script src="../../../scripts/angular/angular-animate.min.js"></script>
+    <script>
+        if (!window['YT']) {
+            var YT = {loading: 0, loaded: 0};
+        }
+        if (!window['YTConfig']) {
+            var YTConfig = {'host': 'http://www.youtube.com'};
+        }
+        if (!YT.loading) {
+            YT.loading = 1;
+            (function () {
+                var l = [];
+                YT.ready = function (f) {
+                    if (YT.loaded) {
+                        f();
+                    } else {
+                        l.push(f);
+                    }
+                };
+                window.onYTReady = function () {
+                    YT.loaded = 1;
+                    for (var i = 0; i < l.length; i++) {
+                        try {
+                            l[i]();
+                        } catch (e) {
+                        }
+                    }
+                };
+                YT.setConfig = function (c) {
+                    for (var k in c) {
+                        if (c.hasOwnProperty(k)) {
+                            YTConfig[k] = c[k];
+                        }
+                    }
+                };
+                var a = document.createElement('script');
+                a.type = 'text/javascript';
+                a.id = 'www-widgetapi-script';
+                a.src = 'https:' + '//s.ytimg.com/yts/jsbin/www-widgetapi-vfl5HrK_Z/www-widgetapi.js';
+                a.async = true;
+                var b = document.getElementsByTagName('script')[0];
+                b.parentNode.insertBefore(a, b);
+            })();
+        }
+    </script>
+    <!-- Audio player-->
+    <script src="../../../scripts/buildfire/services/media/audioPlayer.js"></script>
+    <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
 </head>
 <body class="body-scroll">
 <div class="main_view">
-  <div class="slide content infinite-scroll-parent" data-ng-attr-style="{{backgroundListImage ? 'background: url(' + (backgroundListImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}">
-    <div ng-controller="WidgetFeedCtrl as WidgetFeed">
-      <div ng-if="WidgetFeed.data.design.itemListLayout"
-           ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'">
-      </div>
+    <div class="slide content infinite-scroll-parent"
+         data-ng-attr-style="{{backgroundListImage ? 'background: url(' + (backgroundListImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}">
+        <div ng-controller="WidgetFeedCtrl as WidgetFeed">
+            <div ng-if="WidgetFeed.data.design.itemListLayout"
+                 ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'">
+            </div>
+        </div>
     </div>
-  </div>
-  <div ng-view="" class="slide content" ng-hide="showFeed" data-ng-attr-style="{{backgroundImage ? 'background: url(' + (backgroundImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}"></div>
+    <div ng-view="" class="slide content" ng-hide="showFeed"
+         data-ng-attr-style="{{backgroundImage ? 'background: url(' + (backgroundImage | cropImage:deviceWidth:deviceHeight:true) + ') !important; background-size: cover !important;': 'background: white'}}"></div>
 </div>
 </body>
-<!--<script>
-  function callPlayer(frame_id, func, args) {
-    if (window.jQuery && frame_id instanceof jQuery) frame_id = frame_id.get(0).id;
-    var iframe = document.getElementById(frame_id);
-    if (iframe && iframe.tagName.toUpperCase() != 'IFRAME') {
-      iframe = iframe.getElementsByTagName('iframe')[0];
+<script>
+    function callPlayer(frame_id, func, args) {
+        if (window.jQuery && frame_id instanceof jQuery) frame_id = frame_id.get(0).id;
+        var iframe = document.getElementById(frame_id);
+        if (iframe && iframe.tagName.toUpperCase() != 'IFRAME') {
+            iframe = iframe.getElementsByTagName('iframe')[0];
+        }
+        if (iframe) {
+            // Frame exists,
+            iframe.contentWindow.postMessage(JSON.stringify({
+                "event": "command",
+                "func": func,
+                "args": args || [],
+                "id": frame_id
+            }), "*");
+        }
     }
-    if (iframe) {
-      // Frame exists,
-      iframe.contentWindow.postMessage(JSON.stringify({
-        "event": "command",
-        "func": func,
-        "args": args || [],
-        "id": frame_id
-      }), "*");
-    }
-  }
-</script>-->
+</script>
 </html>
