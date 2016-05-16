@@ -38,7 +38,7 @@
       API_KEY: 'AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA'
     })
     .constant('VIDEO_COUNT', {
-      LIMIT: window.innerHeight && window.innerHeight >600?16:8
+      LIMIT: window.innerHeight && window.innerHeight >600?25 :8
     })
     .constant('LAYOUTS', {
       listLayouts: [
