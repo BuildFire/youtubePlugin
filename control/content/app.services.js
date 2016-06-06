@@ -64,6 +64,15 @@
           }
           else
             return null;
+        },
+        extractPlaylistId: function (url) {
+          console.log("Url............", url);
+          var regex = /((http|https):\/\/|)(www\.)?youtube\.com\/playlist\?list=([a-zA-Z0-9_\-]+)/;
+          var res = url.match(regex);
+          console.log("?????????????", res);
+          if (res && res.length && res[4])
+            return res[4];
+          else return false;
         }
       }
     }]);
