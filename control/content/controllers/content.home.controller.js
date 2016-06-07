@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('youtubePluginContent')
-    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS', '$rootScope',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS, $rootScope) {
+    .controller('ContentHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'CONTENT_TYPE', '$modal', '$http', 'YOUTUBE_KEYS', 'Utils', '$timeout', 'LAYOUTS', '$rootScope','PROXY_SERVER',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, CONTENT_TYPE, $modal, $http, YOUTUBE_KEYS, Utils, $timeout, LAYOUTS, $rootScope,PROXY_SERVER) {
         var _data = {
           "content": {
             "carouselImages": [],
@@ -254,8 +254,60 @@
                       ContentHome.validLinkFailure = false;
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
+                      console.log("**************", response.items);
+                      console.log("**************", response.items[0].contentDetails);
                       if (response.items[0].contentDetails && response.items[0].contentDetails.relatedPlaylists && response.items[0].contentDetails.relatedPlaylists.uploads)
                         ContentHome.data.content.playListID = response.items[0].contentDetails.relatedPlaylists.uploads;
+                      ContentHome.data.content.videoID = null;
+                    }
+                    else {
+                      ContentHome.validLinkFailure = true;
+                      $timeout(function () {
+                        ContentHome.validLinkFailure = false;
+                      }, 5000);
+                      ContentHome.validLinkSuccess = false;
+                    }
+                  })
+                  .error(function () {
+                    ContentHome.failureMessage = "Error. Please check and try again";
+                    ContentHome.validLinkFailure = true;
+                    $timeout(function () {
+                      ContentHome.validLinkFailure = false;
+                    }, 5000);
+                    ContentHome.validLinkSuccess = false;
+                  });
+              }
+              else {
+                if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
+                  ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url."
+                }
+                ContentHome.validLinkFailure = true;
+                $timeout(function () {
+                  ContentHome.validLinkFailure = false;
+                  ContentHome.failureMessage = "Error. Please check and try again";
+                }, 5000);
+                ContentHome.validLinkSuccess = false;
+              }
+              break;
+            case CONTENT_TYPE.PLAYLIST_FEED :
+              var playlistId = Utils.extractPlaylistId(ContentHome.rssLink);
+              if (playlistId) {
+                $http.post(PROXY_SERVER.serverUrl + '/videos', {
+                  playlistId: playlistId,
+                  countLimit: 1
+                }).success(function (response) {
+                  console.log("**************success", response);
+                    ContentHome.failureMessage = "Error. Please check and try again";
+                    if (response && response.videos && response.videos.items) {
+                      ContentHome.validLinkSuccess = true;
+                      $timeout(function () {
+                        ContentHome.validLinkSuccess = false;
+                      }, 5000);
+                      ContentHome.validLinkFailure = false;
+                      ContentHome.data.content.rssUrl = ContentHome.rssLink;
+                      ContentHome.data.content.type = ContentHome.contentType;
+                      if (response)
+                        ContentHome.data.content.playListID = playlistId;
                       ContentHome.data.content.videoID = null;
                     }
                     else {

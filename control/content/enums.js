@@ -25,6 +25,7 @@
     })
     .constant('CONTENT_TYPE', {
       CHANNEL_FEED: 'Channel Feed',
+      PLAYLIST_FEED: 'Playlist Feed',
       SINGLE_VIDEO: 'Single Video'
     })
     .constant('YOUTUBE_KEYS', {
@@ -37,5 +38,8 @@
         {name: "List_Layout_3"},
         {name: "List_Layout_4"}
       ]
+    })
+    .constant('PROXY_SERVER', {
+      serverUrl: "http://proxy.buildfire.com"
     });
 })(window.angular);
