@@ -119,7 +119,7 @@
     .run(['Location', '$location', '$rootScope', function (Location, $location, $rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/video/;
-        if (reg.test($location.path()) && $rootScope.contentType == "Channel Feed") {
+        if (reg.test($location.path()) && ($rootScope.contentType == "Channel Feed" || $rootScope.contentType == "Playlist Feed")) {
           $rootScope.showFeed = true;
           Location.goTo('#/');
         }

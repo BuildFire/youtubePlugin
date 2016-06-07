@@ -45,6 +45,9 @@ describe('Unit : youtubePlugin content Enums', function () {
     it('CONTENT_TYPE.SINGLE_VIDEO should exist and equals to "Single Video"', function () {
       expect(CONTENT_TYPE.SINGLE_VIDEO).toEqual('Single Video');
     });
+    it('CONTENT_TYPE.PLAYLIST_FEED should exist and equals to "Playlist Feed"', function () {
+      expect(CONTENT_TYPE.PLAYLIST_FEED).toEqual('Playlist Feed');
+    });
   });
 
   describe('Unit : Enum YOUTUBE_KEYS', function () {

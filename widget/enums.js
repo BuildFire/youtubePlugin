@@ -32,6 +32,7 @@
     })
     .constant('CONTENT_TYPE', {
       CHANNEL_FEED: 'Channel Feed',
+      PLAYLIST_FEED: 'Playlist Feed',
       SINGLE_VIDEO: 'Single Video'
     })
     .constant('YOUTUBE_KEYS', {
