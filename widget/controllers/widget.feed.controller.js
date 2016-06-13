@@ -26,7 +26,7 @@
         /*
          * Fetch user's data from datastore
          */
-        var initData = function(){
+        var initData = function(isRefresh){
           var success = function (result) {
               WidgetFeed.data = result.data;
               if (!WidgetFeed.data.design)
@@ -53,7 +53,9 @@
                 console.log('single video detected');
                 Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
               }
-              WidgetFeed.loadMore();
+              if(isRefresh) {
+                WidgetFeed.loadMore();
+              }
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -63,7 +65,7 @@
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
         }
         var init = function () {
-          initData();
+          initData(false);
         };
 
         init();
@@ -148,7 +150,7 @@
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
         };
-        DataStore.onUpdate().then(null, null, onUpdateCallback);
+      //  DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
@@ -258,7 +260,7 @@
           WidgetFeed.videos = [];
           WidgetFeed.busy = false;
           WidgetFeed.nextPageToken = null;
-          initData();
+          initData(true);
           $scope.$apply();
         });
         $scope.$on("$destroy", function () {
