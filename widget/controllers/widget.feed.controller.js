@@ -250,14 +250,15 @@
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
-            WidgetFeed.loadMore();
+            initData();
+            $scope.$apply();
           });
         });
         buildfire.datastore.onRefresh(function () {
-          initData();
           WidgetFeed.videos = [];
           WidgetFeed.busy = false;
           WidgetFeed.nextPageToken = null;
+          initData();
           $scope.$apply();
         });
         $scope.$on("$destroy", function () {
