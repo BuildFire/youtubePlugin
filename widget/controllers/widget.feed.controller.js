@@ -26,7 +26,7 @@
         /*
          * Fetch user's data from datastore
          */
-        var init = function () {
+        var initData = function(){
           var success = function (result) {
               WidgetFeed.data = result.data;
               if (!WidgetFeed.data.design)
@@ -36,23 +36,24 @@
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
-                if (WidgetFeed.data.design.itemListBgImage) {
-                  $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
-                }
-                if(!result.id) {
-                    WidgetFeed.data.content.playListID = TAG_NAMES.DEFAULT_FEED_ID;
-                }
-                if (WidgetFeed.data.content.type)
+              if (WidgetFeed.data.design.itemListBgImage) {
+                $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+              }
+              if(!result.id) {
+                WidgetFeed.data.content.playListID = TAG_NAMES.DEFAULT_FEED_ID;
+              }
+              if (WidgetFeed.data.content.type)
                 $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
-                  WidgetFeed.masterData.playListId = currentPlayListId;
+                WidgetFeed.masterData.playListId = currentPlayListId;
               }
               if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
                 console.log('single video detected');
                 Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
               }
+              WidgetFeed.loadMore();
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -60,6 +61,9 @@
               }
             };
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
+        }
+        var init = function () {
+          initData();
         };
 
         init();
@@ -249,17 +253,18 @@
             WidgetFeed.loadMore();
           });
         });
-
+        buildfire.datastore.onRefresh(function () {
+          initData();
+          WidgetFeed.videos = [];
+          WidgetFeed.busy = false;
+          WidgetFeed.nextPageToken = null;
+          $scope.$apply();
+        });
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
 
-        buildfire.datastore.onRefresh(function () {
-          WidgetFeed.videos = [];
-          WidgetFeed.busy = false;
-          WidgetFeed.nextPageToken = null;
-          WidgetFeed.loadMore();
-        });
+
       }
     ])
 })
