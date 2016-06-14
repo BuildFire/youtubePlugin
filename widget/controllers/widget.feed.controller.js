@@ -53,9 +53,20 @@
                 console.log('single video detected');
                 Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
               }
-              if(isRefresh) {
-                WidgetFeed.loadMore();
+              if (!$scope.$$phase)
                 $scope.$digest();
+              if(isRefresh) {
+                if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
+                  if (WidgetFeed.data.content.carouselImages.length)
+                    view._destroySlider();
+                  view = null;
+                }
+                else {
+                  if (view) {
+                    view.loadItems(WidgetFeed.data.content.carouselImages);
+                  }
+                }
+                WidgetFeed.loadMore();
               }
             }
             , error = function (err) {
@@ -90,6 +101,8 @@
               if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
                 WidgetFeed.busy = false;
               }
+              if (!$scope.$$phase)
+                $scope.$digest();
             }
             , error = function (err) {
               Buildfire.spinner.hide();
