@@ -151,7 +151,7 @@
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
         };
-      //  DataStore.onUpdate().then(null, null, onUpdateCallback);
+        DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
@@ -253,8 +253,7 @@
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
-            initData();
-            $scope.$digest();
+            initData(true);
           });
         });
         buildfire.datastore.onRefresh(function () {
@@ -262,7 +261,6 @@
           WidgetFeed.busy = false;
           WidgetFeed.nextPageToken = null;
           initData(true);
-          $scope.$digest();
         });
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
