@@ -55,6 +55,7 @@
               }
               if(isRefresh) {
                 WidgetFeed.loadMore();
+                $scope.$digest();
               }
             }
             , error = function (err) {
@@ -253,7 +254,7 @@
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
             initData();
-            $scope.$apply();
+            $scope.$digest();
           });
         });
         buildfire.datastore.onRefresh(function () {
@@ -261,7 +262,7 @@
           WidgetFeed.busy = false;
           WidgetFeed.nextPageToken = null;
           initData(true);
-          $scope.$apply();
+          $scope.$digest();
         });
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
