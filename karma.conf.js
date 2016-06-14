@@ -26,6 +26,7 @@ module.exports = function (config) {
             'test/assets/bower_components/tinymce/tinymce.min.js',
             'test/assets/bower_components/angular-mocks/angular-mocks.js',
             'test/assets/*.js',
+            '../../scripts/angular/ng-infinite-scroll.custom.js',
             'control/content/**/*.js',
             'control/design/**/*.js',
             'control/settings/**/*.js',
