@@ -22,18 +22,31 @@
         .otherwise('/');
     }])
     .filter('getImageUrl', ['Buildfire', function (Buildfire) {
-      return function (url, width, height, type) {
-        if (type == 'resize')
-          return Buildfire.imageLib.resizeImage(url, {
-            width: width,
-            height: height
-          });
-        else
-          return Buildfire.imageLib.cropImage(url, {
-            width: width,
-            height: height
-          });
+      var _imgUrl;
+      filter.$stateful = true;
+      function filter(url, width, height, type) {
+        if (!_imgUrl) {
+          if (type == 'resize') {
+            Buildfire.imageLib.local.resizeImage(url, {
+              width: width,
+              height: height
+            }, function (err, imgUrl) {
+              _imgUrl = imgUrl;
+            });
+          } else {
+            Buildfire.imageLib.local.cropImage(url, {
+              width: width,
+              height: height
+            }, function (err, imgUrl) {
+              _imgUrl = imgUrl;
+            });
+          }
+        }
+
+        return _imgUrl;
       }
+      return filter;
+
     }])
     .filter('returnYoutubeUrl', ['$sce', function ($sce) {
       return function (id) {
@@ -135,11 +148,19 @@
           });
         }
     }]).filter('cropImage', [function () {
-      return function (url, width, height, type) {
-        return buildfire.imageLib.cropImage(url, {
-          width: width,
-          height: height
-        });
+      function filter (url, width, height, type) {
+        var _imgUrl;
+        filter.$stateful = true;
+        if (!_imgUrl) {
+          return buildfire.imageLib.cropImage(url, {
+            width: width,
+            height: height
+          }, function (err, imgUrl) {
+            _imgUrl = imgUrl;
+          });
+        }
+        return _imgUrl;
       }
+      return filter;
     }]);
 })(window.angular, window.buildfire);
