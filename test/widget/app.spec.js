@@ -1,12 +1,19 @@
 describe('Unit: youtubePlugin widget app', function () {
   describe('Unit: app routes', function () {
     beforeEach(module('youtubePluginWidget'));
-    var location, route, rootScope;
+    var location, route, rootScope, Buildfire;
     beforeEach(inject(
       function (_$location_, _$route_, _$rootScope_) {
         location = _$location_;
         route = _$route_;
         rootScope = _$rootScope_;
+        Buildfire = {
+          imageLib:{
+            local:{
+              resizeImage:function(){}
+            }
+          }
+        }
       }));
 
     describe('Unit test for resolve in path /', function () {

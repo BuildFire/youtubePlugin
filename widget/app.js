@@ -22,9 +22,9 @@
         .otherwise('/');
     }])
     .filter('getImageUrl', ['Buildfire', function (Buildfire) {
-      var _imgUrl;
       filter.$stateful = true;
       function filter(url, width, height, type) {
+        var _imgUrl;
         if (!_imgUrl) {
           if (type == 'resize') {
             Buildfire.imageLib.local.resizeImage(url, {
