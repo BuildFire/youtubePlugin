@@ -148,11 +148,16 @@
           });
         }
     }]).filter('cropImage', [function () {
-      function filter (url, width, height, type) {
+      function filter (url, width, height, noDefault) {
         var _imgUrl;
         filter.$stateful = true;
+        if(noDefault)
+        {
+          if(!url)
+            return '';
+        }
         if (!_imgUrl) {
-          return buildfire.imageLib.cropImage(url, {
+          buildfire.imageLib.local.cropImage(url, {
             width: width,
             height: height
           }, function (err, imgUrl) {
