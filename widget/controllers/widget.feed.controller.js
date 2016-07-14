@@ -26,7 +26,7 @@
         /*
          * Fetch user's data from datastore
          */
-        var init = function () {
+        var initData = function(isRefresh){
           var success = function (result) {
               WidgetFeed.data = result.data;
               if (!WidgetFeed.data.design)
@@ -36,22 +36,37 @@
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
-                if (WidgetFeed.data.design.itemListBgImage) {
-                  $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
-                }
-                if(!result.id) {
-                    WidgetFeed.data.content.playListID = TAG_NAMES.DEFAULT_FEED_ID;
-                }
-                if (WidgetFeed.data.content.type)
+              if (WidgetFeed.data.design.itemListBgImage) {
+                $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+              }
+              if(!result.id) {
+                WidgetFeed.data.content.playListID = TAG_NAMES.DEFAULT_FEED_ID;
+              }
+              if (WidgetFeed.data.content.type)
                 $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
                 currentPlayListId = WidgetFeed.data.content.playListID;
-                  WidgetFeed.masterData.playListId = currentPlayListId;
+                WidgetFeed.masterData.playListId = currentPlayListId;
               }
               if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
                 console.log('single video detected');
                 Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+              }
+              if (!$scope.$$phase)
+                $scope.$digest();
+              if(isRefresh) {
+                if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
+                  if (WidgetFeed.data.content.carouselImages.length)
+                    view._destroySlider();
+                  view = null;
+                }
+                else {
+                  if (view) {
+                    view.loadItems(WidgetFeed.data.content.carouselImages);
+                  }
+                }
+                WidgetFeed.loadMore();
               }
             }
             , error = function (err) {
@@ -60,6 +75,9 @@
               }
             };
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
+        }
+        var init = function () {
+          initData(false);
         };
 
         init();
@@ -83,6 +101,8 @@
               if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
                 WidgetFeed.busy = false;
               }
+              if (!$scope.$$phase)
+                $scope.$digest();
             }
             , error = function (err) {
               Buildfire.spinner.hide();
@@ -246,20 +266,20 @@
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
-            WidgetFeed.loadMore();
+            initData(true);
           });
         });
-
-        $scope.$on("$destroy", function () {
-          DataStore.clearListener();
-        });
-
         buildfire.datastore.onRefresh(function () {
           WidgetFeed.videos = [];
           WidgetFeed.busy = false;
           WidgetFeed.nextPageToken = null;
-          WidgetFeed.loadMore();
+          initData(true);
         });
+        $scope.$on("$destroy", function () {
+          DataStore.clearListener();
+        });
+
+
       }
     ])
 })

@@ -22,18 +22,31 @@
         .otherwise('/');
     }])
     .filter('getImageUrl', ['Buildfire', function (Buildfire) {
-      return function (url, width, height, type) {
-        if (type == 'resize')
-          return Buildfire.imageLib.resizeImage(url, {
-            width: width,
-            height: height
-          });
-        else
-          return Buildfire.imageLib.cropImage(url, {
-            width: width,
-            height: height
-          });
+      filter.$stateful = true;
+      function filter(url, width, height, type) {
+        var _imgUrl;
+        if (!_imgUrl) {
+          if (type == 'resize') {
+            Buildfire.imageLib.local.resizeImage(url, {
+              width: width,
+              height: height
+            }, function (err, imgUrl) {
+              _imgUrl = imgUrl;
+            });
+          } else {
+            Buildfire.imageLib.local.cropImage(url, {
+              width: width,
+              height: height
+            }, function (err, imgUrl) {
+              _imgUrl = imgUrl;
+            });
+          }
+        }
+
+        return _imgUrl;
       }
+      return filter;
+
     }])
     .filter('returnYoutubeUrl', ['$sce', function ($sce) {
       return function (id) {
@@ -135,11 +148,55 @@
           });
         }
     }]).filter('cropImage', [function () {
-      return function (url, width, height, type) {
-        return buildfire.imageLib.cropImage(url, {
-          width: width,
-          height: height
-        });
+      function filter (url, width, height, noDefault) {
+        var _imgUrl;
+        filter.$stateful = true;
+        if(noDefault)
+        {
+          if(!url)
+            return '';
+        }
+        if (!_imgUrl) {
+          buildfire.imageLib.local.cropImage(url, {
+            width: width,
+            height: height
+          }, function (err, imgUrl) {
+            _imgUrl = imgUrl;
+          });
+        }
+        return _imgUrl;
       }
+      return filter;
+    }]).directive('backImg', ["$rootScope", function ($rootScope) {
+      return function (scope, element, attrs) {
+        attrs.$observe('backImg', function (value) {
+          var img = '';
+          if (value) {
+            buildfire.imageLib.local.cropImage(value, {
+              width: $rootScope.deviceWidth,
+              height: $rootScope.deviceHeight
+            }, function (err, imgUrl) {
+              if (imgUrl) {
+                img = imgUrl;
+                element.attr("style", 'background:url(' + img + ') !important');
+              } else {
+                img = '';
+                element.attr("style", 'background-color:white');
+              }
+              element.css({
+                'background-size': 'cover'
+              });
+            });
+            // img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
+          }
+          else {
+            img = "";
+            element.attr("style", 'background-color:white');
+            element.css({
+              'background-size': 'cover'
+            });
+          }
+        });
+      };
     }]);
 })(window.angular, window.buildfire);
