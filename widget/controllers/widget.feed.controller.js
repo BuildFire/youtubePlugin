@@ -80,7 +80,7 @@
               Buildfire.spinner.hide();
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
               WidgetFeed.nextPageToken = result.nextPageToken;
-              if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
+              if (WidgetFeed.videos.length < result.pageInfo.totalResults  && result.nextPageToken) {
                 WidgetFeed.busy = false;
               }
             }
