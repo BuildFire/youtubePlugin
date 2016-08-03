@@ -75,7 +75,7 @@
               }
             };
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
-        }
+        };
         var init = function () {
           initData(false);
         };
@@ -254,12 +254,20 @@
               WidgetFeed.masterData.playListId = currentPlayListId;
             getFeedVideos(WidgetFeed.data.content.playListID);
           }
-          if (!view) {
-            view = new Buildfire.components.carousel.view("#carousel", []);
+
+          if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
+            if (WidgetFeed.data.content.carouselImages.length)
+              view._destroySlider();
+            view = null;
           }
-          if (view && WidgetFeed.data.content.carouselImages) {
-            view.loadItems(WidgetFeed.data.content.carouselImages);
+          else {
+            if (view) {
+              view.loadItems(WidgetFeed.data.content.carouselImages);
+            }
           }
+
+          currentListLayout = WidgetFeed.data.design.itemListLayout;
+          
           DataStore.onUpdate().then(null, null, onUpdateCallback);
 
           buildfire.datastore.onRefresh(function () {
