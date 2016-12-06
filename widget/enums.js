@@ -50,6 +50,6 @@
       ]
     })
     .constant('PROXY_SERVER', {
-      serverUrl: "http://proxy.buildfire.com"
+      serverUrl: "https://proxy.buildfire.com"
     });
 })(window.angular);
