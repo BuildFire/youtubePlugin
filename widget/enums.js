@@ -39,17 +39,18 @@
       API_KEY: 'AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA'
     })
     .constant('VIDEO_COUNT', {
-      LIMIT: window.innerHeight && window.innerHeight >500?25 :8
+      LIMIT: window.innerHeight && window.innerHeight > 500 ? 25 : 8
     })
     .constant('LAYOUTS', {
       listLayouts: [
-        {name: "List_Layout_1"},
-        {name: "List_Layout_2"},
-        {name: "List_Layout_3"},
-        {name: "List_Layout_4"}
+        { name: "List_Layout_1" },
+        { name: "List_Layout_2" },
+        { name: "List_Layout_3" },
+        { name: "List_Layout_4" }
       ]
     })
     .constant('PROXY_SERVER', {
-      serverUrl: "https://proxy.buildfire.com"
+      serverUrl: "https://proxy.buildfire.com",
+      secureServerUrl: 'https://proxy.buildfire.com'
     });
 })(window.angular);
