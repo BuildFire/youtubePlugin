@@ -71,6 +71,13 @@
     }])
     .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'VIDEO_COUNT', 'PROXY_SERVER',
       function (YOUTUBE_KEYS, $q, $http, STATUS_CODE, STATUS_MESSAGES, VIDEO_COUNT, PROXY_SERVER) {
+        var isAndroid = function () {
+          var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+          return (/android/i.test(userAgent));
+        };
+        var getProxyServerUrl = function () {
+          return isAndroid() ? PROXY_SERVER.serverUrl : PROXY_SERVER.secureServerUrl;
+        };
         var getSingleVideoDetails = function (videoId) {
           var deferred = $q.defer();
           var _url = '';
@@ -80,7 +87,7 @@
               message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
             }));
           } else {
-            $http.post(PROXY_SERVER.serverUrl + '/video', {
+            $http.post(getProxyServerUrl() + '/video', {
               id: videoId
             })
               .success(function (response) {
@@ -107,7 +114,7 @@
               message: STATUS_MESSAGES.UNDEFINED_PLAYLIST_ID
             }));
           } else {
-            $http.post(PROXY_SERVER.serverUrl + '/videos', {
+            $http.post(getProxyServerUrl() + '/videos', {
               playlistId: playlistId,
               pageToken: pageToken,
               countLimit: countLimit
