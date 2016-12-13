@@ -87,7 +87,7 @@
               message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
             }));
           } else {
-            $http.post(this.getProxyServerUrl() + '/video', {
+            $http.post(getProxyServerUrl() + '/video', {
               id: videoId
             })
               .success(function (response) {
@@ -114,7 +114,7 @@
               message: STATUS_MESSAGES.UNDEFINED_PLAYLIST_ID
             }));
           } else {
-            $http.post(PROXY_SERVER.serverUrl + '/videos', {
+            $http.post(getProxyServerUrl() + '/videos', {
               playlistId: playlistId,
               pageToken: pageToken,
               countLimit: countLimit
