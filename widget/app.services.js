@@ -71,12 +71,20 @@
     }])
     .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'VIDEO_COUNT', 'PROXY_SERVER',
       function (YOUTUBE_KEYS, $q, $http, STATUS_CODE, STATUS_MESSAGES, VIDEO_COUNT, PROXY_SERVER) {
-        var isAndroid = function () {
-          var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          return (/android/i.test(userAgent));
+        var requiresHttps = function () {
+          var useHttps = false;
+          var userAgent = navigator.userAgent || navigator.vendor;
+          var isiPhone = (/(iPhone|iPod|iPad)/i.test(userAgent));
+          if (isiPhone) {
+            if (!(/OS [4-9](.*) like Mac OS X/i.test(userAgent))) {
+              useHttps = true;
+            }
+          }
+
+          return useHttps;
         };
         var getProxyServerUrl = function () {
-          return isAndroid() ? PROXY_SERVER.serverUrl : PROXY_SERVER.secureServerUrl;
+          return requiresHttps() ? PROXY_SERVER.secureServerUrl : PROXY_SERVER.serverUrl;
         };
         var getSingleVideoDetails = function (videoId) {
           var deferred = $q.defer();
