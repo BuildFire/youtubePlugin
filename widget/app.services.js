@@ -153,7 +153,8 @@
         };
         return {
           getSingleVideoDetails: getSingleVideoDetails,
-          getFeedVideos: getFeedVideos
+          getFeedVideos: getFeedVideos,
+          requiresHttps: requiresHttps
         };
       }])
     .factory('Location', [function () {

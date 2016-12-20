@@ -48,9 +48,11 @@
       return filter;
 
     }])
-    .filter('returnYoutubeUrl', ['$sce', function ($sce) {
+    .filter('returnYoutubeUrl', ['$sce', 'YoutubeApi', function ($sce, YoutubeApi) {
       return function (id) {
-        return $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + id + "?enablejsapi=1");
+        var url = "www.youtube.com/embed/" + id + "?enablejsapi=1";
+        url = (YoutubeApi.requiresHttps() ? "https://" : "http://") + url;
+        return $sce.trustAsResourceUrl(url);
       }
     }])
     .directive("buildFireCarousel", ["$rootScope", '$timeout', function ($rootScope, $timeout) {
@@ -107,7 +109,7 @@
         }
       };
     }])
-    .directive("loadIframe", ['$rootScope',function ($rootScope) {
+    .directive("loadIframe", ['$rootScope', function ($rootScope) {
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
