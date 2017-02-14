@@ -51,7 +51,7 @@
     .filter('returnYoutubeUrl', ['$sce', 'YoutubeApi', function ($sce, YoutubeApi) {
       return function (id) {
         var url = "www.youtube.com/embed/" + id + "?enablejsapi=1";
-        url = (YoutubeApi.requiresHttps() ? "https://" : "http://") + url;
+        url = "https://" + url;
         return $sce.trustAsResourceUrl(url);
       }
     }])

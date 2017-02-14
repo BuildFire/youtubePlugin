@@ -71,32 +71,8 @@
     }])
     .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'VIDEO_COUNT', 'PROXY_SERVER',
       function (YOUTUBE_KEYS, $q, $http, STATUS_CODE, STATUS_MESSAGES, VIDEO_COUNT, PROXY_SERVER) {
-        var requiresHttps = function () {
-          var useHttps = false;
-          var userAgent = navigator.userAgent || navigator.vendor;
-          var isiPhone = (/(iPhone|iPod|iPad)/i.test(userAgent));
-          var isAndroid = (/android/i.test(userAgent));
-
-          //iOS 10 and higher should use HTTPS
-          if (isiPhone) {
-            //This checks the first digit of the OS version. (Doesn't distinguish between 1 and 10)
-            if (!(/OS [4-9](.*) like Mac OS X/i.test(userAgent))) {
-              useHttps = true;
-            }
-          }
-
-          //For web based access, use HTTPS
-          if (!isiPhone && !isAndroid) {
-            useHttps = true;
-          }
-
-          console.warn('userAgent: ' + userAgent);
-          console.warn('useHttps: ' + useHttps);
-
-          return useHttps;
-        };
         var getProxyServerUrl = function () {
-          return requiresHttps() ? PROXY_SERVER.secureServerUrl : PROXY_SERVER.serverUrl;
+          return PROXY_SERVER.secureServerUrl;
         };
         var getSingleVideoDetails = function (videoId) {
           var deferred = $q.defer();
@@ -153,8 +129,7 @@
         };
         return {
           getSingleVideoDetails: getSingleVideoDetails,
-          getFeedVideos: getFeedVideos,
-          requiresHttps: requiresHttps
+          getFeedVideos: getFeedVideos
         };
       }])
     .factory('Location', [function () {
