@@ -273,3 +273,14 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .link-list a + a{
 	margin-left:10px;
 }
+
+.plugin-banner{
+	position: relative;
+	text-align: center;
+}
+
+.thumbnail-container .thumbnail-play-icon{
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+}

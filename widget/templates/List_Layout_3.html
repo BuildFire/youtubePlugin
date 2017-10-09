@@ -16,9 +16,14 @@
           infinite-scroll-disabled="WidgetFeed.busy">
       <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
         <div class="plugin-banner clearfix">
-          <div class="plugin-slide text-center"
+          <div ng-if="video.showVideo" class="plugin-slide text-center"
                data-ng-attr-load-iframe="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}">
             <img src="../../../styles/media/holder-16x9.gif">
+          </div>
+          <div ng-if="!video.showVideo" ng-click="video.showVideo = true" class="thumbnail-container">
+            <img load-image="2x1"
+                 data-final-src="{{video.snippet.thumbnails.standard.url | getImageUrl:'full':null:'resize'}}">
+            <img src="assets/icons/youtube-play.png" class="thumbnail-play-icon" />
           </div>
         </div>
         <div class="padded text-left">
