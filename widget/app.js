@@ -50,7 +50,7 @@
     }])
     .filter('returnYoutubeUrl', ['$sce', 'YoutubeApi', function ($sce, YoutubeApi) {
       return function (id) {
-        var url = "www.youtube.com/embed/" + id + "?enablejsapi=1";
+        var url = "www.youtube.com/embed/" + id + "?enablejsapi=1&autoplay=1";
         url = "https://" + url;
         return $sce.trustAsResourceUrl(url);
       }
