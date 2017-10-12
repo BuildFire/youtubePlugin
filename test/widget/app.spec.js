@@ -68,7 +68,7 @@ describe('Unit: youtubePlugin widget app', function () {
     it('it should pass if "returnYoutubeUrl" filter returns youtube video embed url', function () {
       var result;
       result = filter('returnYoutubeUrl')('wTcNtgA6gHs');
-      expect(result.$$unwrapTrustedValue()).toEqual("https://www.youtube.com/embed/wTcNtgA6gHs?enablejsapi=1");
+      expect(result.$$unwrapTrustedValue()).toEqual("https://www.youtube.com/embed/wTcNtgA6gHs?enablejsapi=1&autoplay=1");
     });
   });
   describe('Unit: backgroundImage directive', function () {
