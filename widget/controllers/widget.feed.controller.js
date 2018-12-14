@@ -23,6 +23,48 @@
         $rootScope.deviceHeight = window.innerHeight;
         $rootScope.deviceWidth = window.innerWidth || 320;
 
+        // Handles viewed state for videos
+        const viewedVideos = {
+          init() {
+            let viewedItems = JSON.parse(localStorage.getItem('viewedVideos'));
+            const storageInitialized = viewedItems && viewedItems.length ? true : false;
+            if (storageInitialized) return;
+
+            localStorage.setItem('viewedVideos', '[]')
+          },
+          get() {
+            return JSON.parse(localStorage.getItem('viewedVideos'));
+          },
+          set(data) {
+            localStorage.setItem('viewedVideos', JSON.stringify(data))
+          },
+          markViewed(video) {
+            const viewedItems = this.get(); 
+            const isViewed = viewedItems.indexOf(video.id) > -1;
+  
+            if (isViewed) return;
+  
+            viewedItems.push(video.id);          
+            viewedVideos.set(viewedItems);
+  
+            WidgetFeed.videos.map(video => {
+              if (viewedItems.includes(video.id)) {
+                video.viewed = true;
+              }
+            });
+  
+            if (!$scope.$$phase) {
+              $scope.$apply();
+            }
+          },
+          findAndMarkViewed(videos) {
+            return videos.map(video => {
+              const isViewed = this.get().indexOf(video.id) > -1;
+              video.viewed = isViewed ? true : false;
+            });
+          }
+        }
+
         /*
          * Fetch user's data from datastore
          */
@@ -77,6 +119,7 @@
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
         };
         var init = function () {
+          viewedVideos.init();
           initData(false);
         };
 
@@ -96,6 +139,9 @@
           Buildfire.spinner.show();
           var success = function (result) {
               Buildfire.spinner.hide();
+
+              viewedVideos.findAndMarkViewed(result.items);
+
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
               WidgetFeed.nextPageToken = result.nextPageToken;
               if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
@@ -224,6 +270,7 @@
                   }
                 });
           }else {*/
+            viewedVideos.markViewed(video);
             video.id = video.snippet.resourceId.videoId;
             VideoCache.setCache(video);
             Location.goTo('#/video/' + video.snippet.resourceId.videoId);
@@ -286,8 +333,6 @@
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
-
-
       }
     ])
 })
