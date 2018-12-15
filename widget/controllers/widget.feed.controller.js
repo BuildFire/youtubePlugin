@@ -23,48 +23,6 @@
         $rootScope.deviceHeight = window.innerHeight;
         $rootScope.deviceWidth = window.innerWidth || 320;
 
-        // Handles viewed state for videos
-        const viewedVideos = {
-          init() {
-            let viewedItems = JSON.parse(localStorage.getItem('viewedVideos'));
-            const storageInitialized = viewedItems && viewedItems.length ? true : false;
-            if (storageInitialized) return;
-
-            localStorage.setItem('viewedVideos', '[]')
-          },
-          get() {
-            return JSON.parse(localStorage.getItem('viewedVideos'));
-          },
-          set(data) {
-            localStorage.setItem('viewedVideos', JSON.stringify(data))
-          },
-          markViewed(video) {
-            const viewedItems = this.get(); 
-            const isViewed = viewedItems.indexOf(video.id) > -1;
-  
-            if (isViewed) return;
-  
-            viewedItems.push(video.id);          
-            viewedVideos.set(viewedItems);
-  
-            WidgetFeed.videos.map(video => {
-              if (viewedItems.includes(video.id)) {
-                video.viewed = true;
-              }
-            });
-  
-            if (!$scope.$$phase) {
-              $scope.$apply();
-            }
-          },
-          findAndMarkViewed(videos) {
-            return videos.map(video => {
-              const isViewed = this.get().indexOf(video.id) > -1;
-              video.viewed = isViewed ? true : false;
-            });
-          }
-        }
-
         /*
          * Fetch user's data from datastore
          */
@@ -247,34 +205,12 @@
           }
           return _retVal;
         };
-
+        
         WidgetFeed.openDetailsPage = function (video) {
-      /*    if(!navigator.onLine) {
-            $modal
-                .open({
-                  template: [
-                    '<div class="padded clearfix">',
-                    '<div class="content text-center">',
-                    '<p>No internet connection was found. please try again later</p>',
-                    '<a class="margin-zero"  ng-click="NoInternetFound.ok()">OK</a>',
-                    '</div>',
-                    '</div></div>'
-                  ].join(''),
-                  controller: 'NoInternetFoundCtrl',
-                  controllerAs: 'NoInternetFound',
-                  size: 'sm',
-                  resolve: {
-                    Info: function () {
-                      return {};
-                    }
-                  }
-                });
-          }else {*/
-            viewedVideos.markViewed(video);
-            video.id = video.snippet.resourceId.videoId;
-            VideoCache.setCache(video);
-            Location.goTo('#/video/' + video.snippet.resourceId.videoId);
-         // }
+          viewedVideos.markViewed($scope, video);
+          video.id = video.snippet.resourceId.videoId;
+          VideoCache.setCache(video);
+          Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
 
         $rootScope.$on("ROUTE_CHANGED", function (e, data) {
