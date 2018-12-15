@@ -1,32 +1,59 @@
 const viewedVideos = {
+	id: '',
 	/**
 	 * If localStorage is not set, initialize viewed videos as an empty array
 	 */
 	init() {
-		let viewedItems = JSON.parse(localStorage.getItem('viewedVideos'));
-		const storageInitialized = viewedItems && viewedItems.length ? true : false;
-		if (storageInitialized) return;
+		buildfire.auth.getCurrentUser((err, user) => {
+			if (err) throw err;
 
-		localStorage.setItem('viewedVideos', '[]');
+			this.id = user ? user._id : 'guest';
+
+			let viewedItems = JSON.parse(localStorage.getItem('viewedVideos'));
+
+			const storageInitialized = viewedItems && typeof viewedItems === 'object' ? true : false;
+
+			if (storageInitialized) {
+				const userStateInitialized = viewedItems.hasOwnProperty(this.id);
+				if (userStateInitialized) return;
+				else viewedItems[this.id] = [];
+			} else {
+				viewedItems = { [this.id]: [] };
+			}
+
+			localStorage.setItem('viewedVideos', JSON.stringify(viewedItems));
+		});
 	},
 	/**
-	 * returns a parsed array of viewed videos
+	 * returns the current user's parsed array of viewed videos
 	 * @returns {Array}
 	 */
 	get() {
-		return JSON.parse(localStorage.getItem('viewedVideos'));
+		try {
+			return JSON.parse(localStorage.getItem('viewedVideos'))[this.id];
+		} catch (e) {
+			console.warn(e);
+			return [];
+		}
 	},
 	/**
 	 * stringify and set viewed videos to local storage
 	 * @param {Array} videos
 	 */
-	set(videos) {
-		localStorage.setItem('viewedVideos', JSON.stringify(videos));
+	_set(videos) {
+		try {
+			let viewedVideos = JSON.parse(localStorage.getItem('viewedVideos'));
+			viewedVideos[this.id] = videos;
+			localStorage.setItem('viewedVideos', JSON.stringify(viewedVideos));
+		} catch (e) {
+            console.warn(e);
+            return [];
+        }
 	},
 	/**
 	 * pushes a video id to local storage
 	 * marks video as viewed
-     * @param {Object} $scope
+	 * @param {Object} $scope
 	 * @param {Object} video
 	 */
 	markViewed($scope, video) {
@@ -36,7 +63,7 @@ const viewedVideos = {
 		if (isViewed) return;
 
 		viewedItems.push(video.id);
-		this.set(viewedItems);
+		this._set(viewedItems);
 
 		$scope.WidgetFeed.videos.map(video => {
 			if (viewedItems.includes(video.id)) {
