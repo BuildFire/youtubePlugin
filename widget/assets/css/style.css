@@ -284,3 +284,44 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 }
+
+/*///////////////// Viewed State /////////////////*/
+.list-item.viewed p,
+.list-item.viewed a{
+	opacity: .7;
+}
+.list-item.viewed .list-media-holder{
+	position: relative;
+}
+.list-item.viewed span{
+	position: relative;
+	display: block;
+}
+.layout1 .list-item.viewed .list-media-holder::after,
+.layout2 .list-item.viewed .list-media-holder::after,
+.layout3 .list-item.viewed .thumbnail-container::after,
+.layout4 .list-item.viewed .list-media-holder::after{
+	content: '';
+	display: block;
+	width: 100%;
+	background: #fff;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	opacity: .5;
+}
+.list-item.viewed span::after{
+	content: '\e60d';
+	font-family: icomoon;
+	opacity: 1;
+	font-style: normal;
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	color: #14cb5d;
+}
+
+.list-item.viewed .thumbnail-container .thumbnail-play-icon{
+	z-index: 1;
+}
