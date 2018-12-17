@@ -205,14 +205,9 @@
           }
           return _retVal;
         };
-
-        var localStorageSpace = function(){
-          console.log('viewedVideos' + " = " + ((window.localStorage.viewedVideos.length * 16)/(8 * 1024)).toFixed(2) + ' KB' );
-      };
         
         WidgetFeed.openDetailsPage = function (video) {
-          localStorageSpace()
-          viewedVideos.markViewed($scope, video)
+          viewedVideos.markViewed($scope, video);
           video.id = video.snippet.resourceId.videoId;
           VideoCache.setCache(video);
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);
