@@ -284,3 +284,109 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 }
+
+/*///////////////// Viewed State /////////////////*/
+.list-item.viewed p,
+.list-item.viewed a{
+	opacity: .7;
+}
+.list-item.viewed .list-media-holder{
+	position: relative;
+}
+.list-item.viewed span{
+	position: relative;
+	display: inline-block;
+}
+.layout1 .list-item.viewed .list-media-holder::after,
+.layout2 .list-item.viewed .list-media-holder::after,
+.layout3 .list-item.viewed .thumbnail-container::after,
+.layout4 .list-item.viewed .list-media-holder::after{
+	content: '';
+	display: block;
+	width: 100%;
+	background: #fff;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	opacity: .5;
+}
+.list-item.viewed span::after{
+	content: '\e60d';
+	font-family: icomoon;
+	opacity: 1;
+	font-style: normal;
+	display: inline-block;
+	position: absolute;
+	color: #14cb5d;
+	margin-left: 16px;
+}
+
+.list-item.viewed .thumbnail-container .thumbnail-play-icon{
+	z-index: 1;
+}
+
+/*///////////////// Bookmark Icon /////////////////*/
+.li-actions a{
+	display: block;
+}
+.list-item.viewed .li-actions a{
+	opacity: 1;
+}
+.bookmark .bookmark-icon{
+	width: 24px;
+	height: 24px;
+	display: block;
+}
+.layout2 .bookmark.unmarked .bookmark-icon,
+.layout3 .bookmark.unmarked .bookmark-icon{
+	background-image: url(../icons/ic_star_border_g.svg);
+}
+.layout2 .bookmark .bookmark-icon,
+.layout3 .bookmark .bookmark-icon{
+	background-image: url(../icons/ic_star_full_g.svg);
+}
+.layout1 .bookmark.unmarked .bookmark-icon,
+.layout4 .bookmark.unmarked .bookmark-icon{
+	background-image: url(../icons/ic_star_border.svg);
+}
+.layout1 .bookmark .bookmark-icon,
+.layout4 .bookmark .bookmark-icon{
+	background-image: url(../icons/ic_star_full.svg);
+}
+.layout1 .list-item .list-media-holder::before,
+.layout2 .list-item .list-media-holder::before,
+.layout4 .list-item .list-media-holder::before{
+	display: block;
+	position: absolute;
+	top: 0;
+	content: '';
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background: -moz-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 60%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 60%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+.layout1 .list-item .li-actions,
+.layout4 .list-item .li-actions{
+	z-index: 2;
+	position: absolute;
+	font-size: 2rem;
+	right: 4px;
+	top: 4px;
+	border-radius: 40px;
+}
+.layout3 .list-item .list-item-copy{
+	width: calc(100% - 30px);
+	position: relative;
+}
+.layout3 .li-actions{
+	top: 16px;
+	position: absolute;
+	right: -20px;
+	font-size: 2rem;
+}
+.ellipsis{
+	display: block;
+}
