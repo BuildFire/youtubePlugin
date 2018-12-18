@@ -10,12 +10,13 @@
   <div class="padded padding-top-zero" ng-if="WidgetFeed.data">
     <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
       data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-      <div class="list-item col-xs-6 pull-left video-box" ng-repeat="video in WidgetFeed.videos"
-        trigger-ng-repeat-render>
+      <div class="list-item col-xs-6 pull-left video-box" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
         <div class="list-item-media text-center overflow-hidden">
           <div class="list-media-holder">
             <div class="li-actions">
-              <a class="bookmark unmarked" role="button"><i class="bookmark-icon"></i></a>
+              <a class="bookmark unmarked" role="button">
+				  <i class="bookmark-icon"></i>
+				</a>
             </div>
             <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)"><img load-image="16x9"
                 data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:160:90}}"></a>

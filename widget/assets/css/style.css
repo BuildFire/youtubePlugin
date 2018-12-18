@@ -295,7 +295,7 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 }
 .list-item.viewed span{
 	position: relative;
-	display: inline-block;
+	display: block;
 }
 .layout1 .list-item.viewed .list-media-holder::after,
 .layout2 .list-item.viewed .list-media-holder::after,
