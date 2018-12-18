@@ -68,6 +68,7 @@
                 }
                 WidgetFeed.loadMore();
               }
+              viewedVideos.findAndMarkViewed(WidgetFeed.videos);
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -91,6 +92,17 @@
           } else {
             view.loadItems([]);
           }
+        });
+
+        buildfire.auth.onLogin(user => {
+          // this._init();
+          init();
+        });
+    
+        buildfire.auth.onLogout(err => {
+          console.log(err);
+          init();          
+          // this._init();
         });
 
         var getFeedVideos = function (_playlistId) {
