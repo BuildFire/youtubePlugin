@@ -1,8 +1,3 @@
-<style>
-  .viewed .text-left a {
-    color: blueviolet !important;
-  }
-</style>
 <div class="media-center-plugin layout3" id="scroll-infinite">
   <div class="plugin-banner clearfix">
     <div id="carousel" ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
@@ -13,7 +8,7 @@
   </div>
   <div ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
     data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-    <div ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
+    <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render class="list-item">
       <div class="plugin-banner clearfix">
         <div ng-if="video.showVideo" class="plugin-slide text-center" data-ng-attr-load-iframe="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}">
           <img src="../../../styles/media/holder-16x9.gif">
@@ -21,6 +16,17 @@
         <div ng-if="!video.showVideo" ng-click="video.showVideo = true" class="thumbnail-container">
           <img load-image="2x1" data-final-src="{{video.snippet.thumbnails.standard.url | getImageUrl:'full':null:'resize'}}">
           <img src="assets/icons/youtube-play.png" class="thumbnail-play-icon" />
+        </div>
+      </div>
+      <div class="list-item-copy padded text-left">
+        <a class="text-primary" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
+
+        <p class="margin-bottom-zero break-word" style="max-width: 310px">{{video.snippet.description |
+          limitTo:220}}{{(video.snippet.description.length >220) && "..." ||
+          ""}}</p>
+        <i><span class="list-item-date">{{video.snippet.publishedAt | date}}</span></i>
+        <div class="li-actions">
+          <a class="bookmark unmarked" role="button"><i class="bookmark-icon"></i></a>
         </div>
       </div>
       <div class="padded text-left">
