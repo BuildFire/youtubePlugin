@@ -68,6 +68,7 @@
                 }
                 WidgetFeed.loadMore();
               }
+              viewedVideos.findAndMarkViewed(WidgetFeed.videos);
             }
             , error = function (err) {
               if (err && err.code !== STATUS_CODE.NOT_FOUND) {
@@ -76,8 +77,9 @@
             };
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
         };
-        var init = function () {
-          initData(false);
+        var init = function (isRefresh) {
+          viewedVideos.init();
+          initData(isRefresh);
         };
 
         init();
@@ -92,10 +94,24 @@
           }
         });
 
+        buildfire.auth.onLogin(user => {
+          // this._init();
+          init(true);
+        });
+    
+        buildfire.auth.onLogout(err => {
+          console.log(err);
+          init(true);          
+          // this._init();
+        });
+
         var getFeedVideos = function (_playlistId) {
           Buildfire.spinner.show();
           var success = function (result) {
               Buildfire.spinner.hide();
+
+              viewedVideos.findAndMarkViewed(result.items);
+
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
               WidgetFeed.nextPageToken = result.nextPageToken;
               if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
@@ -201,33 +217,12 @@
           }
           return _retVal;
         };
-
+        
         WidgetFeed.openDetailsPage = function (video) {
-      /*    if(!navigator.onLine) {
-            $modal
-                .open({
-                  template: [
-                    '<div class="padded clearfix">',
-                    '<div class="content text-center">',
-                    '<p>No internet connection was found. please try again later</p>',
-                    '<a class="margin-zero"  ng-click="NoInternetFound.ok()">OK</a>',
-                    '</div>',
-                    '</div></div>'
-                  ].join(''),
-                  controller: 'NoInternetFoundCtrl',
-                  controllerAs: 'NoInternetFound',
-                  size: 'sm',
-                  resolve: {
-                    Info: function () {
-                      return {};
-                    }
-                  }
-                });
-          }else {*/
-            video.id = video.snippet.resourceId.videoId;
-            VideoCache.setCache(video);
-            Location.goTo('#/video/' + video.snippet.resourceId.videoId);
-         // }
+          viewedVideos.markViewed($scope, video);
+          video.id = video.snippet.resourceId.videoId;
+          VideoCache.setCache(video);
+          Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
 
         $rootScope.$on("ROUTE_CHANGED", function (e, data) {
@@ -286,8 +281,6 @@
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
-
-
       }
     ])
 })
