@@ -4,9 +4,6 @@ const viewedVideos = {
 	 * If localStorage is not set, initialize viewed videos as an empty array
 	 */
 	init() {
-		this._init();
-	},
-	_init() {
 		buildfire.auth.getCurrentUser((err, user) => {
 			if (err) throw err;
 
@@ -32,7 +29,7 @@ const viewedVideos = {
 	 * @returns {Array}
 	 */
 	get() {
-		try {
+		try {			
 			return JSON.parse(localStorage.getItem('viewedVideos'))[this.id];
 		} catch (e) {
 			console.warn(e);
@@ -61,15 +58,15 @@ const viewedVideos = {
 	 */
 	markViewed($scope, video) {
 		const viewedItems = this.get();
-		const isViewed = viewedItems.includes(video.id);
+		const isViewed = viewedItems.includes(video.snippet.resourceId.videoId);
 
 		if (isViewed) return;
 
-		viewedItems.push(video.id);
+		viewedItems.push(video.snippet.resourceId.videoId);
 		this._set(viewedItems);
 
 		$scope.WidgetFeed.videos.map(video => {
-			if (viewedItems.includes(video.id)) {
+			if (viewedItems.includes(video.snippet.resourceId.videoId)) {
 				video.viewed = true;
 			}
 		});
@@ -85,7 +82,7 @@ const viewedVideos = {
 	 */
 	findAndMarkViewed(videos) {
 		return videos.map(video => {
-			const isViewed = this.get().includes(video.id);
+			const isViewed = this.get().includes(video.snippet.resourceId.videoId);
 			video.viewed = isViewed ? true : false;
 		});
 	}

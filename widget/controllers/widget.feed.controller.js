@@ -77,9 +77,9 @@
             };
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
         };
-        var init = function () {
+        var init = function (isRefresh) {
           viewedVideos.init();
-          initData(false);
+          initData(isRefresh);
         };
 
         init();
@@ -96,12 +96,12 @@
 
         buildfire.auth.onLogin(user => {
           // this._init();
-          init();
+          init(true);
         });
     
         buildfire.auth.onLogout(err => {
           console.log(err);
-          init();          
+          init(true);          
           // this._init();
         });
 
