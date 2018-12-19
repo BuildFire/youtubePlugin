@@ -8,7 +8,7 @@
   </div>
   <div ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
     data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-    <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render class="list-item">
+    <div ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render class="list-item">
       <div class="plugin-banner clearfix">
         <div ng-if="video.showVideo" class="plugin-slide text-center" data-ng-attr-load-iframe="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}">
           <img src="../../../styles/media/holder-16x9.gif">

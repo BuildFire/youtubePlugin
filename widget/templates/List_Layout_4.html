@@ -9,7 +9,8 @@
   <div class="padded padding-top-zero" ng-if="WidgetFeed.data">
     <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
       data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-      <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
+
+      <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
         <div class="list-item-media text-center border-radius-three overflow-hidden">
           <div class="list-media-holder">
             <div class="li-actions">
@@ -20,13 +21,6 @@
           </div>
         </div>
         <div class="list-item-copy text-left">
-          <p class="ellipsis margin-zero text-primary"><a class="text-primary" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet
-              .title}}</a></p>
-
-          <p class="summary ellipsis margin-zero" style="max-width: 240px">{{video.snippet.description}}</p>
-          <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
-        </div>
-        <div class="list-item-copy text-left">
           <p class="ellipsis margin-zero text-primary">
             <a class="text-primary" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
           </p>
@@ -34,6 +28,7 @@
           <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
         </div>
       </div>
+
     </div>
   </div>
 </div>

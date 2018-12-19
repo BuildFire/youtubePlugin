@@ -9,7 +9,7 @@
   <div>
     <div class="list-layout" ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
       data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-      <div class="list-item" ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
+      <div class="list-item" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
         <div class="list-item-media text-left overflow-hidden">
           <div class="list-media-holder pull-left">
             <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">
