@@ -68,6 +68,7 @@
                 }
                 WidgetFeed.loadMore();
               }
+              // bookmarks.findAndMarkAll($scope);
               viewedVideos.findAndMarkViewed(WidgetFeed.videos);
             }
             , error = function (err) {
@@ -78,6 +79,10 @@
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
         };
         var init = function (isRefresh) {
+          const callback = (err, bookmark) => {
+            console.log(err, bookmark);
+          };
+          buildfire.bookmarks.get(callback);
           viewedVideos.init();
           initData(isRefresh);
         };
@@ -109,7 +114,7 @@
           Buildfire.spinner.show();
           var success = function (result) {
               Buildfire.spinner.hide();
-
+              bookmarks.findAndMarkAll($scope);
               viewedVideos.findAndMarkViewed(result.items);
 
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
@@ -225,7 +230,19 @@
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
 
-        $rootScope.$on("ROUTE_CHANGED", function (e, data) {
+        WidgetFeed.bookmark = function (video) {
+          console.log(video.bookmarked);
+          const isBookmarked = video.bookmarked ? true : false;
+          console.log(isBookmarked);
+          
+          if (isBookmarked) {
+            bookmarks.delete($scope, video);
+          } else {
+            bookmarks.add($scope, video);
+          }
+        };
+
+        $rootScope.$on("ROUTE_CHANGED", function (e, data) {        
           WidgetFeed.data = data;
           if (!WidgetFeed.data.design)
             WidgetFeed.data.design = {};
@@ -278,6 +295,7 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
+        $scope.$watch('WidgetFeed.videos', () => console.log(WidgetFeed.videos), true);
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });

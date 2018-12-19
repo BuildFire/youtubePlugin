@@ -111,6 +111,8 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         $scope.$on("$destroy", function () {
+          console.log($routeParams);
+
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", WidgetSingle.data);
           DataStore.clearListener();
           $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data);

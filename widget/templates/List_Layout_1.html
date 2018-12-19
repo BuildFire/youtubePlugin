@@ -12,7 +12,7 @@
         <div class="list-item-media text-center overflow-hidden">
           <div class="list-media-holder">
             <div class="li-actions">
-              <a class="bookmark unmarked" role="button">
+              <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark(video)" role="button">
 				        <i class="bookmark-icon"></i>
 				      </a>
             </div>
