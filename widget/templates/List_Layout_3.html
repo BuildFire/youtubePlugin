@@ -29,14 +29,6 @@
           <a class="bookmark unmarked" role="button"><i class="bookmark-icon"></i></a>
         </div>
       </div>
-      <div class="padded text-left">
-        <a class="text-primary" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
-
-        <p class="margin-bottom-zero break-word" style="max-width: 310px">
-          {{video.snippet.description | limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}
-        </p>
-        <i><span class="list-item-date">{{video.snippet.publishedAt | date}}</span></i>
-      </div>
     </div>
   </div>
 </div>
