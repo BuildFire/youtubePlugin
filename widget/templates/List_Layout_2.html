@@ -20,7 +20,7 @@
             <p class="summary ellipsis margin-zero" style="max-width: 240px">{{video.snippet.description}}</p>
             <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
             <div class="li-actions">
-              <a class="bookmark unmarked" role="button">
+              <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark(video)" role="button">
                 <i class="bookmark-icon"></i>
               </a>
             </div>

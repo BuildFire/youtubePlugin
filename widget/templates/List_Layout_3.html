@@ -23,7 +23,7 @@
           <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
         </i>
         <div class="li-actions">
-          <a class="bookmark unmarked" role="button">
+          <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark(video)" role="button">
             <i class="bookmark-icon"></i>
           </a>
         </div>

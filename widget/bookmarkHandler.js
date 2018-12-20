@@ -1,7 +1,7 @@
 const bookmarks = {
 	add($scope, video) {
 		let options = {
-			id: video.snippet.resourceId.videoId,
+			id: video.snippet.resourceId.videoId || video.id,
 			title: video.snippet.title,
 			payload: `#/video/${video.snippet.resourceId.videoId}`,
 			icon: video.snippet.thumbnails.default.url
