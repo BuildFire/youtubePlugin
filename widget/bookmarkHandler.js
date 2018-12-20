@@ -3,7 +3,7 @@ const bookmarks = {
 		let options = {
 			id: video.snippet.resourceId.videoId,
 			title: video.snippet.title,
-			payload: {},
+			payload: `#/video/${video.snippet.resourceId.videoId}`,
 			icon: video.snippet.thumbnails.default
 		};
 		let callback = (err, data) => {

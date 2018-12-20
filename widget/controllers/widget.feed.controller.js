@@ -79,10 +79,6 @@
           DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
         };
         var init = function (isRefresh) {
-          const callback = (err, bookmark) => {
-            console.log(err, bookmark);
-          };
-          buildfire.bookmarks.get(callback);
           viewedVideos.init();
           initData(isRefresh);
         };
@@ -100,14 +96,12 @@
         });
 
         buildfire.auth.onLogin(user => {
-          // this._init();
           init(true);
         });
     
         buildfire.auth.onLogout(err => {
           console.log(err);
           init(true);          
-          // this._init();
         });
 
         var getFeedVideos = function (_playlistId) {
