@@ -61,6 +61,17 @@
           YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
         };
 
+        WidgetSingle.bookmark = function () {
+          const isBookmarked = WidgetSingle.video.bookmarked ? true : false;
+          console.log(isBookmarked);
+          
+          if (isBookmarked) {
+            bookmarks.delete($scope, WidgetSingle.video);
+          } else {
+            bookmarks.add($scope, WidgetSingle.video);
+          }
+        };
+
         if ($routeParams.videoId) {
           if (VideoCache.getCache()) {
             $rootScope.showFeed = false;

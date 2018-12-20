@@ -293,10 +293,6 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .list-item.viewed .list-media-holder{
 	position: relative;
 }
-.list-item.viewed span{
-	position: relative;
-	display: block;
-}
 .layout1 .list-item.viewed .list-media-holder::after,
 .layout2 .list-item.viewed .list-media-holder::after,
 .layout3 .list-item.viewed .thumbnail-container::after,
@@ -329,6 +325,9 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .li-actions a{
 	display: block;
 }
+.item-actions a{
+	display: inline-block;
+}
 .list-item.viewed .li-actions a{
 	opacity: 1;
 }
@@ -338,11 +337,13 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	display: block;
 }
 .layout2 .bookmark.unmarked .bookmark-icon,
-.layout3 .bookmark.unmarked .bookmark-icon{
+.layout3 .bookmark.unmarked .bookmark-icon,
+.layout1-detail .bookmark.unmarked .bookmark-icon{
 	background-image: url(../icons/ic_star_border_g.svg);
 }
 .layout2 .bookmark .bookmark-icon,
-.layout3 .bookmark .bookmark-icon{
+.layout3 .bookmark .bookmark-icon,
+.layout1-detail .bookmark .bookmark-icon{
 	background-image: url(../icons/ic_star_full_g.svg);
 }
 .layout1 .bookmark.unmarked .bookmark-icon,
