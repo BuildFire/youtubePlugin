@@ -240,6 +240,9 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 #carousel {
     overflow: hidden !important;
 }
+.plugin-slide img {
+	max-height: none !important;
+}
 
 /* Play Btn */
 .play-btn{
