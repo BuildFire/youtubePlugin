@@ -7,15 +7,15 @@
   </div>
   <div class="padded padding-top-zero" ng-if="WidgetFeed.data">
     <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1" data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-      <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
+      <div class="list-item col-xs-6 pull-left" ng-repeat="video in WidgetFeed.videos" ng-click="WidgetFeed.openDetailsPage(video)" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
         <div class="list-item-media text-center border-radius-three overflow-hidden">
           <div class="list-media-holder">
             <div class="li-actions">
-              <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark(video)" role="button">
+              <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark($event, video)" role="button">
                 <i class="bookmark-icon"></i>
               </a>
             </div>
-            <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">
+            <a href="javascript:void(0)">
               <img load-image="1x1" data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:200:200}}"></a>
           </div>
         </div>

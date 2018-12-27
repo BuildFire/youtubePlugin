@@ -16,14 +16,14 @@
           <img src="assets/icons/youtube-play.png" class="thumbnail-play-icon" />
         </div>
       </div>
-      <div class="list-item-copy padded text-left">
-        <a class="text-primary" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
+      <div class="list-item-copy padded text-left" ng-click="WidgetFeed.openDetailsPage(video)">
+        <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
         <p class="margin-bottom-zero break-word" style="max-width: 310px">{{video.snippet.description | limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}</p>
         <i>
           <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
         </i>
         <div class="li-actions">
-          <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark(video)" role="button">
+          <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark($event, video)" role="button">
             <i class="bookmark-icon"></i>
           </a>
         </div>

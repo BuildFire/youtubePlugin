@@ -22,7 +22,7 @@ const bookmarks = {
 				$scope.$apply();
 			}
 		};
-		buildfire.bookmarks.add(options, callback);
+		buildfire.bookmarks ? buildfire.bookmarks.add(options, callback) : null;
 	},
 	delete($scope, video) {
 		const callback = () => {
@@ -40,14 +40,14 @@ const bookmarks = {
 				$scope.$apply();
 			}
 		};
-		buildfire.bookmarks.delete(video.snippet.resourceId.videoId, callback);
+		buildfire.bookmarks ? buildfire.bookmarks.delete(video.snippet.resourceId.videoId, callback) : null;
 	},
 	_getAll(callback) {
 		const cb = (err, bookmarks) => {
 			if (err) throw err;
 			callback(bookmarks);
 		};
-		buildfire.bookmarks.getAll(cb);
+		buildfire.bookmarks ? buildfire.bookmarks.getAll(cb) : cb(null, []);
 	},
 	findAndMarkAll($scope) {
 		this._getAll(bookmarks => {

@@ -224,11 +224,9 @@
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
 
-        WidgetFeed.bookmark = function (video) {
-          console.log(video.bookmarked);
+        WidgetFeed.bookmark = function ($event, video) {
+          $event.stopImmediatePropagation();
           const isBookmarked = video.bookmarked ? true : false;
-          console.log(isBookmarked);
-          
           if (isBookmarked) {
             bookmarks.delete($scope, video);
           } else {
@@ -289,7 +287,6 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
-        $scope.$watch('WidgetFeed.videos', () => console.log(WidgetFeed.videos), true);
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
