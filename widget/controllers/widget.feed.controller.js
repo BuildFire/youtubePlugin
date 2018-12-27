@@ -89,6 +89,22 @@
         $rootScope.$on("Carousel:LOADED", function () {
           if (!view) {
             view = new Buildfire.components.carousel.view("#carousel", []);
+            // const css = `
+            //   min-height: ${window.innerWidth * .5625}px !important;
+            //   position: relative;
+            //   top: 0px;
+            //   left: 0px;
+            //   display: block;
+            // `;
+            // setTimeout(() => {
+            //   document.getElementById('carousel').setAttribute('style', css);
+            // }, 100);
+            // const css = `
+            //   margin-top: -${((window.innerWidth * .5625) - 380) / 2}px;
+            // `;
+            // setTimeout(() => {
+            //   document.getElementsByClassName('owl-stage-outer')[0].setAttribute('style', css);
+            // }, 100);
           }
           if (WidgetFeed.data.content && WidgetFeed.data.content.carouselImages) {
             view.loadItems(WidgetFeed.data.content.carouselImages);
@@ -224,7 +240,9 @@
         }
         
         WidgetFeed.openDetailsPage = function (video) {
-          viewedVideos.markViewed($scope, video);
+          setTimeout(() => {
+            viewedVideos.markViewed($scope, video);
+          }, 500); 
           video.id = video.snippet.resourceId.videoId;
           VideoCache.setCache(video);
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);

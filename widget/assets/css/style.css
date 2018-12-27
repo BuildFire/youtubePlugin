@@ -133,6 +133,7 @@
 }
 .list-layout .list-item-media .list-media-holder{
 	margin:0 auto;
+	position: relative;
 	max-width:240px;
 }
 .layout4 .list-layout .list-item-media .list-media-holder{
@@ -240,7 +241,8 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 #carousel {
     overflow: hidden !important;
 }
-.plugin-slide img {
+
+.plugin-slide img, .plugin-slide  {
 	max-height: none !important;
 }
 
