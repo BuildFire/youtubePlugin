@@ -7,7 +7,7 @@
   </div>
   <div>
     <div class="list-layout" ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1" data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-      <div class="list-item" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
+      <div class="list-item" ng-click="WidgetFeed.openDetailsPage(video)" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
         <div class="list-item-media text-left overflow-hidden">
           <div class="list-media-holder pull-left">
             <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">
@@ -15,14 +15,14 @@
           </div>
           <div class="list-item-copy text-left padding-left-ten padding-right-ten">
             <p class="ellipsis margin-zero text-primary">
-              <a class="text-primary" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">{{video.snippet.title}}</a>
+              <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
             </p>
             <p class="summary ellipsis margin-zero" style="max-width: 240px">{{video.snippet.description}}</p>
             <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
             <div class="li-actions">
-              <a class="bookmark unmarked" role="button">
-                <i class="bookmark-icon"></i>
-              </a>
+              <div>
+                <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }" ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+              </div>
             </div>
           </div>
         </div>

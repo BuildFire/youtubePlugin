@@ -22,7 +22,9 @@
         /*declare the device width heights*/
         $rootScope.deviceHeight = window.innerHeight;
         $rootScope.deviceWidth = window.innerWidth || 320;
-
+        WidgetFeed.appHeight = window.innerWidth * (9 / 16);
+        console.log($rootScope.deviceWidth);
+        console.log($rootScope.deviceHeight);
         /*
          * Fetch user's data from datastore
          */
@@ -68,6 +70,7 @@
                 }
                 WidgetFeed.loadMore();
               }
+              // bookmarks.findAndMarkAll($scope);
               viewedVideos.findAndMarkViewed(WidgetFeed.videos);
             }
             , error = function (err) {
@@ -95,21 +98,19 @@
         });
 
         buildfire.auth.onLogin(user => {
-          // this._init();
           init(true);
         });
     
         buildfire.auth.onLogout(err => {
           console.log(err);
           init(true);          
-          // this._init();
         });
 
         var getFeedVideos = function (_playlistId) {
           Buildfire.spinner.show();
           var success = function (result) {
               Buildfire.spinner.hide();
-
+              bookmarks.findAndMarkAll($scope);
               viewedVideos.findAndMarkViewed(result.items);
 
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
@@ -217,6 +218,10 @@
           }
           return _retVal;
         };
+
+        WidgetFeed.view = function (video) {
+          viewedVideos.markViewed($scope, video);
+        }
         
         WidgetFeed.openDetailsPage = function (video) {
           viewedVideos.markViewed($scope, video);
@@ -225,7 +230,17 @@
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
 
-        $rootScope.$on("ROUTE_CHANGED", function (e, data) {
+        WidgetFeed.bookmark = function ($event, video) {
+          $event.stopImmediatePropagation();
+          const isBookmarked = video.bookmarked ? true : false;
+          if (isBookmarked) {
+            bookmarks.delete($scope, video);
+          } else {
+            bookmarks.add($scope, video);
+          }
+        };
+
+        $rootScope.$on("ROUTE_CHANGED", function (e, data) {        
           WidgetFeed.data = data;
           if (!WidgetFeed.data.design)
             WidgetFeed.data.design = {};
@@ -278,6 +293,7 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
+        $scope.$watch('WidgetFeed.appHeight', () => console.log(WidgetFeed.appHeight), true)
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });

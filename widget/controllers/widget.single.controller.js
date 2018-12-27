@@ -4,7 +4,8 @@
   angular.module('youtubePluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', 'VideoCache',
       function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope, VideoCache) {
-
+        console.log('WidgetSingle init');
+        
 
         buildfire.datastore.onRefresh(function () {
           // Don't do anything on pull down
@@ -53,6 +54,7 @@
           var success = function (result) {
               $rootScope.showFeed = false;
               WidgetSingle.video = result;
+              
             }
             , error = function (err) {
               $rootScope.showFeed = false;
@@ -61,6 +63,17 @@
           YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
         };
 
+        WidgetSingle.bookmark = function () {
+          const isBookmarked = WidgetSingle.video.bookmarked ? true : false;
+          console.log(isBookmarked);
+          
+          if (isBookmarked) {
+            bookmarks.delete($scope, WidgetSingle.video);
+          } else {
+            bookmarks.add($scope, WidgetSingle.video);
+          }
+        };
+        
         if ($routeParams.videoId) {
           if (VideoCache.getCache()) {
             $rootScope.showFeed = false;
@@ -111,6 +124,8 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         $scope.$on("$destroy", function () {
+          console.log($routeParams);
+
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", WidgetSingle.data);
           DataStore.clearListener();
           $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data);
