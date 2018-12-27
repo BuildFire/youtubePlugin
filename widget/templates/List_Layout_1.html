@@ -12,9 +12,9 @@
         <div class="list-item-media text-center overflow-hidden">
           <div class="list-media-holder">
             <div class="li-actions">
-              <a class="bookmark" ng-class="{'unmarked' : !video.bookmarked}" ng-click="WidgetFeed.bookmark($event, video)" role="button">
-				        <i class="bookmark-icon"></i>
-				      </a>
+              <div>
+                <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }" ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+              </div>
             </div>
             <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)"><img load-image="16x9" data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:160:90}}"></a>
           </div>

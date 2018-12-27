@@ -85,12 +85,12 @@
 
 /* List Layout Grids */
 .list-layout .list-item{
-	padding-left:15px;
+	padding-left:8px;
 	padding-right:8px;
 }
 .list-layout .list-item + .list-item{
 	padding-left:8px;
-	padding-right:15px;
+	padding-right:8px;
 }
 .list-layout .list-item-media{
 	position:relative;
@@ -211,15 +211,15 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 * Styling for list layout elements
 */
 .list-layout {
-    overflow: hidden;
+	overflow: hidden;
 }
-
+.list-item-container {
+	padding: 0px 7px;
+}
 .list-layout .list-item.video-box {
     padding-left: 2%;
     padding-right: 2%;
-
 }
-
 .layout1 .list-layout .list-item-copy,
 .layout4 .list-layout .list-item-copy {
     min-height: 80px;
@@ -285,6 +285,15 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	top: 0; left: 0; bottom: 0; right: 0;
 }
 
+.layout3 .load-img {
+	width: 100vh !important;
+}
+
+.layout3 .holder {
+	width: 100vw !important;
+	padding:  0px !important;
+}
+
 /*///////////////// Viewed State /////////////////*/
 .list-item.viewed p,
 .list-item.viewed a{
@@ -336,23 +345,36 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	height: 24px;
 	display: block;
 }
-.layout2 .bookmark.unmarked .bookmark-icon,
-.layout3 .bookmark.unmarked .bookmark-icon,
-.layout1-detail .bookmark.unmarked .bookmark-icon{
-	background-image: url(../icons/ic_star_border_g.svg);
+.bookmark {
+	padding: 5px;
+	margin: -5px;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings' !important;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-.layout2 .bookmark .bookmark-icon,
-.layout3 .bookmark .bookmark-icon,
-.layout1-detail .bookmark .bookmark-icon{
-	background-image: url(../icons/ic_star_full_g.svg);
+.layout2 .bookmark.unmarked,
+.layout3 .bookmark.unmarked,
+.layout1-detail .bookmark.unmarked {
+	color: #999;
 }
-.layout1 .bookmark.unmarked .bookmark-icon,
-.layout4 .bookmark.unmarked .bookmark-icon{
-	background-image: url(../icons/ic_star_border.svg);
+.layout2 .bookmark,
+.layout3 .bookmark,
+.layout1-detail .bookmark {
+	color: #999;
 }
-.layout1 .bookmark .bookmark-icon,
-.layout4 .bookmark .bookmark-icon{
-	background-image: url(../icons/ic_star_full.svg);
+.layout1 .bookmark.unmarked,
+.layout4 .bookmark.unmarked {
+	color: #fff;
+}
+.layout1 .bookmark,
+.layout4 .bookmark {
+	color: #fff;
 }
 .layout1 .list-item .list-media-holder::before,
 .layout2 .list-item .list-media-holder::before,

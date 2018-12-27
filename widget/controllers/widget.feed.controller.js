@@ -22,7 +22,9 @@
         /*declare the device width heights*/
         $rootScope.deviceHeight = window.innerHeight;
         $rootScope.deviceWidth = window.innerWidth || 320;
-
+        WidgetFeed.appHeight = window.innerWidth * (9 / 16);
+        console.log($rootScope.deviceWidth);
+        console.log($rootScope.deviceHeight);
         /*
          * Fetch user's data from datastore
          */
@@ -216,6 +218,10 @@
           }
           return _retVal;
         };
+
+        WidgetFeed.view = function (video) {
+          viewedVideos.markViewed($scope, video);
+        }
         
         WidgetFeed.openDetailsPage = function (video) {
           viewedVideos.markViewed($scope, video);
@@ -287,6 +293,7 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
+        $scope.$watch('WidgetFeed.appHeight', () => console.log(WidgetFeed.appHeight), true)
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });

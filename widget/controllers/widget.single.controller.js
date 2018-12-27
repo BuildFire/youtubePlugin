@@ -4,7 +4,8 @@
   angular.module('youtubePluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'YoutubeApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', 'VideoCache',
       function ($routeParams, $scope, YoutubeApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope, VideoCache) {
-
+        console.log('WidgetSingle init');
+        
 
         buildfire.datastore.onRefresh(function () {
           // Don't do anything on pull down
@@ -53,6 +54,7 @@
           var success = function (result) {
               $rootScope.showFeed = false;
               WidgetSingle.video = result;
+              
             }
             , error = function (err) {
               $rootScope.showFeed = false;
@@ -71,7 +73,7 @@
             bookmarks.add($scope, WidgetSingle.video);
           }
         };
-
+        
         if ($routeParams.videoId) {
           if (VideoCache.getCache()) {
             $rootScope.showFeed = false;
