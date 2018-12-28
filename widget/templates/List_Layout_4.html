@@ -6,7 +6,7 @@
   <div class="text-left padded padding-bottom-zero clearfix">
     <p class="break-word" ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
   </div>
-  <div class="padded padding-top-zero" ng-if="WidgetFeed.data">
+  <div class="padding-top-zero" ng-if="WidgetFeed.data">
     <div class="list-layout list-item-container" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
       data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
       <div class="list-item col-xs-6 col-md-4 pull-left" ng-repeat="video in WidgetFeed.videos" ng-click="WidgetFeed.openDetailsPage(video)"
@@ -30,7 +30,6 @@
           <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
         </div>
       </div>
-
     </div>
   </div>
 </div>

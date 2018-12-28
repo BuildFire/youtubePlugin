@@ -19,19 +19,19 @@
           <img src="assets/icons/youtube-play.png" class="thumbnail-play-icon" />
         </div>
       </div>
-      <div class="list-item-copy padded text-left" ng-click="WidgetFeed.openDetailsPage(video)">
-        <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
-        <p class="margin-bottom-zero break-word" style="max-width: 310px">{{video.snippet.description |
-          limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}</p>
-        <i>
-          <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
-        </i>
+      <div class="list-item-copy" ng-click="WidgetFeed.openDetailsPage(video)">
+        <div class="li-copy">
+          <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
+          <p class="margin-bottom-zero break-word">{{video.snippet.description |
+            limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}</p>
+          <i>
+            <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+          </i>
+        </div>
         <div class="li-actions">
-          <div>
-            <i class="share glyphicon glyphicon-share-alt" role="button"></i>
-            <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
-              ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
-          </div>
+          <i class="share glyphicon glyphicon-share-alt" role="button"></i>
+          <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
+            ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
         </div>
       </div>
     </div>
