@@ -446,6 +446,7 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 /* Layout 2 */
 .layout2 .list-layout .list-item-copy{
 	padding: 0;
+	width: 100%;
 }
 .layout2 .list-layout .list-item {
 	background: none;
@@ -481,6 +482,9 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	display: flex;
 	padding: 16px;
 	position: relative;
+}
+.layout3 .list-item-copy .li-copy {
+	width: 100%;
 }
 .layout3 .li-actions{
 	position: relative;

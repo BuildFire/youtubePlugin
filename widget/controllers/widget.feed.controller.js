@@ -243,6 +243,15 @@
           Location.goTo('#/video/' + video.snippet.resourceId.videoId);
         };
 
+        WidgetFeed.getThumbnail = function (video) {
+          const isTablet = $rootScope.deviceWidth > 812;
+          if (isTablet) {
+            return video.snippet.thumbnails.maxres.url
+          } else {
+            return video.snippet.thumbnails.medium.url
+          }
+        };
+
         WidgetFeed.bookmark = function ($event, video) {
           $event.stopImmediatePropagation();
           const isBookmarked = video.bookmarked ? true : false;
@@ -306,6 +315,7 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
+        $scope.$watch('WidgetFeed.videos', () => console.log(WidgetFeed.videos), true);
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });

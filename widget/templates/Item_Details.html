@@ -25,8 +25,8 @@
     </div>
     <div class="li-actions">
       <i class="share glyphicon glyphicon-share-alt" role="button"></i>
-      <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
-        ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+      <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !WidgetSingle.video.bookmarked, 'glyphicon-star' : WidgetSingle.video.bookmarked }"
+      ng-click="WidgetSingle.bookmark()" role="button"></i>
     </div>
     <!--<div><a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;playVideo&quot;)">Start</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;pauseVideo&quot;)">Pause</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;stopVideo&quot;)">Stop</a></div>-->
   </div>
