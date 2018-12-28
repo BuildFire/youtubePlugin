@@ -87,29 +87,24 @@
 
         init();
         $rootScope.$on("Carousel:LOADED", function () {
-          if (!view) {
-            view = new Buildfire.components.carousel.view("#carousel", []);
-            // const css = `
-            //   min-height: ${window.innerWidth * .5625}px !important;
-            //   position: relative;
-            //   top: 0px;
-            //   left: 0px;
-            //   display: block;
-            // `;
-            // setTimeout(() => {
-            //   document.getElementById('carousel').setAttribute('style', css);
-            // }, 100);
-            // const css = `
-            //   margin-top: -${((window.innerWidth * .5625) - 380) / 2}px;
-            // `;
-            // setTimeout(() => {
-            //   document.getElementsByClassName('owl-stage-outer')[0].setAttribute('style', css);
-            // }, 100);
+          WidgetFeed.view = null;
+          if (!WidgetFeed.view) {
+            WidgetFeed.view = new Buildfire.components.carousel.view("#carousel", [], 'WideScreen');
+            const css = `
+              min-height: ${window.innerWidth * .5625}px !important;
+              position: relative;
+              top: 0px;
+              left: 0px;
+              display: block;
+            `;
+            setTimeout(() => {
+              document.getElementById('carousel').setAttribute('style', css);
+            }, 50);
           }
           if (WidgetFeed.data.content && WidgetFeed.data.content.carouselImages) {
-            view.loadItems(WidgetFeed.data.content.carouselImages);
+            WidgetFeed.view.loadItems(WidgetFeed.data.content.carouselImages, null, 'WideScreen');
           } else {
-            view.loadItems([]);
+            WidgetFeed.view.loadItems([]);
           }
         });
 
@@ -311,7 +306,6 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
-        $scope.$watch('WidgetFeed.appHeight', () => console.log(WidgetFeed.appHeight), true)
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });

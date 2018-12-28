@@ -126,6 +126,7 @@
           iframe.classList.add("ng-hide");
           iframe.height = $rootScope.appHeight+"px";
           iframe.frameborder = "0";
+          iframe.allow = "autoplay";
           $(element).append(iframe);
         }
       };
