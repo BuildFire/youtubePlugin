@@ -133,11 +133,6 @@
 }
 .list-layout .list-item-media .list-media-holder{
 	margin:0 auto;
-	position: relative;
-	max-width:240px;
-}
-.layout4 .list-layout .list-item-media .list-media-holder{
-	max-width:200px;
 }
 .list-layout .list-item-copy{
 	padding:10px 0;
@@ -304,9 +299,10 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .list-item.viewed a{
 	opacity: .7;
 }
-.list-item.viewed .list-media-holder{
+.list-item .list-media-holder{
 	position: relative;
 }
+
 .layout1 .list-item.viewed .list-media-holder::after,
 .layout2 .list-item.viewed .list-media-holder::after,
 .layout3 .list-item.viewed .thumbnail-container::after,
@@ -335,33 +331,23 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	z-index: 1;
 }
 
-/*///////////////// Bookmark Icon /////////////////*/
-.li-actions a{
-	display: block;
+/*///////////////// Bookmark & Share Icons /////////////////*/
+.list-item .list-media-holder img{
+	width: 100%;
 }
-.item-actions a{
-	display: inline-block;
-}
-.list-item.viewed .li-actions a{
-	opacity: 1;
-}
-.bookmark .bookmark-icon{
-	width: 24px;
-	height: 24px;
-	display: block;
-}
-.bookmark {
+.bookmark, .share {
 	padding: 5px;
-	margin: -5px;
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings' !important;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	position: absolute;
+	display: block;
+	font-family: 'Glyphicons Halflings' !important;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.layout1-detail .bookmark {
+	position: relative;
 }
 .layout2 .bookmark.unmarked,
 .layout3 .bookmark.unmarked,
@@ -370,7 +356,9 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 }
 .layout2 .bookmark,
 .layout3 .bookmark,
-.layout1-detail .bookmark {
+.layout3 .share,
+.layout1-detail .bookmark,
+.layout1-detail .share {
 	color: #999;
 }
 .layout1 .bookmark.unmarked,
@@ -380,6 +368,7 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .layout1 .bookmark,
 .layout4 .bookmark {
 	color: #fff;
+	right: 0;
 }
 .layout1 .list-item .list-media-holder::before,
 .layout2 .list-item .list-media-holder::before,
@@ -401,20 +390,63 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	z-index: 2;
 	position: absolute;
 	font-size: 2rem;
-	right: 4px;
-	top: 4px;
 	border-radius: 40px;
+	width: 100%;
+	height: 40px;
 }
 .layout3 .list-item .list-item-copy{
-	width: calc(100% - 30px);
+	width: calc(100% - 68px);
 	position: relative;
 }
-.layout3 .li-actions{
+.layout2 .list-item .list-item-copy{
+	width: calc(100% - 30px);
+}
+.layout3 .li-actions {
 	top: 16px;
 	position: absolute;
-	right: -20px;
+	right: -56px;
 	font-size: 2rem;
+	height: 30px;
+	width: 30px;
+}
+.layout2 .li-actions{
+	right: -24px;
+	top: 0;
 }
 .ellipsis{
 	display: block;
+}
+/*///////////////// Share Icon /////////////////*/
+.layout1 .li-actions .share,
+.layout4 .li-actions .share{
+	color: #fff;
+	left: 0;
+}
+.layout3 .list-item-copy a{
+	width: calc(100% - 30px);
+	display: block;
+}
+.layout3 .li-actions{
+	width: auto;
+}
+.layout3 .li-actions i {
+	display: inline-block;
+	position: relative;
+	float: left;
+	top: 0;
+	margin-left: 8px;
+}
+.layout2 .list-media-holder .li-actions{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+.layout2 .list-media-holder .share{
+	color: #fff;
+}
+
+/* Hide share button until functionality is ready*/
+.share{
+	display: none;
 }
