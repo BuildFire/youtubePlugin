@@ -9,7 +9,7 @@
   <div ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
     data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
     <div ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render class="list-item">
-      <div class="plugin-banner clearfix">
+      <div class="plugin-banner clearfix" ng-style="{'min-height': WidgetFeed.appHeight}">
         <div ng-if="video.showVideo" style='max-height: none !important' class="plugin-slide text-center"
           data-ng-attr-load-iframe="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}">
           <img class="holder" ng-style="{'min-height': WidgetFeed.appHeight}" src="../../../styles/media/holder-16x9.gif">
@@ -23,8 +23,8 @@
       <div class="list-item-copy" ng-click="WidgetFeed.openDetailsPage(video)">
         <div class="li-copy">
           <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
-          <p class="margin-bottom-zero break-word">{{video.snippet.description |
-            limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}</p>
+          <!-- <p class="margin-bottom-zero break-word">{{video.snippet.description |
+            limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}</p> -->
           <i>
             <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
           </i>
