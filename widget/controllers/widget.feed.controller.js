@@ -262,8 +262,10 @@
 
         const options = {
           subject: video.snippet.title,
-          text: video.snippet.description,
-          image: video.snippet.thumbnails.default,
+          /* currently non-functional params
+          // text: video.snippet.description,
+          // image: video.snippet.thumbnails.default,
+          */
           link: `https://youtu.be/${video.snippet.resourceId.videoId}`
         };
         
@@ -273,7 +275,7 @@
           }
         };
 
-				buildfire.device.share(options, callback);
+        buildfire.device.share(options, callback);
 			};
 
 			$rootScope.$on('ROUTE_CHANGED', function(e, data) {

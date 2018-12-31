@@ -74,8 +74,10 @@
 
         const options = {
           subject: WidgetSingle.video.snippet.title,
-          text: WidgetSingle.video.snippet.description,
-          image: WidgetSingle.video.snippet.thumbnails.default,
+          /* currently non-functional params
+          // text: WidgetSingle.video.snippet.description,
+          // image: WidgetSingle.video.snippet.thumbnails.default,
+          */
           link: `https://youtu.be/${WidgetSingle.video.snippet.resourceId.videoId}`
         };
         
