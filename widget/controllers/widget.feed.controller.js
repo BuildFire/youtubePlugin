@@ -258,24 +258,24 @@
 			};
 
 			WidgetFeed.share = function($event, video) {
-        $event.stopImmediatePropagation();
+				$event.stopImmediatePropagation();
 
-        const options = {
-          subject: video.snippet.title,
-          /* currently non-functional params
-          // text: video.snippet.description,
-          // image: video.snippet.thumbnails.default,
-          */
-          link: `https://youtu.be/${video.snippet.resourceId.videoId}`
-        };
-        
-        const callback = err => {
-          if (err) {
-            console.warn(err);
-          }
-        };
+				const options = {
+					subject: video.snippet.title,
+					/* currently non-functional params
+				// text: video.snippet.description,
+				// image: video.snippet.thumbnails.default,
+				*/
+					link: `https://youtu.be/${video.snippet.resourceId.videoId}`
+				};
 
-        buildfire.device.share(options, callback);
+				const callback = err => {
+					if (err) {
+						console.warn(err);
+					}
+				};
+
+				buildfire.device.share(options, callback);
 			};
 
 			$rootScope.$on('ROUTE_CHANGED', function(e, data) {
@@ -330,8 +330,8 @@
 					WidgetFeed.nextPageToken = null;
 					initData(true);
 				});
-      });
-      
+			});
+
 			buildfire.datastore.onRefresh(function() {
 				WidgetFeed.videos = [];
 				WidgetFeed.busy = false;
