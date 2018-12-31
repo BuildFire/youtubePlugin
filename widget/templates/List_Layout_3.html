@@ -15,7 +15,6 @@
           <img class="holder" ng-style="{'min-height': WidgetFeed.appHeight}" src="../../../styles/media/holder-16x9.gif">
         </div>
         <div ng-if="!video.showVideo" ng-click="video.showVideo = true; WidgetFeed.view(video);" class="thumbnail-container">
-          <!-- <img class='load-img' load-image="16x9" ng-style="{'max-height': WidgetFeed.appHeight}" data-final-src="{{video.snippet.thumbnails.maxres.url | getImageUrl:'full': WidgetFeed.appHeight:'crop'}}"> -->
           <img class='load-img' load-image="16x9" ng-style="{'max-height': WidgetFeed.appHeight}" data-final-src="{{WidgetFeed.getThumbnail(video) | getImageUrl:'full': WidgetFeed.appHeight:'crop'}}">
           <img src="assets/icons/youtube-play.png" class="thumbnail-play-icon" />
         </div>
@@ -23,8 +22,6 @@
       <div class="list-item-copy" ng-click="WidgetFeed.openDetailsPage(video)">
         <div class="li-copy">
           <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
-          <!-- <p class="margin-bottom-zero break-word">{{video.snippet.description |
-            limitTo:220}}{{(video.snippet.description.length >220) && "..." || ""}}</p> -->
           <i>
             <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
           </i>
