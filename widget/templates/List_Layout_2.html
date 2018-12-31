@@ -13,7 +13,7 @@
         ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
         <div class="list-media-holder pull-left">
           <div class="li-actions">
-            <i class="share glyphicon glyphicon-share-alt" role="button"></i>
+            <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetFeed.share($event, video)" role="button"></i>
           </div>
           <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">
             <img load-image="16x9" data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}"></a>

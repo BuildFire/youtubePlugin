@@ -404,7 +404,6 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	left: 0;
 }
 .layout3 .list-item-copy a{
-	width: calc(100% - 30px);
 	display: block;
 }
 .layout3 .li-actions{
@@ -492,13 +491,13 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 }
 .layout3 .list-item-date{
 	font-size: .8em;
+	flex: 1;
+}
+.layout3 .info-group {
+	display: flex;
+	align-items: center;
 }
 /* Layout 4 */
 .layout4 .list-item-container{
 	padding: 0 8px;
-}
-
-/* Hide share button until functionality is ready*/
-.share{
-	display: none !important;
 }

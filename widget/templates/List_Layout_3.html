@@ -22,14 +22,14 @@
       <div class="list-item-copy" ng-click="WidgetFeed.openDetailsPage(video)">
         <div class="li-copy">
           <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
-          <i>
+          <i class="info-group">
             <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+            <div class="li-actions">
+              <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetFeed.share($event, video)" role="button"></i>
+              <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
+                ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+            </div>
           </i>
-        </div>
-        <div class="li-actions">
-          <i class="share glyphicon glyphicon-share-alt" role="button"></i>
-          <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
-            ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
         </div>
       </div>
     </div>
