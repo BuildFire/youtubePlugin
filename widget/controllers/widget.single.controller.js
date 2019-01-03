@@ -71,19 +71,16 @@
       };
       
       WidgetSingle.share = function() {
-
-        const options = {
-          subject: WidgetSingle.video.snippet.title,
-          /* currently non-functional params
-          // text: WidgetSingle.video.snippet.description,
-          // image: WidgetSingle.video.snippet.thumbnails.default,
-          */
+				const options = {
+					subject: WidgetSingle.video.snippet.title,
+          text: WidgetSingle.video.snippet.description,
+          // image: WidgetSingle.video.snippet.thumbnails.default.url,
           link: `https://youtu.be/${WidgetSingle.video.snippet.resourceId.videoId}`
         };
         
         const callback = err => {
           if (err) {
-            console.warn(err);
+						localStorage.setItem('error', JSON.stringify(err))
           }
         };
 

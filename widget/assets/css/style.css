@@ -493,9 +493,12 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	font-size: .8em;
 	flex: 1;
 }
-.layout3 .info-group {
+.layout3 .info-group, .layout2 .info-group {
 	display: flex;
 	align-items: center;
+}
+.layout2 .info-group .list-item-date {
+	flex: 1;
 }
 /* Layout 4 */
 .layout4 .list-item-container{

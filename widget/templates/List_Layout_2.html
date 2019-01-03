@@ -11,24 +11,36 @@
       data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
       <div class="list-item" ng-click="WidgetFeed.openDetailsPage(video)" ng-repeat="video in WidgetFeed.videos"
         ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render>
+
         <div class="list-media-holder pull-left">
           <div class="li-actions">
             <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetFeed.share($event, video)" role="button"></i>
           </div>
           <a href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">
-            <img load-image="16x9" data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}"></a>
+            <img load-image="16x9" data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:220:120}}">
+          </a>
         </div>
-        <div class="list-item-copy ellipsis">
-          <p class="ellipsis margin-zero text-primary">
-            <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
-          </p>
-          <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
-        </div>
-        <div class="li-actions">
-          <div>
-            <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
-              ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+
+        <div ng-style="{ 'min-width': deviceWidth - 128}">
+
+          <div class="list-item-copy ellipsis">
+            <p class="ellipsis margin-zero text-primary">
+              <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
+            </p>
           </div>
+
+          <div class="info-group">
+
+            <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+
+            <div class="li-actions">
+              <div>
+                <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }" ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </div>
