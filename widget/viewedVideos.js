@@ -57,6 +57,7 @@ const viewedVideos = {
 	 * @param {Object} video
 	 */
 	markViewed($scope, video) {
+		if (!$scope || !video) return;
 		const viewedItems = this.get();
 		const isViewed = viewedItems.includes(video.snippet.resourceId.videoId);
 
@@ -81,8 +82,17 @@ const viewedVideos = {
 	 * @param {Array} videos
 	 */
 	findAndMarkViewed(videos) {
+		if (this.id === '') return;
+		if (!videos || videos.length == 0) return;
+
 		return videos.map(video => {
-			const isViewed = this.get().includes(video.snippet.resourceId.videoId);
+			let videoId = '';
+			if (video.snippet.resourceId) {
+				videoId = video.snippet.resourceId.videoId
+			} else {
+				videoId = video.id;
+			}
+			const isViewed = this.get().includes(videoId);
 			video.viewed = isViewed ? true : false;
 		});
 	}

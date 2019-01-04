@@ -21,6 +21,14 @@
         }
 			};
 
+			buildfire.auth.onLogin(() => {
+				bookmarks.findAndMarkAll($scope);
+			});
+		
+			buildfire.auth.onLogout(() => {
+					bookmarks.findAndMarkAll($scope);
+			});
+
 			/*
 			 * Fetch user's data from datastore
 			 */
@@ -51,6 +59,7 @@
 				var success = function(result) {
 						$rootScope.showFeed = false;
 						WidgetSingle.video = result;
+						bookmarks.findAndMarkAll($scope);
 					},
 					error = function(err) {
 						$rootScope.showFeed = false;
@@ -71,11 +80,17 @@
       };
       
       WidgetSingle.share = function() {
+				let link = '';
+				if (WidgetSingle.video.snippet.resourceId) {
+					link = WidgetSingle.video.snippet.resourceId.videoId;
+				} else {
+					link = WidgetSingle.video.id;
+				}
 				const options = {
 					subject: WidgetSingle.video.snippet.title,
           text: WidgetSingle.video.snippet.description,
           // image: WidgetSingle.video.snippet.thumbnails.default.url,
-          link: `https://youtu.be/${WidgetSingle.video.snippet.resourceId.videoId}`
+          link
         };
         
         const callback = err => {
@@ -143,6 +158,8 @@
       };
       
 			DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+			$scope.$watch('WidgetSingle.video', () => console.log(WidgetSingle.video), true);
 
 			$scope.$on('$destroy', function() {
 				console.log($routeParams);
