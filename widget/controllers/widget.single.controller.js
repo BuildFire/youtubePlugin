@@ -36,6 +36,7 @@
 			var init = function() {
 				var success = function(result) {
 						WidgetSingle.data = result.data;
+						viewedVideos.init();
 						if (!WidgetSingle.data.design) WidgetSingle.data.design = {};
 						if (!WidgetSingle.data.content) WidgetSingle.data.content = {};
 						if (!WidgetSingle.data.design.itemListLayout) {
@@ -60,6 +61,7 @@
 						$rootScope.showFeed = false;
 						WidgetSingle.video = result;
 						bookmarks.findAndMarkAll($scope);
+						viewedVideos.markViewed($scope, WidgetSingle.video);
 					},
 					error = function(err) {
 						$rootScope.showFeed = false;

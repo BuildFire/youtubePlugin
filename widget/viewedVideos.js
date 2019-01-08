@@ -59,22 +59,29 @@ const viewedVideos = {
 	markViewed($scope, video) {
 		if (!$scope || !video) return;
 		const viewedItems = this.get();
-		const isViewed = viewedItems.includes(video.snippet.resourceId.videoId);
+		let videoId = '';
+			if (video.snippet.resourceId) {
+				videoId = video.snippet.resourceId.videoId
+			} else {
+				videoId = video.id;
+			}
+		const isViewed = viewedItems.includes(videoId);
 
 		if (isViewed) return;
 
-		viewedItems.push(video.snippet.resourceId.videoId);
+		viewedItems.push(videoId);
 		this._set(viewedItems);
-
-		$scope.WidgetFeed.videos.map(video => {
-			if (viewedItems.includes(video.snippet.resourceId.videoId)) {
-				video.viewed = true;
+		
+		if ($scope.WidgetFeed) {
+			$scope.WidgetFeed.videos.map(video => {
+				if (viewedItems.includes(videoId)) {
+					video.viewed = true;
+				}
+			});
+			if (!$scope.$$phase) {
+				$scope.$apply();
 			}
-		});
-
-		if (!$scope.$$phase) {
-			$scope.$apply();
-		}
+		} 
 	},
 	/**
 	 * maps through an array of videos
