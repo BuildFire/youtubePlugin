@@ -1,6 +1,6 @@
 <div class="media-center-plugin list-layout layout4">
   <div class="media-center-banner clearfix">
-    <div id="carousel" ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
+    <div id="carousel" ng-if="WidgetFeed.data.content.carouselImages.length > 0" ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
       build-fire-carousel=""></div>
   </div>
   <div class="text-left padded padding-bottom-zero clearfix">
