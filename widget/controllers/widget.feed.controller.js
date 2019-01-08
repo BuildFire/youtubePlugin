@@ -292,6 +292,8 @@
           currentPlayListId = WidgetFeed.data.content.playListID;
           WidgetFeed.masterData.playListId = currentPlayListId;
           getFeedVideos(WidgetFeed.data.content.playListID);
+        } else {
+          bookmarks.findAndMarkAll($scope);
         }
 
         if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
