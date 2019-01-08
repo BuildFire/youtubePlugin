@@ -113,13 +113,12 @@
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-          $rootScope.appHeight = window.innerHeight/2.83;
+          $rootScope.appHeight = window.innerWidth * (9 / 16);
           var iframe = document.createElement('iframe'),
-            img = $(element).find("img");
+          img = $(element).find("img");
           iframe.onload = function () {
             iframe.classList.remove("ng-hide");
             img.remove();
-
           }; // before setting 'src'
           iframe.id = 'ytPlayer';
           iframe.src = attrs.loadIframe;
@@ -127,6 +126,7 @@
           iframe.classList.add("ng-hide");
           iframe.height = $rootScope.appHeight+"px";
           iframe.frameborder = "0";
+          iframe.allow = "autoplay";
           $(element).append(iframe);
         }
       };
@@ -149,7 +149,8 @@
             callPlayer('ytPlayer', 'pauseVideo');
           });
         }
-    }]).filter('cropImage', [function () {
+    }])
+    .filter('cropImage', [function () {
       function filter (url, width, height, noDefault) {
         var _imgUrl;
         filter.$stateful = true;
@@ -159,18 +160,22 @@
             return '';
         }
         if (!_imgUrl) {
-          buildfire.imageLib.local.cropImage(url, {
-            width: width,
-            height: height
-          }, function (err, imgUrl) {
+          buildfire.imageLib.local.cropImage(url,
+            {
+              width,
+              height
+            }, 
+            function (err, imgUrl) {
             _imgUrl = imgUrl;
           });
         }
         return _imgUrl;
       }
       return filter;
-    }]).directive('backImg', ["$rootScope", function ($rootScope) {
+    }])
+    .directive('backImg', ["$rootScope", function ($rootScope) {
       return function (scope, element, attrs) {
+        console.log(scope, element, attrs)
         attrs.$observe('backImg', function (value) {
           var img = '';
           if (value) {

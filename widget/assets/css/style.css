@@ -85,12 +85,12 @@
 
 /* List Layout Grids */
 .list-layout .list-item{
-	padding-left:15px;
+	padding-left:8px;
 	padding-right:8px;
 }
 .list-layout .list-item + .list-item{
 	padding-left:8px;
-	padding-right:15px;
+	padding-right:8px;
 }
 .list-layout .list-item-media{
 	position:relative;
@@ -133,14 +133,9 @@
 }
 .list-layout .list-item-media .list-media-holder{
 	margin:0 auto;
-	max-width:240px;
-}
-.layout4 .list-layout .list-item-media .list-media-holder{
-	max-width:200px;
 }
 .list-layout .list-item-copy{
 	padding:10px 0;
-	min-height:70px;
 }
 .list-layout .list-item-copy p.summary{
 	font-size:13px;
@@ -211,18 +206,14 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 * Styling for list layout elements
 */
 .list-layout {
-    overflow: hidden;
+	overflow: hidden;
 }
-
+.list-item-container {
+	padding: 0px 7px;
+}
 .list-layout .list-item.video-box {
     padding-left: 2%;
     padding-right: 2%;
-
-}
-
-.layout1 .list-layout .list-item-copy,
-.layout4 .list-layout .list-item-copy {
-    min-height: 80px;
 }
 
 /*
@@ -239,6 +230,10 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 
 #carousel {
     overflow: hidden !important;
+}
+
+.plugin-slide img, .plugin-slide  {
+	max-height: none !important;
 }
 
 /* Play Btn */
@@ -267,9 +262,6 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 }
 
 /* Link Items */
-.link-list{
-	padding-top:2px;
-}
 .link-list a + a{
 	margin-left:10px;
 }
@@ -283,4 +275,232 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	margin: auto;
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.layout3 .load-img {
+	width: 100vh !important;
+}
+
+.layout3 .holder {
+	width: 100vw !important;
+	padding:  0px !important;
+}
+
+/*///////////////// Viewed State /////////////////*/
+.list-item.viewed p,
+.list-item.viewed a{
+	opacity: .7;
+}
+.list-item .list-media-holder{
+	position: relative;
+}
+
+.layout1 .list-item.viewed .list-media-holder::after,
+.layout2 .list-item.viewed .list-media-holder::after,
+.layout3 .list-item.viewed .thumbnail-container::after,
+.layout4 .list-item.viewed .list-media-holder::after{
+	content: '';
+	display: block;
+	width: 100%;
+	background: #fff;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	opacity: .5;
+}
+.list-item.viewed span::after{
+	content: '\e60d';
+	font-family: icomoon;
+	opacity: 1;
+	font-style: normal;
+	display: inline-block;
+	position: absolute;
+	color: #14cb5d;
+	margin-left: 16px;
+}
+
+.list-item.viewed .thumbnail-container .thumbnail-play-icon{
+	z-index: 1;
+}
+
+/*///////////////// Bookmark & Share Icons /////////////////*/
+.list-item .list-media-holder img{
+	width: 100%;
+}
+.bookmark, .share {
+	padding: 5px;
+	position: relative;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings' !important;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.layout1-detail .bookmark {
+	position: relative;
+}
+.layout2 .bookmark.unmarked,
+.layout3 .bookmark.unmarked,
+.layout1-detail .bookmark.unmarked {
+	color: #999;
+}
+.layout2 .bookmark,
+.layout3 .bookmark,
+.layout3 .share,
+.layout1-detail .bookmark,
+.layout1-detail .share {
+	color: #999;
+}
+.layout1 .bookmark.unmarked,
+.layout4 .bookmark.unmarked {
+	color: #fff;
+}
+.layout1 .bookmark,
+.layout4 .bookmark {
+	color: #fff;
+	right: 0;
+}
+.layout1 .list-item .list-media-holder::before,
+.layout2 .list-item .list-media-holder::before,
+.layout4 .list-item .list-media-holder::before{
+	display: block;
+	position: absolute;
+	top: 0;
+	content: '';
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background: -moz-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 60%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 60%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+.layout1 .list-item .li-actions,
+.layout4 .list-item .li-actions{
+	z-index: 2;
+	position: absolute;
+	font-size: 2rem;
+	border-radius: 40px;
+	width: 100%;
+	height: 40px;
+}
+.layout1 .li-actions i,
+.layout4 .li-actions i{
+	position: absolute;
+}
+.ellipsis{
+	display: block;
+}
+/*///////////////// Share Icon /////////////////*/
+.li-actions i{
+	font-size: 20px;
+	display: inline-block;
+}
+.layout1 .li-actions .share,
+.layout4 .li-actions .share{
+	color: #fff !important;
+	left: 0;
+}
+.layout3 .list-item-copy a{
+	display: block;
+}
+.layout3 .li-actions{
+	width: auto;
+}
+/*///////////////// Item Detail View /////////////////*/
+.layout1-detail .main-title{
+	font-size: 18px;
+	font-weight: bolder;
+	line-height: 1.25em;
+	margin-bottom: 0;
+}
+.layout1-detail .li-actions{
+	position: relative;
+}
+.item-actions{
+	margin: 16px 0;
+	padding: 8px 16px;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+}
+.layout1-detail .li-actions i{
+	flex-shrink: 0;
+	position: relative;
+	display: inline-block;
+	margin-left: 8px;
+}
+.plugin-slider img, .plugin-slider  {
+	max-height: none !important;
+}
+/* Layout 2 */
+.layout2 .list-layout .list-item-copy{
+	padding: 0;
+	width: 100%;
+}
+.layout2 .list-layout .list-item {
+	background: none;
+	display: flex;
+	padding: 8px;
+	border-top: 1px solid #efefef;
+}
+.layout2 .list-media-holder{
+	width: 110px;
+	height: 60px;
+	border-radius: 4px;
+	margin-right: 10px;
+	flex-shrink: 0;
+}
+.layout2 .li-actions .share{
+	color: #fff !important;
+}
+.layout2 .list-media-holder .li-actions{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+.layout2 .li-actions i{
+	margin-left: 8px;
+	position: relative;
+}
+.layout2 .list-media-holder .li-actions i{
+	margin-left: 0;
+}
+/* Layout 3 */
+.layout3 .list-item-copy{
+	display: flex;
+	padding: 16px;
+	position: relative;
+}
+.layout3 .list-item-copy .li-copy {
+	width: 100%;
+}
+.layout3 .li-actions{
+	position: relative;
+	flex-shrink: 0;
+}
+.layout3 .li-actions i{
+	margin-left: 8px;
+	position: relative;
+}
+.layout3 .list-item-date{
+	font-size: .8em;
+	flex: 1;
+}
+.layout3 .info-group, .layout2 .info-group {
+	display: flex;
+	align-items: center;
+}
+.layout2 .info-group .list-item-date {
+	flex: 1;
+}
+/* Layout 4 */
+.layout4 .list-item-container{
+	padding: 0 8px;
 }

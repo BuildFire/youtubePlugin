@@ -1,34 +1,41 @@
-
-  <div ng-if="WidgetSingle.video.id" class="media-center-plugin layout1">
-    <div class="media-center-banner clearfix border-bottom-grey">
-      <div class="plugin-slider text-center">
-        <div class="plugin-slide" data-ng-attr-load-iframe="{{WidgetSingle.video.id | returnYoutubeUrl}}">
-          <img src="../../../styles/media/holder-16x9.gif">
-        </div>
+<div ng-if="WidgetSingle.video.id" class="media-center-plugin layout1-detail">
+  <div class="media-center-banner clearfix border-bottom-grey">
+    <div class="plugin-slider text-center">
+      <div class="plugin-slide" data-ng-attr-load-iframe="{{WidgetSingle.video.id | returnYoutubeUrl}}">
+        <img src="../../../styles/media/holder-16x9.gif">
       </div>
-    </div>
-    <div class="text-left padded padding-bottom-zero clearfix ">
-      <h4 class="margin-top-zero"
-          style="font-size: 16px;">{{WidgetSingle.video.snippet
-        .title}}</h4>
-    </div>
-    <div class="padded padding-top-zero">
-      <hr class="small">
-      <div class="link-list">
-        <a class="text-primary" target="_blank"
-           href='javascript:void(0);'
-           ng-click="WidgetSingle.viewSource(WidgetSingle.data.content.rssUrl)">
-          View Source
-        </a>
-        <!--<a class="text-primary">Share</a>-->
-      </div>
-        <!--<div><a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;playVideo&quot;)">Start</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;pauseVideo&quot;)">Pause</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;stopVideo&quot;)">Stop</a></div>-->
-      <hr class="small">
-      <p class="break-word">
-        {{WidgetSingle.video.snippet.description}}
-      </p>
     </div>
   </div>
+  <div class="text-left padded padding-bottom-zero clearfix ">
+    <h4 class="main-title margin-top-zero">{{WidgetSingle.video.snippet
+      .title}}</h4>
+    <!-- <div class="item-actions">
+      <a class="bookmark" ng-class="{'unmarked' : !WidgetSingle.video.bookmarked}" ng-click="WidgetSingle.bookmark()"
+        role="button">
+        <i class="bookmark-icon"></i>
+      </a>
+    </div> -->
+  </div>
+  <div class="item-actions">
+    <div class="link-list">
+      <a class="text-primary" target="_blank" href='javascript:void(0);' ng-click="WidgetSingle.viewSource(WidgetSingle.data.content.rssUrl)">
+        View Source
+      </a>
+      <!--<a class="text-primary">Share</a>-->
+    </div>
+    <div class="li-actions">
+      <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetSingle.share()" role="button"></i>
+      <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !WidgetSingle.video.bookmarked, 'glyphicon-star' : WidgetSingle.video.bookmarked }"
+      ng-click="WidgetSingle.bookmark()" role="button"></i>
+    </div>
+    <!--<div><a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;playVideo&quot;)">Start</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;pauseVideo&quot;)">Pause</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;stopVideo&quot;)">Stop</a></div>-->
+  </div>
+  <div class="padded padding-top-zero">
+    <p class="break-word">
+      {{WidgetSingle.video.snippet.description}}
+    </p>
+  </div>
+</div>
 </div>
 
 <script>
@@ -36,9 +43,8 @@
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
       events: {
-        'onStateChange': function(e){
-          if(e.data == 1)
-          {
+        'onStateChange': function (e) {
+          if (e.data == 1) {
             console.log('video played');
             var audioPlayer = window.buildfire.services.media.audioPlayer;
             audioPlayer.pause();
@@ -47,6 +53,6 @@
       }
     });
   }
-  setTimeout(function(){onYouTubeIframeAPIReady();},1000);
+  setTimeout(function () { onYouTubeIframeAPIReady(); }, 1000);
 
 </script>

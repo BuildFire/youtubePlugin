@@ -4,7 +4,8 @@
   "supportSite":"http://learn.appdocumentation.com/plugin-tutorials/youtube-plugin-tutorial",
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install",
-    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+    "build": "cd .. && rm -rf youtubePlugin.zip && zip -r youtubePlugin.zip youtubePlugin/"
   },
   "license": "ISC",
   "dependencies": {
