@@ -324,6 +324,8 @@
         initData(true);
       });
 
+      $scope.$watch('WidgetFeed.videos', () => console.log(WidgetFeed.videos), true);
+
       $scope.$on('$destroy', function () {
         DataStore.clearListener();
       });

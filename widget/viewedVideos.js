@@ -46,9 +46,9 @@ const viewedVideos = {
 			viewedVideos[this.id] = videos;
 			localStorage.setItem('viewedVideos', JSON.stringify(viewedVideos));
 		} catch (e) {
-            console.warn(e);
-            return [];
-        }
+			console.warn(e);
+			return [];
+		}
 	},
 	/**
 	 * pushes a video id to local storage
@@ -74,7 +74,13 @@ const viewedVideos = {
 		
 		if ($scope.WidgetFeed) {
 			$scope.WidgetFeed.videos.map(video => {
-				if (viewedItems.includes(videoId)) {
+				let singleVideoId = '';
+				if (video.snippet.resourceId) {
+					singleVideoId = video.snippet.resourceId.videoId
+				} else {
+					singleVideoId = video.id;
+				}
+				if (viewedItems.includes(singleVideoId)) {
 					video.viewed = true;
 				}
 			});
