@@ -101,15 +101,6 @@
         }
       });
 
-      buildfire.auth.onLogin(user => {
-        init(true);
-      });
-
-      buildfire.auth.onLogout(err => {
-        console.log(err);
-        init(true);
-      });
-
       var getFeedVideos = function (_playlistId) {
         Buildfire.spinner.show();
         var success = function (result) {
@@ -266,6 +257,15 @@
       $rootScope.$on('ROUTE_CHANGED', function (e, data) {
         WidgetFeed.data = data;
 
+        buildfire.auth.onLogin(user => {
+          init(true);
+        });
+  
+        buildfire.auth.onLogout(err => {
+          console.log(err);
+          init(true);
+        });
+
         if (!WidgetFeed.data.design) {
           WidgetFeed.data.design = {};
         }
@@ -330,6 +330,15 @@
 
       $scope.$on('$destroy', function () {
         DataStore.clearListener();
+      });
+
+      buildfire.auth.onLogin(user => {
+        init(true);
+      });
+
+      buildfire.auth.onLogout(err => {
+        console.log(err);
+        init(true);
       });
 		}
 	]);
