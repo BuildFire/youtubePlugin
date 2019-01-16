@@ -104,6 +104,23 @@
 				buildfire.device.share(options, callback);
 			};
 
+			WidgetSingle.addNote = function () {
+				player.pauseVideo();
+				var options = {
+					noteData: {
+						description: $scope.WidgetSingle.video.snippet.description,
+						title: $scope.WidgetSingle.video.snippet.title,
+						timeIndex: player.getCurrentTime()
+					}
+				};
+				var callback = function (err, data) {
+					if (err) throw err;
+					console.log(data);
+				}
+				// buildfire.input.showTextDialog(options, callback);
+				buildfire.notes.openDialog(options, callback);
+			};
+
 			if ($routeParams.videoId) {
 				if (VideoCache.getCache()) {
 					$rootScope.showFeed = false;

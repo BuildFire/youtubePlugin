@@ -24,6 +24,7 @@
       <!--<a class="text-primary">Share</a>-->
     </div>
     <div class="li-actions">
+      <i class="share glyphicon glyphicon-pencil" ng-click="WidgetSingle.addNote()" role="button"></i>
       <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetSingle.share()" role="button"></i>
       <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !WidgetSingle.video.bookmarked, 'glyphicon-star' : WidgetSingle.video.bookmarked }"
       ng-click="WidgetSingle.bookmark()" role="button"></i>
@@ -41,7 +42,7 @@
 <script>
   var player;
   function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
+    player = new YT.Player('ytPlayer', {
       events: {
         'onStateChange': function (e) {
           if (e.data == 1) {

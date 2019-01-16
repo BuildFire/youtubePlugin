@@ -101,7 +101,62 @@
         }
       });
 
+      var indexFeed = function (playListID) {
+        let rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${playListID}`;
+        buildfire.services.searchEngine.feeds.get({ tag: 'rss_feed', feedType: 'rss' }, (err, result) => {
+          if (err) throw err;
+          console.log(result);
+          let feedUrl = result[0] ? result[0].feed_config.url : false;
+          if (feedUrl === rssUrl) {
+            let options = { searchText: "e" };
+            let callback = (e, d) => console.log(e, d);
+            buildfire.services.searchEngine.search(options, callback);
+            return;
+          }
+          else if (!feedUrl) {
+            insertFeed(rssUrl);
+          } else {
+            updateFeed(result[0]._id, rssUrl);
+          }
+        });
+
+        function updateFeed(feedId, url) {
+          const options = {
+            tag: 'rss_feed',
+            feedId,
+            removeFeedData: true
+          };
+          const callback = (e, d) => {
+            if (e) console.error(e);
+            console.log(d);
+            insertFeed(url);
+          };
+          buildfire.services.searchEngine.feeds.delete(options, callback);
+        }
+
+        function insertFeed(url) {
+          const options = {
+            tag: 'rss_feed',
+            title: 'rss feed',
+            feedType: "rss",
+            feedConfig: {
+              url,
+            },
+            feedItemConfig: {
+              uniqueKey: 'title'
+            }
+          };
+
+          const callback = (e, d) => {
+            if (e) throw e;
+            console.log(d);
+          };
+          buildfire.services.searchEngine.feeds.insert(options, callback);
+        }
+      }
+
       var getFeedVideos = function (_playlistId) {
+        indexFeed(_playlistId);
         Buildfire.spinner.show();
         var success = function (result) {
           Buildfire.spinner.hide();
