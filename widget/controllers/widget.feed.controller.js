@@ -78,6 +78,17 @@
         initData(isRefresh);
       };
 
+      var handleBookmarkNav = function handleBookmarkNav(videos) {
+        buildfire.deeplink.getData(function (data) {
+          if (data && data.link) {
+            var video = videos.filter(function (video) {
+              return video.snippet.resourceId.videoId === data.link;
+            })[0];
+            WidgetFeed.openDetailsPage(video);
+          }
+        }); 
+      };
+
       init();
       $rootScope.$on('Carousel:LOADED', function () {
         WidgetFeed.view = null;
@@ -104,8 +115,8 @@
           Buildfire.spinner.hide();
           bookmarks.findAndMarkAll($scope);
           viewedVideos.findAndMarkViewed(result.items);
-
           WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
+          handleBookmarkNav(WidgetFeed.videos);
           WidgetFeed.nextPageToken = result.nextPageToken;
           if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
             WidgetFeed.busy = false;

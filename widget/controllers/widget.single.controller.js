@@ -103,6 +103,7 @@
 			WidgetSingle.addNote = function () {
 				player.pauseVideo();
 				var options = {
+					pluginOpen: true,
 					noteData: {
 						description: $scope.WidgetSingle.video.snippet.description,
 						title: $scope.WidgetSingle.video.snippet.title,

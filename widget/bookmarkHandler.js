@@ -12,7 +12,7 @@ var bookmarks = {
 		var options = {
 			id: id,
 			title: video.snippet.title,
-			payload: '#/video/' + id,
+			payload: { link: id },
 			icon: video.snippet.thumbnails.default.url
 		};
 		var callback = function callback(err, data) {
