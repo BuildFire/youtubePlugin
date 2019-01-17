@@ -21,11 +21,11 @@
         }
 			};
 
-			buildfire.auth.onLogin(() => {
+			buildfire.auth.onLogin(function () {
 				bookmarks.findAndMarkAll($scope);
 			});
 		
-			buildfire.auth.onLogout(() => {
+			buildfire.auth.onLogout(function () {
 					bookmarks.findAndMarkAll($scope);
 			});
 
@@ -71,7 +71,7 @@
 			};
 
 			WidgetSingle.bookmark = function() {
-				const isBookmarked = WidgetSingle.video.bookmarked ? true : false;
+				var isBookmarked = WidgetSingle.video.bookmarked ? true : false;
 				console.log(isBookmarked);
 
 				if (isBookmarked) {
@@ -82,24 +82,20 @@
       };
       
       WidgetSingle.share = function() {
-				let link = '';
+		    var link = '';
 				if (WidgetSingle.video.snippet.resourceId) {
 					link = WidgetSingle.video.snippet.resourceId.videoId;
 				} else {
 					link = WidgetSingle.video.id;
 				}
-				const options = {
+				var options = {
 					subject: WidgetSingle.video.snippet.title,
           text: WidgetSingle.video.snippet.description,
           // image: WidgetSingle.video.snippet.thumbnails.default.url,
           link
         };
         
-        const callback = err => {
-          if (err) {
-						localStorage.setItem('error', JSON.stringify(err))
-          }
-        };
+        var callback = function (err, res) {};
 
 				buildfire.device.share(options, callback);
 			};
@@ -177,8 +173,6 @@
       };
       
 			DataStore.onUpdate().then(null, null, onUpdateCallback);
-
-			$scope.$watch('WidgetSingle.video', () => console.log(WidgetSingle.video), true);
 
 			$scope.$on('$destroy', function() {
 				console.log($routeParams);

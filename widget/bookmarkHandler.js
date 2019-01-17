@@ -1,23 +1,25 @@
-const bookmarks = {
-	add($scope, video) {
+'use strict';
+
+var bookmarks = {
+	add: function add($scope, video) {
 		if (!$scope || !video) return;
-		let id = '';
+		var id = '';
 		if (video.snippet.resourceId) {
 			id = video.snippet.resourceId.videoId;
 		} else {
 			id = video.id;
 		}
-		let options = {
-			id,
+		var options = {
+			id: id,
 			title: video.snippet.title,
-			payload: `#/video/${id}`,
+			payload: '#/video/' + id,
 			icon: video.snippet.thumbnails.default.url
 		};
-		let callback = (err, data) => {
+		var callback = function callback(err, data) {
 			if (err) throw err;
 			if ($scope.WidgetFeed) {
-				$scope.WidgetFeed.videos.map(v => {
-					const isBookmarked = v.snippet.resourceId.videoId === video.snippet.resourceId.videoId;
+				$scope.WidgetFeed.videos.map(function (v) {
+					var isBookmarked = v.snippet.resourceId.videoId === video.snippet.resourceId.videoId;
 					if (isBookmarked) {
 						v.bookmarked = true;
 					}
@@ -31,18 +33,18 @@ const bookmarks = {
 		};
 		buildfire.bookmarks ? buildfire.bookmarks.add(options, callback) : null;
 	},
-	delete($scope, video) {
+	delete: function _delete($scope, video) {
 		if (!$scope || !video) return;
-		let id = '';
+		var id = '';
 		if (video.snippet.resourceId) {
 			id = video.snippet.resourceId.videoId;
 		} else {
 			id = video.id;
 		}
-		const callback = () => {
+		var callback = function callback() {
 			if ($scope.WidgetFeed) {
-				$scope.WidgetFeed.videos.map(v => {
-					const isBookmarked = v.snippet.resourceId.videoId === video.snippet.resourceId.videoId;
+				$scope.WidgetFeed.videos.map(function (v) {
+					var isBookmarked = v.snippet.resourceId.videoId === video.snippet.resourceId.videoId;
 					if (isBookmarked) {
 						v.bookmarked = false;
 					}
@@ -56,23 +58,23 @@ const bookmarks = {
 		};
 		buildfire.bookmarks ? buildfire.bookmarks.delete(id, callback) : null;
 	},
-	_getAll(callback) {
-		const cb = (err, bookmarks) => {
+	_getAll: function _getAll(callback) {
+		var cb = function cb(err, bookmarks) {
 			if (err) throw err;
 			callback(bookmarks);
 		};
 		buildfire.bookmarks ? buildfire.bookmarks.getAll(cb) : cb(null, []);
 	},
-	findAndMarkAll($scope) {
+	findAndMarkAll: function findAndMarkAll($scope) {
 		if (!$scope) return;
-		this._getAll(bookmarks => {
-			const bookmarkIds = [];
-			bookmarks.forEach(bookmark => {
+		this._getAll(function (bookmarks) {
+			var bookmarkIds = [];
+			bookmarks.forEach(function (bookmark) {
 				bookmarkIds.push(bookmark.id);
 			});
 			if ($scope.WidgetFeed) {
-				$scope.WidgetFeed.videos.map(video => {
-					const isBookmarked = bookmarkIds.includes(video.snippet.resourceId.videoId);
+				$scope.WidgetFeed.videos.map(function (video) {
+					var isBookmarked = bookmarkIds.includes(video.snippet.resourceId.videoId);
 					if (isBookmarked) {
 						video.bookmarked = true;
 					} else {
@@ -80,7 +82,7 @@ const bookmarks = {
 					}
 				});
 			} else if ($scope.WidgetSingle) {
-				const isBookmarked = bookmarkIds.includes($scope.WidgetSingle.video.id);
+				var isBookmarked = bookmarkIds.includes($scope.WidgetSingle.video.id);
 				if (isBookmarked) {
 					$scope.WidgetSingle.video.bookmarked = true;
 				} else {

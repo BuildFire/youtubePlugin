@@ -1,8 +1,8 @@
 'use strict';
 
 (function(angular, buildfire) {
-	angular.module('youtubePluginWidget').controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache', '$modal',
-		function($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache, $modal) {
+	angular.module('youtubePluginWidget').controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'YoutubeApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'VideoCache',
+		function($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, YoutubeApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, VideoCache) {
       var WidgetFeed = this;
 
       WidgetFeed.data = {};
@@ -83,14 +83,8 @@
         WidgetFeed.view = null;
         if (!WidgetFeed.view) {
           WidgetFeed.view = new Buildfire.components.carousel.view('#carousel', [], 'WideScreen');
-          const css = `
-              min-height: ${window.innerWidth * 0.5625}px !important;
-              position: relative;
-              top: 0px;
-              left: 0px;
-              display: block;
-            `;
-          setTimeout(() => {
+          var css = "min-height: " + window.innerWidth * 0.5625 + "px !important;position: relative;top: 0px;left: 0px; display: block;";
+          setTimeout(function () {
             document.getElementById('carousel').setAttribute('style', css);
           }, 50);
         }
@@ -101,62 +95,10 @@
         }
       });
 
-      var indexFeed = function (playListID) {
-        let rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=${playListID}`;
-        buildfire.services.searchEngine.feeds.get({ tag: 'rss_feed', feedType: 'rss' }, (err, result) => {
-          if (err) throw err;
-          console.log(result);
-          let feedUrl = result[0] ? result[0].feed_config.url : false;
-          if (feedUrl === rssUrl) {
-            let options = { searchText: "e" };
-            let callback = (e, d) => console.log(e, d);
-            buildfire.services.searchEngine.search(options, callback);
-            return;
-          }
-          else if (!feedUrl) {
-            insertFeed(rssUrl);
-          } else {
-            updateFeed(result[0]._id, rssUrl);
-          }
-        });
-
-        function updateFeed(feedId, url) {
-          const options = {
-            tag: 'rss_feed',
-            feedId,
-            removeFeedData: true
-          };
-          const callback = (e, d) => {
-            if (e) console.error(e);
-            console.log(d);
-            insertFeed(url);
-          };
-          buildfire.services.searchEngine.feeds.delete(options, callback);
-        }
-
-        function insertFeed(url) {
-          const options = {
-            tag: 'rss_feed',
-            title: 'rss feed',
-            feedType: "rss",
-            feedConfig: {
-              url,
-            },
-            feedItemConfig: {
-              uniqueKey: 'title'
-            }
-          };
-
-          const callback = (e, d) => {
-            if (e) throw e;
-            console.log(d);
-          };
-          buildfire.services.searchEngine.feeds.insert(options, callback);
-        }
-      }
-
       var getFeedVideos = function (_playlistId) {
-        indexFeed(_playlistId);
+
+        searchEngine.indexFeed(_playlistId);
+
         Buildfire.spinner.show();
         var success = function (result) {
           Buildfire.spinner.hide();
@@ -263,7 +205,7 @@
       };
 
       WidgetFeed.openDetailsPage = function (video) {
-        setTimeout(() => {
+        setTimeout(function () {
           viewedVideos.markViewed($scope, video);
         }, 500);
         video.id = video.snippet.resourceId.videoId;
@@ -272,7 +214,7 @@
       };
 
       WidgetFeed.getThumbnail = function (video) {
-        const isTablet = $rootScope.deviceWidth >= 768;
+        var isTablet = $rootScope.deviceWidth >= 768;
         if (isTablet) {
           return video.snippet.thumbnails.maxres.url;
         } else {
@@ -282,7 +224,7 @@
 
       WidgetFeed.bookmark = function ($event, video) {
         $event.stopImmediatePropagation();
-        const isBookmarked = video.bookmarked ? true : false;
+        var isBookmarked = video.bookmarked ? true : false;
         if (isBookmarked) {
           bookmarks.delete($scope, video);
         } else {
@@ -293,14 +235,13 @@
       WidgetFeed.share = function ($event, video) {
         $event.stopImmediatePropagation();
 
-        const options = {
+        var options = {
           subject: video.snippet.title,
           text: video.snippet.description,
           // image: video.snippet.thumbnails.default.url,
-          link: `https://youtu.be/${video.snippet.resourceId.videoId}`
+          link: "https://youtu.be/" + video.snippet.resourceId.videoId
         };
-
-        const callback = err => {
+        var callback = function (err, result) {
           if (err) {
             console.warn(err);
           }
@@ -309,17 +250,21 @@
         buildfire.device.share(options, callback);
       };
 
-      $rootScope.$on('ROUTE_CHANGED', function (e, data) {
-        WidgetFeed.data = data;
-
-        buildfire.auth.onLogin(user => {
+      WidgetFeed.updateAuthListeners = function () {
+        buildfire.auth.onLogin(function (user) {
           init(true);
         });
   
-        buildfire.auth.onLogout(err => {
+        buildfire.auth.onLogout(function (err) {
           console.log(err);
           init(true);
         });
+      };
+
+      $rootScope.$on('ROUTE_CHANGED', function (e, data) {
+        WidgetFeed.data = data;
+
+        WidgetFeed.updateAuthListeners();
 
         if (!WidgetFeed.data.design) {
           WidgetFeed.data.design = {};
@@ -381,20 +326,11 @@
         initData(true);
       });
 
-      $scope.$watch('WidgetFeed.videos', () => console.log(WidgetFeed.videos), true);
-
       $scope.$on('$destroy', function () {
         DataStore.clearListener();
       });
 
-      buildfire.auth.onLogin(user => {
-        init(true);
-      });
-
-      buildfire.auth.onLogout(err => {
-        console.log(err);
-        init(true);
-      });
+      WidgetFeed.updateAuthListeners();
 		}
 	]);
 })(window.angular, window.buildfire);
