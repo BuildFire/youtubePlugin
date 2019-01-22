@@ -24,6 +24,18 @@
       WidgetFeed.appHeight = window.innerWidth * (9 / 16);
       console.log($rootScope.deviceWidth);
       console.log($rootScope.deviceHeight);
+
+      var handleBookmarkNav = function handleBookmarkNav(videos) {
+        buildfire.deeplink.getData(function (data) {
+          if (data && data.link) {
+            var video = videos.filter(function (video) {
+              return video.snippet.resourceId.videoId === data.link;
+            })[0];
+            WidgetFeed.openDetailsPage(video);
+          }
+        }); 
+      };
+
 			/*
 			 * Fetch user's data from datastore
 			 */
@@ -109,6 +121,7 @@
           viewedVideos.findAndMarkViewed(result.items);
 
           WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.items) : result.items;
+          handleBookmarkNav(WidgetFeed.videos);
           WidgetFeed.nextPageToken = result.nextPageToken;
           if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
             WidgetFeed.busy = false;
