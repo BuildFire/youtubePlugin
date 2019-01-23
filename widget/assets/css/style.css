@@ -341,18 +341,6 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .layout1-detail .bookmark {
 	position: relative;
 }
-.layout2 .bookmark.unmarked,
-.layout3 .bookmark.unmarked,
-.layout1-detail .bookmark.unmarked {
-	color: #999;
-}
-.layout2 .bookmark,
-.layout3 .bookmark,
-.layout3 .share,
-.layout1-detail .bookmark,
-.layout1-detail .share {
-	color: #999;
-}
 .layout1 .bookmark.unmarked,
 .layout4 .bookmark.unmarked {
 	color: #fff;
@@ -417,11 +405,12 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 	margin-bottom: 0;
 }
 .layout1-detail .li-actions{
+	display: flex;
 	position: relative;
 }
 .item-actions{
 	margin: 16px 0;
-	padding: 8px 16px;
+	padding: 0 0 0 16px;
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	display: flex;
@@ -432,8 +421,10 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 .layout1-detail .li-actions i{
 	flex-shrink: 0;
 	position: relative;
-	display: inline-block;
-	margin-left: 8px;
+	display: block;
+	padding: 16px;
+	flex-shrink: 0;
+	top: 0;
 }
 .plugin-slider img, .plugin-slider  {
 	max-height: none !important;
@@ -503,4 +494,7 @@ html[browser="Firefox"] .layout3 .list-layout .list-item-media .list-media-holde
 /* Layout 4 */
 .layout4 .list-item-container{
 	padding: 0 8px;
+}
+.glyphicon{
+	color: blue !important;
 }
