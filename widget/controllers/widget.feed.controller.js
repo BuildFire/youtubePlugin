@@ -81,12 +81,14 @@
       var handleBookmarkNav = function handleBookmarkNav(videos) {
         buildfire.deeplink.getData(function (data) {
           if (data && data.link) {
-            var video = videos.filter(function (video) {
-              return video.snippet.resourceId.videoId === data.link;
-            })[0];
-            if (data.timeIndex) {
-              video.seekTo = data.timeIndex;
+            let link = data.link;
+            if (link.indexOf('yt:video') > -1) {
+              link = link.slice(link.lastIndexOf(':') + 1, link.length);
             }
+            var video = videos.filter(function (video) {
+              return video.snippet.resourceId.videoId === link;
+            })[0];
+            if (data.timeIndex) video.seekTo = data.timeIndex;
             WidgetFeed.openDetailsPage(video);
           }
         }); 
