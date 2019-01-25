@@ -103,12 +103,10 @@
 			WidgetSingle.addNote = function () {
 				player.pauseVideo();
 				var options = {
-					pluginOpen: true,
-					noteData: {
-						description: $scope.WidgetSingle.video.snippet.description,
-						title: $scope.WidgetSingle.video.snippet.title,
-						timeIndex: player.getCurrentTime()
-					}
+					imageUrl: $scope.WidgetSingle.video.snippet.thumbnails.default.url,
+					itemId: $scope.WidgetSingle.video.snippet.resourceId.videoId,
+					title: $scope.WidgetSingle.video.snippet.title,
+					timeIndex: player.getCurrentTime()
 				};
 				var callback = function (err, data) {
 					if (err) throw err;
@@ -122,6 +120,23 @@
 				if (VideoCache.getCache()) {
 					$rootScope.showFeed = false;
 					WidgetSingle.video = VideoCache.getCache();
+					if (WidgetSingle.video.seekTo) {
+						// function seekTo() {
+						// 	player.seekTo(WidgetSingle.video.seekTo);
+						// 	document.removeEventListener('onReady', seekTo, false);
+						// }
+						window.addEventListener('message', function (e) {
+							if (e.data.cmd) return;
+							var data = e.data;
+							if (typeof data === 'string') {
+								data = JSON.parse(e.data);
+							}
+							if (data.event === 'onReady') {
+								debugger
+								player.seekTo(WidgetSingle.video.seekTo);
+							}
+						}, false);
+					}
 				} else getSingleVideoDetails($routeParams.videoId);
 			} else {
 				console.error('Undefined Video Id Provided');

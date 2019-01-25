@@ -84,6 +84,9 @@
             var video = videos.filter(function (video) {
               return video.snippet.resourceId.videoId === data.link;
             })[0];
+            if (data.timeIndex) {
+              video.seekTo = data.timeIndex;
+            }
             WidgetFeed.openDetailsPage(video);
           }
         }); 
