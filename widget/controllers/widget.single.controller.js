@@ -120,7 +120,7 @@
 				if (VideoCache.getCache()) {
 					$rootScope.showFeed = false;
 					WidgetSingle.video = VideoCache.getCache();
-					if (WidgetSingle.video.seekTo) {
+
 						// function seekTo() {
 						// 	player.seekTo(WidgetSingle.video.seekTo);
 						// 	document.removeEventListener('onReady', seekTo, false);
@@ -132,11 +132,13 @@
 								data = JSON.parse(e.data);
 							}
 							if (data.event === 'onReady') {
-								debugger
-								player.seekTo(WidgetSingle.video.seekTo);
+								if (WidgetSingle.video.seekTo) {
+									player.seekTo(WidgetSingle.video.seekTo);
+								} else {
+									player.playVideo();
+								}
 							}
 						}, false);
-					}
 				} else getSingleVideoDetails($routeParams.videoId);
 			} else {
 				console.error('Undefined Video Id Provided');
