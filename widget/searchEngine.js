@@ -37,7 +37,8 @@ var searchEngine = {
         uniqueKey: 'id',
         titleKey: 'title',
         urlKey: 'link',
-        descriptionKey: 'media:group.media:description'
+        descriptionKey: 'media:group.media:description',
+        imageUrlKey: "media:group.media:thumbnail.$.url"
       }
     };
 
