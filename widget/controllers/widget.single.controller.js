@@ -120,7 +120,7 @@
 				WidgetSingle.video.seekTo = data.time;
 				if (WidgetSingle.video.seekTo) {
 					player.seekTo(WidgetSingle.video.seekTo);
-					player.playVideo();
+					// player.playVideo();
 				}
 			});
 
