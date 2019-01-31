@@ -21,11 +21,11 @@
         }
 			};
 
-			buildfire.auth.onLogin(() => {
+			buildfire.auth.onLogin(function () {
 				bookmarks.findAndMarkAll($scope);
 			});
 		
-			buildfire.auth.onLogout(() => {
+			buildfire.auth.onLogout(function () {
 					bookmarks.findAndMarkAll($scope);
 			});
 
@@ -71,7 +71,7 @@
 			};
 
 			WidgetSingle.bookmark = function() {
-				const isBookmarked = WidgetSingle.video.bookmarked ? true : false;
+				var isBookmarked = WidgetSingle.video.bookmarked ? true : false;
 				console.log(isBookmarked);
 
 				if (isBookmarked) {
@@ -82,32 +82,66 @@
       };
       
       WidgetSingle.share = function() {
-				let link = '';
+		    var link = '';
 				if (WidgetSingle.video.snippet.resourceId) {
 					link = WidgetSingle.video.snippet.resourceId.videoId;
 				} else {
 					link = WidgetSingle.video.id;
 				}
-				const options = {
+				var options = {
 					subject: WidgetSingle.video.snippet.title,
           text: WidgetSingle.video.snippet.description,
           // image: WidgetSingle.video.snippet.thumbnails.default.url,
           link
         };
         
-        const callback = err => {
-          if (err) {
-						localStorage.setItem('error', JSON.stringify(err))
-          }
-        };
+        var callback = function (err, res) {};
 
 				buildfire.device.share(options, callback);
 			};
+
+			WidgetSingle.addNote = function () {
+				player.pauseVideo();
+				var options = {
+					imageUrl: $scope.WidgetSingle.video.snippet.thumbnails.default.url,
+					itemId: $scope.WidgetSingle.video.snippet.resourceId.videoId,
+					title: $scope.WidgetSingle.video.snippet.title,
+					timeIndex: Math.round(player.getCurrentTime())
+				};
+				var callback = function (err, data) {
+					if (err) throw err;
+					console.log(data);
+				}
+				// buildfire.input.showTextDialog(options, callback);
+				buildfire.notes.openDialog(options, callback);
+			};
+
+			buildfire.notes && buildfire.notes.onSeekTo && buildfire.notes.onSeekTo(function (data) {
+				WidgetSingle.video.seekTo = data.time;
+				if (WidgetSingle.video.seekTo) {
+					player.seekTo(WidgetSingle.video.seekTo);
+					// player.playVideo();
+				}
+			});
 
 			if ($routeParams.videoId) {
 				if (VideoCache.getCache()) {
 					$rootScope.showFeed = false;
 					WidgetSingle.video = VideoCache.getCache();
+					window.addEventListener('message', function (e) {
+						if (e.data.cmd) return;
+						var data = e.data;
+						if (typeof data === 'string') {
+							data = JSON.parse(e.data);
+						}
+						if (data.event === 'onReady') {
+							if (WidgetSingle.video.seekTo) {
+								player.seekTo(WidgetSingle.video.seekTo);
+							} else {
+								player.playVideo();
+							}
+						}
+					}, false);
 				} else getSingleVideoDetails($routeParams.videoId);
 			} else {
 				console.error('Undefined Video Id Provided');
@@ -161,11 +195,7 @@
       
 			DataStore.onUpdate().then(null, null, onUpdateCallback);
 
-			$scope.$watch('WidgetSingle.video', () => console.log(WidgetSingle.video), true);
-
 			$scope.$on('$destroy', function() {
-				console.log($routeParams);
-
 				console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', WidgetSingle.data);
 				DataStore.clearListener();
 				$rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data);

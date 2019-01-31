@@ -1,82 +1,92 @@
-const viewedVideos = {
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var viewedVideos = {
 	id: '',
 	/**
-	 * If localStorage is not set, initialize viewed videos as an empty array
-	 */
-	init() {
-		buildfire.auth.getCurrentUser((err, user) => {
+  * If localStorage is not set, initialize viewed videos as an empty array
+  */
+	init: function init() {
+		var _this = this;
+
+		buildfire.auth.getCurrentUser(function (err, user) {
 			if (err) throw err;
 
-			this.id = user ? user._id : 'guest';
+			_this.id = user ? user._id : 'guest';
 
-			let viewedItems = JSON.parse(localStorage.getItem('viewedVideos'));
+			var viewedItems = JSON.parse(localStorage.getItem('viewedVideos'));
 
-			const storageInitialized = viewedItems && typeof viewedItems === 'object' ? true : false;
+			var storageInitialized = viewedItems && (typeof viewedItems === 'undefined' ? 'undefined' : _typeof(viewedItems)) === 'object' ? true : false;
 
 			if (storageInitialized) {
-				const userStateInitialized = viewedItems.hasOwnProperty(this.id);
-				if (userStateInitialized) return;
-				else viewedItems[this.id] = [];
+				var userStateInitialized = viewedItems.hasOwnProperty(_this.id);
+				if (userStateInitialized) return;else viewedItems[_this.id] = [];
 			} else {
-				viewedItems = { [this.id]: [] };
+				viewedItems = _defineProperty({}, _this.id, []);
 			}
 
 			localStorage.setItem('viewedVideos', JSON.stringify(viewedItems));
 		});
 	},
+
 	/**
-	 * returns the current user's parsed array of viewed videos
-	 * @returns {Array}
-	 */
-	get() {
-		try {			
+  * returns the current user's parsed array of viewed videos
+  * @returns {Array}
+  */
+	get: function get() {
+		try {
 			return JSON.parse(localStorage.getItem('viewedVideos'))[this.id];
 		} catch (e) {
 			console.warn(e);
 			return [];
 		}
 	},
+
 	/**
-	 * stringify and set viewed videos to local storage
-	 * @param {Array} videos
-	 */
-	_set(videos) {
+  * stringify and set viewed videos to local storage
+  * @param {Array} videos
+  */
+	_set: function _set(videos) {
 		try {
-			let viewedVideos = JSON.parse(localStorage.getItem('viewedVideos'));
-			viewedVideos[this.id] = videos;
-			localStorage.setItem('viewedVideos', JSON.stringify(viewedVideos));
+			var _viewedVideos = JSON.parse(localStorage.getItem('viewedVideos'));
+			_viewedVideos[this.id] = videos;
+			localStorage.setItem('viewedVideos', JSON.stringify(_viewedVideos));
 		} catch (e) {
 			console.warn(e);
 			return [];
 		}
 	},
+
 	/**
-	 * pushes a video id to local storage
-	 * marks video as viewed
-	 * @param {Object} $scope
-	 * @param {Object} video
-	 */
-	markViewed($scope, video) {
+  * pushes a video id to local storage
+  * marks video as viewed
+  * @param {Object} $scope
+  * @param {Object} video
+  */
+	markViewed: function markViewed($scope, video) {
 		if (!$scope || !video) return;
-		const viewedItems = this.get();
-		let videoId = '';
-			if (video.snippet.resourceId) {
-				videoId = video.snippet.resourceId.videoId
-			} else {
-				videoId = video.id;
-			}
-		const isViewed = viewedItems.includes(videoId);
+		var viewedItems = this.get();
+		var videoId = '';
+		if (video.snippet.resourceId) {
+			videoId = video.snippet.resourceId.videoId;
+		} else {
+			videoId = video.id;
+		}
+		var isViewed = viewedItems.includes(videoId);
 
 		if (isViewed) return;
 
 		viewedItems.push(videoId);
 		this._set(viewedItems);
-		
+
 		if ($scope.WidgetFeed) {
-			$scope.WidgetFeed.videos.map(video => {
-				let singleVideoId = '';
+			$scope.WidgetFeed.videos.map(function (video) {
+				var singleVideoId = '';
 				if (video.snippet.resourceId) {
-					singleVideoId = video.snippet.resourceId.videoId
+					singleVideoId = video.snippet.resourceId.videoId;
 				} else {
 					singleVideoId = video.id;
 				}
@@ -87,25 +97,28 @@ const viewedVideos = {
 			if (!$scope.$$phase) {
 				$scope.$apply();
 			}
-		} 
+		}
 	},
+
 	/**
-	 * maps through an array of videos
-	 * marks videos that have been viewed
-	 * @param {Array} videos
-	 */
-	findAndMarkViewed(videos) {
+  * maps through an array of videos
+  * marks videos that have been viewed
+  * @param {Array} videos
+  */
+	findAndMarkViewed: function findAndMarkViewed(videos) {
+		var _this2 = this;
+
 		if (this.id === '') return;
 		if (!videos || videos.length == 0) return;
 
-		return videos.map(video => {
-			let videoId = '';
+		return videos.map(function (video) {
+			var videoId = '';
 			if (video.snippet.resourceId) {
-				videoId = video.snippet.resourceId.videoId
+				videoId = video.snippet.resourceId.videoId;
 			} else {
 				videoId = video.id;
 			}
-			const isViewed = this.get().includes(videoId);
+			var isViewed = _this2.get().includes(videoId);
 			video.viewed = isViewed ? true : false;
 		});
 	}
