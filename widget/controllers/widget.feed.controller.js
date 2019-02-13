@@ -110,16 +110,18 @@
       $rootScope.$on('Carousel:LOADED', function () {
         WidgetFeed.view = null;
         if (!WidgetFeed.view) {
-          WidgetFeed.view = new Buildfire.components.carousel.view('#carousel', [], 'WideScreen');
+          const slides = WidgetFeed.data.content.carouselImages || [];
+          const carouselSelector = document.getElementById('carousel');
+          WidgetFeed.view = new Buildfire.components.carousel.view({selector: carouselSelector, items: slides});
           var css = "min-height: " + window.innerWidth * 0.5625 + "px !important;position: relative;top: 0px;left: 0px; display: block;";
           setTimeout(function () {
             document.getElementById('carousel').setAttribute('style', css);
           }, 50);
         }
         if (WidgetFeed.data.content && WidgetFeed.data.content.carouselImages) {
-          WidgetFeed.view.loadItems(WidgetFeed.data.content.carouselImages, null, 'WideScreen');
+          WidgetFeed.view._loadImages(WidgetFeed.data.content.carouselImages, () => console.log('WidgetFeed Load Images'));
         } else {
-          WidgetFeed.view.loadItems([]);
+          WidgetFeed.view._loadImages([], () => console.log('WidgetFeed Load Images []'));
         }
       });
 
@@ -235,7 +237,7 @@
       WidgetFeed.openDetailsPage = function (video) {
         setTimeout(function () {
           viewedVideos.markViewed($scope, video);
-        }, 500);
+        }, 2000);
         video.id = video.snippet.resourceId.videoId;
         VideoCache.setCache(video);
         Location.goTo('#/video/' + video.snippet.resourceId.videoId);

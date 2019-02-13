@@ -189,7 +189,7 @@
             case CONTENT_TYPE.SINGLE_VIDEO :
               var videoID = Utils.extractSingleVideoId(ContentHome.rssLink);
               if (videoID) {
-                $http.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + YOUTUBE_KEYS.API_KEY)
+                $http.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + YOUTUBE_KEYS.API_KEY, { cache: true })
                   .success(function (response) {
                     console.log(response);
                     ContentHome.failureMessage = "Error. Please check and try again";
@@ -242,7 +242,7 @@
                   feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=" + feedIdAndType.channel + "&key=" + YOUTUBE_KEYS.API_KEY;
                 else if (feedIdAndType.user || feedIdAndType.c)
                   feedApiUrl = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=" + (feedIdAndType.user || feedIdAndType.c) + "&key=" + YOUTUBE_KEYS.API_KEY;
-                $http.get(feedApiUrl)
+                $http.get(feedApiUrl, { cache: true })
                   .success(function (response) {
                     console.log(response);
                     ContentHome.failureMessage = "Error. Please check and try again";

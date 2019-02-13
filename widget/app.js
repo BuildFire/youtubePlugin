@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll', 'ngAnimate', 'ui.bootstrap'])
+  angular.module('youtubePluginWidget', ['ngRoute', 'infinite-scroll', 'ngAnimate'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
