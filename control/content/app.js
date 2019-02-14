@@ -24,6 +24,6 @@
                         width: width,
                         height: height
                     });
-            }
+            };
         }]);
 })(window.angular);

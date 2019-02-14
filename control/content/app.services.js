@@ -5,7 +5,7 @@
     .provider('Buildfire', [function () {
       var Buildfire = this;
       Buildfire.$get = function () {
-        return buildfire
+        return buildfire;
       };
       return Buildfire;
     }])
@@ -39,7 +39,7 @@
           });
           return deferred.promise;
         }
-      }
+      };
     }])
     .factory("Utils", [function () {
       return {
@@ -74,6 +74,6 @@
             return res[4];
           else return false;
         }
-      }
+      };
     }]);
 })(window.angular, window.buildfire);

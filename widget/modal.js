@@ -12,5 +12,5 @@
                 NoInternetFound.cancel = function () {
                     $modalInstance.dismiss('No');
                 };
-            }])
+            }]);
 })(window.angular);

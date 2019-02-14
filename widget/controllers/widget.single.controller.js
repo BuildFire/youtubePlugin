@@ -111,7 +111,7 @@
 				var callback = function (err, data) {
 					if (err) throw err;
 					console.log(data);
-				}
+				};
 				// buildfire.input.showTextDialog(options, callback);
 				buildfire.notes.openDialog(options, callback);
 			};

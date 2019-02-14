@@ -53,7 +53,7 @@
         var url = "www.youtube.com/embed/" + id + "?enablejsapi=1&autoplay=1";
         url = "https://" + url;
         return $sce.trustAsResourceUrl(url);
-      }
+      };
     }])
     .directive("buildFireCarousel", ["$rootScope", '$timeout', function ($rootScope, $timeout) {
       return {
@@ -175,7 +175,7 @@
     }])
     .directive('backImg', ["$rootScope", function ($rootScope) {
       return function (scope, element, attrs) {
-        console.log(scope, element, attrs)
+        console.log(scope, element, attrs);
         attrs.$observe('backImg', function (value) {
           var img = '';
           if (value) {

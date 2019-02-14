@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "supportSite": "http://learn.appdocumentation.com/plugin-tutorials/youtube-plugin-tutorial",
   "scripts": {
+    "start": "gulp build",
     "postinstall": "./node_modules/.bin/bower install",
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
     "build": "cd .. && rm -rf youtubePlugin.zip && zip -r youtubePlugin.zip youtubePlugin/"
@@ -15,7 +16,18 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "install": "^0.1.8",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^3.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-minify-inline": "^1.0.0",
+    "gulp-sequence": "^0.4.6",
+    "gulp-strip-comments": "^2.5.1",
+    "gulp-uglify": "^3.0.0",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
@@ -24,7 +36,6 @@
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.0",
     "mocha": "^2.2.5",
-    "npm": "^2.13.5",
     "phantomjs": "^1.9.17"
   }
 }

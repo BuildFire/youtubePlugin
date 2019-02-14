@@ -5,7 +5,7 @@
     .provider('Buildfire', [function () {
       var Buildfire = this;
       Buildfire.$get = function () {
-        return buildfire
+        return buildfire;
       };
       return Buildfire;
     }])
@@ -67,7 +67,7 @@
           });
           onUpdateListeners = [];
         }
-      }
+      };
     }])
     .factory('YoutubeApi', ['YOUTUBE_KEYS', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'VIDEO_COUNT', 'PROXY_SERVER',
       function (YOUTUBE_KEYS, $q, $http, STATUS_CODE, STATUS_MESSAGES, VIDEO_COUNT, PROXY_SERVER) {

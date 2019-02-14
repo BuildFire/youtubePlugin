@@ -25,6 +25,6 @@
                           height: height
                       });
               }
-          }
+          };
       });
 })(window.angular, window.buildfire);

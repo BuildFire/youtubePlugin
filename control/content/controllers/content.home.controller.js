@@ -223,7 +223,7 @@
               }
               else {
                 if (Utils.extractChannelId(ContentHome.rssLink)) {
-                  ContentHome.failureMessage = "Seems like you have entered feed url. Please choose correct option to validate url."
+                  ContentHome.failureMessage = "Seems like you have entered feed url. Please choose correct option to validate url.";
                 }
                 ContentHome.validLinkFailure = true;
                 $timeout(function () {
@@ -279,7 +279,7 @@
               }
               else {
                 if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
-                  ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url."
+                  ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url.";
                 }
                 ContentHome.validLinkFailure = true;
                 $timeout(function () {
@@ -329,7 +329,7 @@
               }
               else {
                 if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
-                  ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url."
+                  ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url.";
                 }
                 ContentHome.validLinkFailure = true;
                 $timeout(function () {

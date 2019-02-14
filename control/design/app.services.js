@@ -5,7 +5,7 @@
         .provider('Buildfire', [function () {
             var Buildfire = this;
             Buildfire.$get = function () {
-                return buildfire
+                return buildfire;
             };
             return Buildfire;
         }])
@@ -39,7 +39,7 @@
                     });
                     return deferred.promise;
                 }
-            }
+            };
         }])
         .factory("ImageLibrary", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
             return {
@@ -61,7 +61,7 @@
                     });
                     return deferred.promise;
                 }
-            }
+            };
         }]);
 
 })(window.angular, window.buildfire);
