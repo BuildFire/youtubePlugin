@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const del = require('del');
+const babel = require('gulp-babel');
 const minHTML = require('gulp-htmlmin');
 const minifyCSS = require('gulp-csso');
 const concat = require('gulp-concat');
@@ -74,6 +75,9 @@ gulp.task('lint', () => {
 jsTasks.forEach(function(task){
     gulp.task(task.name, function() {
         return gulp.src(task.src,{base: '.'})
+            .pipe(babel({
+              presets: ['@babel/env']
+            }))
             .pipe(uglify())
             .on('error', function (err) { console.log(err.toString()) })
             .pipe(concat('scripts.min.js'))
