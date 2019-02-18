@@ -168,11 +168,11 @@ gulp.task("html", function() {
     )
     .pipe(
       htmlReplace({
-        js: {
+        bundleJSFiles: {
           src: "scripts.min.js?v=" + new Date().getTime(),
           tpl: '<script src="%s"></script>'
         },
-        css: "styles.min.css?v=" + new Date().getTime()
+        bundleCSSFiles: "styles.min.css?v=" + new Date().getTime()
       })
     )
     .pipe(minHTML({ removeComments: true, collapseWhitespace: true }))

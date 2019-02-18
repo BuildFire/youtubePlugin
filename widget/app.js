@@ -1,22 +1,5 @@
 "use strict";
 
-import "../../../../scripts/angular/angular.min.js";
-import "../../../../scripts/angular/angular-route.min.js";
-import "angular-animate";
-import "./enums";
-import "./app.services";
-import "./modal";
-import "./viewedVideos";
-import "./viewedVideos";
-import "./searchEngine";
-import "./bookmarkHandler";
-import "./controllers/widget.feed.controller";
-import "./controllers/widget.single.controller";
-import "./controllers/widget.single.controller";
-import "../../../scripts/angular/ng-infinite-scroll.custom.js"; // BuildFire custom library
-import "./ytConfig";
-import "./callPlayer";
-
 (function(angular, buildfire) {
   angular
     .module("youtubePluginWidget", ["ngRoute", "infinite-scroll", "ngAnimate"])

@@ -447,6 +447,11 @@
         DataStore.clearListener();
       });
 
+      $scope.$on("$viewContentLoaded", function() {
+        debugger;
+        buildfire.appearance.ready();
+      });
+
       WidgetFeed.updateAuthListeners();
     }
   ]);

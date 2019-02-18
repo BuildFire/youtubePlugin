@@ -1,14 +1,5 @@
 "use strict";
 
-import "../../../../scripts/angular/angular.min.js";
-import "../../../../scripts/angular/angular-route.min.js";
-import "../../../../scripts/angular/ui-bootstrap.min.js";
-import "./enums";
-import "./app.services";
-import "./controllers/content.home.controller";
-import "../../../../scripts/tinymce/tinymce.min.js";
-import "../../../../scripts/tinymce/ui-tinymce.js";
-
 (function(angular) {
   angular
     .module("youtubePluginContent", ["ngRoute", "ui.tinymce", "ui.bootstrap"])
