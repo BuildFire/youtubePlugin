@@ -24,7 +24,7 @@
     >
       <div
         class="list-item col-xs-6 col-md-4 pull-left"
-        ng-repeat="video in WidgetFeed.videos"
+        ng-repeat="video in WidgetFeed.videos track by video.id"
         ng-click="WidgetFeed.openDetailsPage(video)"
         ng-class="{'viewed': video.viewed}"
         trigger-ng-repeat-render

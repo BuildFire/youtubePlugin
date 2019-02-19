@@ -24,7 +24,7 @@
     infinite-scroll-disabled="WidgetFeed.busy"
   >
     <div
-      ng-repeat="video in ::WidgetFeed.videos"
+      ng-repeat="video in ::WidgetFeed.videos track by video.id"
       ng-class="{'viewed': video.viewed}"
       trigger-ng-repeat-render
       class="list-item"
