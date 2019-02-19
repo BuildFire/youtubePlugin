@@ -9,9 +9,9 @@
     />
 
     <!-- BuildFire -->
-    <link rel="stylesheet" href="../../../styles/bootstrap.css" />
     <link rel="stylesheet" href="../../../styles/siteIcons.css" />
     <link rel="stylesheet" href="../../../styles/helper.css" />
+
     <link rel="stylesheet" href="../../../styles/transitionAnimation.css" />
 
     <!-- build:bundleCSSFiles -->
@@ -31,12 +31,12 @@
 
     <!-- build:bundleJSFiles -->
     <script src="./app.js"></script>
-    <script src="./enums.js" type="application/javascript"></script>
-    <script src="./app.services.js" type="application/javascript"></script>
-    <script src="./modal.js" type="application/javascript"></script>
-    <script src="./viewedVideos.js" type="application/javascript"></script>
-    <script src="./searchEngine.js" type="application/javascript"></script>
-    <script src="./bookmarkHandler.js" type="application/javascript"></script>
+    <script src="./enums.js"></script>
+    <script src="./app.services.js"></script>
+    <script src="./modal.js"></script>
+    <script src="./viewedVideos.js"></script>
+    <script src="./searchEngine.js"></script>
+    <script src="./bookmarkHandler.js"></script>
     <script src="./controllers/widget.feed.controller.js"></script>
     <script src="./controllers/widget.single.controller.js"></script>
     <script src="./ytConfig"></script>
@@ -47,7 +47,7 @@
     <div class="main_view">
       <div
         class="slide content infinite-scroll-parent"
-        data-back-img="{{ backgroundListImage }}"
+        data-back-img="{{ ::backgroundListImage }}"
       >
         <div ng-controller="WidgetFeedCtrl as WidgetFeed">
           <div
@@ -62,7 +62,7 @@
         ngCloak
         class="slide content"
         ng-hide="showFeed"
-        data-back-img="{{ backgroundImage }}"
+        data-back-img="{{ ::backgroundImage }}"
       ></div>
     </div>
   </body>

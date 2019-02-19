@@ -10,7 +10,6 @@
         $routeProvider
           .when("/", {
             templateUrl: function(params) {
-              debugger;
               return "templates/home.html";
             },
             controllerAs: "ContentHome",

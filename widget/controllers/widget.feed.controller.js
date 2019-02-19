@@ -448,7 +448,6 @@
       });
 
       $scope.$on("$viewContentLoaded", function() {
-        debugger;
         buildfire.appearance.ready();
       });
 

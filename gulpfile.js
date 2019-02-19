@@ -24,6 +24,13 @@ function releaseFolder() {
 
 console.log(">> Building to ", destinationFolder);
 
+const templatesSource = [
+  "widget/**/*.html",
+  "widget/**/*.htm",
+  "control/**/*.html",
+  "control/**/*.htm"
+];
+
 const cssTasks = [
   { name: "widgetCSS", src: "widget/**/*.css", dest: "/widget" },
   {
@@ -147,15 +154,7 @@ gulp.task("clean", function() {
 
 gulp.task("html", function() {
   return gulp
-    .src(
-      [
-        "widget/**/*.html",
-        "widget/**/*.htm",
-        "control/**/*.html",
-        "control/**/*.htm"
-      ],
-      { base: "." }
-    )
+    .src(templatesSource, { base: "." })
     .pipe(
       plumber({
         errorHandler: function(err) {
@@ -214,6 +213,21 @@ gulp.task("images", function() {
     )
     .pipe(imagemin())
     .pipe(gulp.dest(destinationFolder));
+});
+
+// collect the html templates and populate the angular $template cache
+gulp.task("cache-templates", function() {
+  gulp
+    .src(templatesSource)
+    .pipe(
+      html2js({
+        outputModuleName: "templates",
+        useStrict: true,
+        base: "src/"
+      })
+    )
+    .pipe(concat("templates.js"))
+    .pipe(gulp.dest("dist"));
 });
 
 var buildTasksToRun = ["html", "resources", "images"];

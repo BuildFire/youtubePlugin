@@ -1,33 +1,77 @@
 <div class="media-center-plugin layout1" id="scroll-infinite">
   <div class="media-center-banner clearfix">
-    {{WidgetHome.data}}
-    <div id="carousel" ng-if="WidgetFeed.data.content.carouselImages.length" build-fire-carousel="" ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"></div>
+    {{ WidgetHome.data }}
+    <div
+      id="carousel"
+      ng-if="WidgetFeed.data.content.carouselImages.length"
+      build-fire-carousel=""
+      ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
+    ></div>
   </div>
   <div class="text-left padded padding-bottom-zero clearfix">
-    <p class="break-word" ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
+    <p
+      class="break-word"
+      ng-bind-html="WidgetFeed.safeHtml(WidgetFeed.data.content.description)"
+      ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"
+    ></p>
   </div>
   <div class="padded padding-top-zero" ng-if="WidgetFeed.data">
-    <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
-      data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-      <div class="list-item col-xs-6 col-md-4 pull-left video-box" ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}"
-        ng-click="WidgetFeed.openDetailsPage(video)" trigger-ng-repeat-render>
+    <div
+      class="list-layout"
+      infinite-scroll="WidgetFeed.loadMore()"
+      infinite-scroll-distance="1"
+      data-infinite-container=".infinite-scroll-parent"
+      infinite-scroll-disabled="WidgetFeed.busy"
+    >
+      <div
+        class="list-item col-xs-6 col-md-4 pull-left video-box"
+        ng-repeat="video in WidgetFeed.videos"
+        ng-class="{'viewed': video.viewed}"
+        ng-click="WidgetFeed.openDetailsPage(video)"
+        trigger-ng-repeat-render
+      >
         <div class="list-item-media text-center overflow-hidden">
           <div class="list-media-holder">
             <div class="li-actions">
-              <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetFeed.share($event, video)" role="button"></i>
-              <i class="bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
-                ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+              <i
+                class="share glyphicon glyphicon-share-alt"
+                ng-click="WidgetFeed.share($event, video)"
+                role="button"
+              ></i>
+              <i
+                class="bookmark"
+                ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
+                ng-click="WidgetFeed.bookmark($event, video)"
+                role="button"
+              ></i>
             </div>
-            <a class="link-image-wrapper" href="javascript:void(0)" ng-click="WidgetFeed.openDetailsPage(video)">
-              <img class="video-thumb" load-image="16x9" data-final-src="{{video.snippet.thumbnails.medium.url | getImageUrl:160:90}}" />
+            <a
+              class="link-image-wrapper"
+              href="javascript:void(0)"
+              ng-click="WidgetFeed.openDetailsPage(video)"
+            >
+              <img
+                class="video-thumb"
+                load-image="16x9"
+                data-final-src="{{
+                  ::video.snippet.thumbnails.medium.url | getImageUrl: 160:90
+                }}"
+              />
             </a>
           </div>
         </div>
         <div class="list-item-copy text-left">
           <p class="ellipsis margin-zero text-primary">
-            <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
+            <a
+              class="text-primary"
+              href="javascript:void(0)"
+              >{{::video.snippet.title}}</a
+            >
           </p>
-          <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+          <span
+            class="list-item-date"
+            >{{::video.snippet.publishedAt | date}}</span
+          >
         </div>
       </div>
     </div>
