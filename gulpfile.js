@@ -215,21 +215,6 @@ gulp.task("images", function() {
     .pipe(gulp.dest(destinationFolder));
 });
 
-// collect the html templates and populate the angular $template cache
-gulp.task("cache-templates", function() {
-  gulp
-    .src(templatesSource)
-    .pipe(
-      html2js({
-        outputModuleName: "templates",
-        useStrict: true,
-        base: "src/"
-      })
-    )
-    .pipe(concat("templates.js"))
-    .pipe(gulp.dest("dist"));
-});
-
 var buildTasksToRun = ["html", "resources", "images"];
 
 cssTasks.forEach(function(task) {
