@@ -29,7 +29,7 @@ var bookmarks = {
         $scope.WidgetSingle.video.bookmarked = true;
       }
       if (!$scope.$$phase) {
-        $scope.$apply();
+        $scope.$digest();
       }
     };
     buildfire.bookmarks ? buildfire.bookmarks.add(options, callback) : null;
@@ -55,7 +55,7 @@ var bookmarks = {
         $scope.WidgetSingle.video.bookmarked = false;
       }
       if (!$scope.$$phase) {
-        $scope.$apply();
+        $scope.$digest();
       }
     };
     buildfire.bookmarks ? buildfire.bookmarks.delete(id, callback) : null;
@@ -94,7 +94,7 @@ var bookmarks = {
         }
       }
       if (!$scope.$$phase) {
-        $scope.$apply();
+        $scope.$digest();
       }
     });
   }
