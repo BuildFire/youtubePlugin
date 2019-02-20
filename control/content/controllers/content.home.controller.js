@@ -259,6 +259,7 @@
                       if (response.items[0].contentDetails && response.items[0].contentDetails.relatedPlaylists && response.items[0].contentDetails.relatedPlaylists.uploads)
                         ContentHome.data.content.playListID = response.items[0].contentDetails.relatedPlaylists.uploads;
                       ContentHome.data.content.videoID = null;
+                      searchEngine.indexFeed(ContentHome.data.content.playListID);
                     }
                     else {
                       ContentHome.validLinkFailure = true;
@@ -309,6 +310,7 @@
                       if (response)
                         ContentHome.data.content.playListID = playlistId;
                       ContentHome.data.content.videoID = null;
+                      searchEngine.indexFeed(playlistId);
                     }
                     else {
                       ContentHome.validLinkFailure = true;

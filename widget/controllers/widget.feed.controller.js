@@ -170,7 +170,6 @@
       });
 
       var getFeedVideos = function(_playlistId) {
-        searchEngine.indexFeed(_playlistId);
 
         Buildfire.spinner.show();
         var success = function(result) {
