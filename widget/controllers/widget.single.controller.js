@@ -22,8 +22,6 @@
       $rootScope,
       VideoCache
     ) {
-      console.log("WidgetSingle init");
-
       buildfire.datastore.onRefresh(function() {
         // Don't do anything on pull down
       });
@@ -93,7 +91,6 @@
 
       WidgetSingle.bookmark = function() {
         var isBookmarked = WidgetSingle.video.bookmarked ? true : false;
-        console.log(isBookmarked);
 
         if (isBookmarked) {
           bookmarks.delete($scope, WidgetSingle.video);
@@ -131,7 +128,6 @@
         };
         var callback = function(err, data) {
           if (err) throw err;
-          console.log(data);
         };
         // buildfire.input.showTextDialog(options, callback);
         buildfire.notes.openDialog(options, callback);
@@ -240,7 +236,6 @@
       DataStore.onUpdate().then(null, null, onUpdateCallback);
 
       $scope.$on("$destroy", function() {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", WidgetSingle.data);
         DataStore.clearListener();
         $rootScope.$broadcast("ROUTE_CHANGED", WidgetSingle.data);
       });

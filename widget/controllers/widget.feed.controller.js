@@ -47,8 +47,6 @@
       $rootScope.deviceHeight = window.innerHeight;
       $rootScope.deviceWidth = window.innerWidth || 320;
       WidgetFeed.appHeight = window.innerWidth * (9 / 16);
-      console.log($rootScope.deviceWidth);
-      console.log($rootScope.deviceHeight);
 
       var handleBookmarkNav = function handleBookmarkNav(videos) {
         buildfire.deeplink.getData(function(data) {
@@ -88,7 +86,6 @@
               WidgetFeed.masterData.playListId = currentPlayListId;
             }
             if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
-              console.log("single video detected");
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
             }
             if (!$scope.$$phase) $scope.$digest();
@@ -170,7 +167,6 @@
       });
 
       var getFeedVideos = function(_playlistId) {
-
         Buildfire.spinner.show();
         var success = function(result) {
             Buildfire.spinner.hide();
@@ -241,11 +237,7 @@
             currentPlayListId = WidgetFeed.data.content.playListID;
             getFeedVideos(WidgetFeed.data.content.playListID);
           }
-          console.log(
-            "+++++++++++++vl5",
-            WidgetFeed.data.content.playListID,
-            WidgetFeed.masterData.playListId
-          );
+
           if (
             WidgetFeed.data.content &&
             WidgetFeed.data.content.playListID &&
@@ -280,7 +272,6 @@
           var $html = $("<div />", { html: html });
           $html.find("iframe").each(function(index, element) {
             var src = element.src;
-            console.log("element is: ", src, src.indexOf("http"));
             src =
               src && src.indexOf("file://") != -1
                 ? src.replace("file://", "http://")

@@ -225,7 +225,6 @@
       "$rootScope",
       function($rootScope) {
         return function(scope, element, attrs) {
-          console.log(scope, element, attrs);
           attrs.$observe("backImg", function(value) {
             var img = "";
             if (value) {

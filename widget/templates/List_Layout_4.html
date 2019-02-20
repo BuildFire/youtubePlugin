@@ -49,7 +49,9 @@
             <a class="video-thumb" href="javascript:void(0)">
               <img
                 load-image="1x1"
-                data-final-src="{{::video.snippet.thumbnails.medium.url | getImageUrl:200:200}}"
+                data-final-src="{{
+                  video.snippet.thumbnails.medium.url | getImageUrl: 200:200
+                }}"
             /></a>
           </div>
         </div>

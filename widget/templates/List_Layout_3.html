@@ -24,7 +24,7 @@
     infinite-scroll-disabled="WidgetFeed.busy"
   >
     <div
-      ng-repeat="video in ::WidgetFeed.videos track by video.id"
+      ng-repeat="video in WidgetFeed.videos track by video.id"
       ng-class="{'viewed': video.viewed}"
       trigger-ng-repeat-render
       class="list-item"
@@ -57,7 +57,7 @@
             load-image="16x9"
             ng-style="{'max-height': WidgetFeed.appHeight}"
             data-final-src="{{
-              ::WidgetFeed.getThumbnail(video)
+              WidgetFeed.getThumbnail(video)
                 | getImageUrl: 'full':WidgetFeed.appHeight:'crop'
             }}"
           />

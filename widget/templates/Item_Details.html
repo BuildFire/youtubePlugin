@@ -45,7 +45,6 @@
       events: {
         'onStateChange': function (e) {
           if (e.data == 1) {
-            console.log('video played');
             var audioPlayer = window.buildfire.services.media.audioPlayer;
             audioPlayer.pause();
           }

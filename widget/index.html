@@ -35,8 +35,8 @@
     <script src="./bookmarkHandler.js"></script>
     <script src="./controllers/widget.feed.controller.js"></script>
     <script src="./controllers/widget.single.controller.js"></script>
-    <script src="./ytConfig"></script>
-    <script src="./callPlayer"></script>
+    <script src="./ytConfig.js"></script>
+    <script src="./callPlayer.js"></script>
     <!-- endbuild -->
 
     <link rel="stylesheet" href="../../../styles/transitionAnimation.css" />
@@ -46,7 +46,7 @@
     <div class="main_view">
       <div
         class="slide content infinite-scroll-parent"
-        data-back-img="{{ ::backgroundListImage }}"
+        data-back-img="{{ backgroundListImage }}"
       >
         <div ng-controller="WidgetFeedCtrl as WidgetFeed">
           <div
@@ -61,7 +61,7 @@
         ngCloak
         class="slide content"
         ng-hide="showFeed"
-        data-back-img="{{ ::backgroundImage }}"
+        data-back-img="{{ backgroundImage }}"
       ></div>
     </div>
   </body>
