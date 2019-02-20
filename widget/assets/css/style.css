@@ -140,6 +140,7 @@
 }
 .layout1 .list-layout .list-item-media .list-media-holder {
   height: auto;
+  background: #ffffff;
 }
 
 @media only screen and (max-width: 1366px) and (orientation: landscape) {
@@ -416,8 +417,8 @@ html[browser="Firefox"]
   opacity: 0.5;
 }
 .list-item.viewed span::after {
-  content: "\e60d";
-  font-family: icomoon;
+  content: "\e013";
+  font-family: 'Glyphicons Halflings';
   opacity: 1;
   font-style: normal;
   display: inline-block;
