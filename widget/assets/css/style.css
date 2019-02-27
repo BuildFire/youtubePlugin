@@ -575,6 +575,30 @@ ul.lorySlides li img {
   align-items: center;
   position: relative;
 }
+.layout1-detail .item-actions{
+  opacity: 0;
+  position: relative;
+  transition: opacity 0.5s ease;
+}
+.layout1-detail .item-actions:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+.layout1-detail .item-actions.enabled:after{
+  content: '';
+  display: none;
+}
+
+.layout1-detail .item-actions.enabled{
+  opacity: 1;
+}
+
 .layout1-detail .li-actions i {
   flex-shrink: 0;
   position: relative;

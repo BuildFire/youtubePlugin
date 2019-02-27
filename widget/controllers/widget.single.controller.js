@@ -119,12 +119,12 @@
       };
 
       WidgetSingle.addNote = function() {
-        player.pauseVideo();
+        window.player.pauseVideo();
         var options = {
           imageUrl: $scope.WidgetSingle.video.snippet.thumbnails.default.url,
           itemId: $scope.WidgetSingle.video.snippet.resourceId.videoId,
           title: $scope.WidgetSingle.video.snippet.title,
-          timeIndex: Math.round(player.getCurrentTime())
+          timeIndex: Math.round(window.player.getCurrentTime())
         };
         var callback = function(err, data) {
           if (err) throw err;
@@ -138,7 +138,7 @@
         buildfire.notes.onSeekTo(function(data) {
           WidgetSingle.video.seekTo = data.time;
           if (WidgetSingle.video.seekTo) {
-            player.seekTo(WidgetSingle.video.seekTo);
+            window.player.seekTo(WidgetSingle.video.seekTo);
             // player.playVideo();
           }
         });
@@ -157,9 +157,9 @@
               }
               if (data.event === "onReady") {
                 if (WidgetSingle.video.seekTo) {
-                  player.seekTo(WidgetSingle.video.seekTo);
+                  window.player.seekTo(WidgetSingle.video.seekTo);
                 } else {
-                  player.playVideo();
+                  window.player.playVideo();
                 }
               }
             },

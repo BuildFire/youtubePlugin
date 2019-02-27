@@ -15,7 +15,7 @@
       </a>
     </div> -->
   </div>
-  <div class="item-actions">
+  <div id="actionsYoutube" class="item-actions">
     <div class="link-list">
       <a class="text-primary" target="_blank" href='javascript:void(0);' ng-click="WidgetSingle.viewSource(WidgetSingle.data.content.rssUrl)">
         <i class="share glyphicon glyphicon-screenshot"></i>
@@ -40,13 +40,20 @@
 
 <script>
   var player;
+  window.youtubeReady = false;
+
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('ytPlayer', {
       events: {
+        'onReady': function (e) {
+          window.youtubeReady = true;
+          window.player = player;
+          const actions = document.getElementById('actionsYoutube');
+          actions.classList.add('enabled');
+        },
         'onStateChange': function (e) {
-          if (e.data == 1) {
-            var audioPlayer = window.buildfire.services.media.audioPlayer;
-            audioPlayer.pause();
+          if (e.data == YT.PlayerState.PLAYING && YT.PlayerState.ENDED) {
+            window.player.pauseVideo();
           }
         }
       }
