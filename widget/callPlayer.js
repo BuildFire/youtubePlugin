@@ -18,3 +18,14 @@ function callPlayer(frame_id, func, args) {
     );
   }
 }
+
+function pauseStopVideo() {
+  const state = window.player.getPlayerState();
+    if(state === 1 ) {
+      window.player.pauseVideo();
+      console.log('PAUSED VIDEO');
+    } else {
+      window.player.stopVideo();
+      console.log('STOPED VIDEO');
+    }
+}

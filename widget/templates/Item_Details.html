@@ -52,9 +52,7 @@
           actions.classList.add('enabled');
         },
         'onStateChange': function (e) {
-          if (e.data == YT.PlayerState.PLAYING && YT.PlayerState.ENDED) {
-            window.player.pauseVideo();
-          }
+
         }
       }
     });

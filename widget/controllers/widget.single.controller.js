@@ -100,6 +100,7 @@
       };
 
       WidgetSingle.share = function() {
+        pauseStopVideo();
         var link = "";
         if (WidgetSingle.video.snippet.resourceId) {
           link = WidgetSingle.video.snippet.resourceId.videoId;
@@ -119,7 +120,7 @@
       };
 
       WidgetSingle.addNote = function() {
-        window.player.pauseVideo();
+        pauseStopVideo();
         var options = {
           imageUrl: $scope.WidgetSingle.video.snippet.thumbnails.default.url,
           itemId: $scope.WidgetSingle.video.snippet.resourceId.videoId,
