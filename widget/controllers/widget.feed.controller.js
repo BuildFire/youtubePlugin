@@ -64,6 +64,22 @@
        */
       var initData = function(isRefresh) {
         var success = function(result) {
+            cache.init(
+              {
+                dbName: "rss.cache",
+                indexName: "feed",
+                objectStoreName: "feed.cache"
+              },
+              function() {
+                cache.getCache(function(err, data) {
+                  // if the rss feed url has changed, ignore the cache and update when fetched
+                  if (err || !data || data.rssUrl != result.data.content.rssUrl)
+                    return;
+                  getFeedVideosSuccess(data);
+                });
+              }
+            );
+
             WidgetFeed.data = result.data;
             if (!WidgetFeed.data.design) WidgetFeed.data.design = {};
             if (!WidgetFeed.data.content) WidgetFeed.data.content = {};
@@ -165,32 +181,51 @@
           );
         }
       });
+      var getFeedVideosSuccess = function(result) {
+        // compare the first item of the cached feed and the fetched feed
+        // return if the feed hasnt changed
+
+        var isUnchanged =
+          WidgetFeed.videos[0] &&
+          WidgetFeed.videos[0].id === result.items[0].id;
+        if (isUnchanged) return;
+
+        bookmarks.findAndMarkAll($scope);
+        viewedVideos.findAndMarkViewed(result.items);
+        WidgetFeed.videos = WidgetFeed.videos.length
+          ? WidgetFeed.videos.concat(result.items)
+          : result.items;
+        handleBookmarkNav(WidgetFeed.videos);
+
+        // attach the feed url for diff checking later
+        // save or update the cache
+        result.rssUrl = WidgetFeed.data.content.rssUrl
+          ? WidgetFeed.data.content.rssUrl
+          : false;
+        cache.saveCache(result);
+
+        Buildfire.spinner.hide();
+
+        WidgetFeed.nextPageToken = result.nextPageToken;
+        if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
+          WidgetFeed.busy = false;
+        }
+        if (!$scope.$$phase) $scope.$digest();
+      };
+
+      var getFeedVideosError = function(err) {
+        Buildfire.spinner.hide();
+        console.error("Error In Fetching feed Videos", err);
+      };
 
       var getFeedVideos = function(_playlistId) {
         Buildfire.spinner.show();
-        var success = function(result) {
-            Buildfire.spinner.hide();
-            bookmarks.findAndMarkAll($scope);
-            viewedVideos.findAndMarkViewed(result.items);
-            WidgetFeed.videos = WidgetFeed.videos.length
-              ? WidgetFeed.videos.concat(result.items)
-              : result.items;
-            handleBookmarkNav(WidgetFeed.videos);
-            WidgetFeed.nextPageToken = result.nextPageToken;
-            if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
-              WidgetFeed.busy = false;
-            }
-            if (!$scope.$$phase) $scope.$digest();
-          },
-          error = function(err) {
-            Buildfire.spinner.hide();
-            console.error("Error In Fetching feed Videos", err);
-          };
+
         YoutubeApi.getFeedVideos(
           _playlistId,
           VIDEO_COUNT.LIMIT,
           WidgetFeed.nextPageToken
-        ).then(success, error);
+        ).then(getFeedVideosSuccess, getFeedVideosError);
       };
 
       var onUpdateCallback = function(event) {
