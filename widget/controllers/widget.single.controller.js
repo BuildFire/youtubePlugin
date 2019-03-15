@@ -236,6 +236,11 @@
 
       DataStore.onUpdate().then(null, null, onUpdateCallback);
 
+      buildfire.history.onPop(() => {
+        $rootScope.showFeed = true;
+        Location.goTo("#/");
+      });
+
       $scope.$on("$destroy", function() {
         DataStore.clearListener();
         $rootScope.$broadcast("ROUTE_CHANGED", WidgetSingle.data);

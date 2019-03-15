@@ -42,6 +42,7 @@
       WidgetFeed.masterData = {
         playListId: ""
       };
+      WidgetFeed.pluginName = "YouTube";
 
       /*declare the device width heights*/
       $rootScope.deviceHeight = window.innerHeight;
@@ -132,6 +133,11 @@
         DataStore.get(TAG_NAMES.YOUTUBE_INFO).then(success, error);
       };
       var init = function(isRefresh) {
+        buildfire.getContext(function(err, result) {
+          if (err) console.error(err);
+          WidgetFeed.pluginName = (result && result.title) || "YouTube";
+        });
+
         viewedVideos.init();
         initData(isRefresh);
       };
@@ -220,7 +226,6 @@
 
       var getFeedVideos = function(_playlistId) {
         Buildfire.spinner.show();
-
         YoutubeApi.getFeedVideos(
           _playlistId,
           VIDEO_COUNT.LIMIT,
@@ -342,6 +347,9 @@
         }, 2000);
         video.id = video.snippet.resourceId.videoId;
         VideoCache.setCache(video);
+        buildfire.history.push(WidgetFeed.pluginName, {
+          showLabelInTitlebar: true
+        });
         Location.goTo("#/video/" + video.snippet.resourceId.videoId);
       };
 
@@ -398,15 +406,17 @@
 
         WidgetFeed.updateAuthListeners();
 
-        if (!WidgetFeed.data.design) {
+        if (WidgetFeed.data && !WidgetFeed.data.design) {
           WidgetFeed.data.design = {};
         }
 
-        if (!WidgetFeed.data.content) {
+        if (WidgetFeed.data && !WidgetFeed.data.content) {
           WidgetFeed.data.content = {};
         }
 
         if (
+          WidgetFeed.data &&
+          WidgetFeed.data.content.playListID &&
           WidgetFeed.masterData.playListId != WidgetFeed.data.content.playListID
         ) {
           WidgetFeed.busy = false;
