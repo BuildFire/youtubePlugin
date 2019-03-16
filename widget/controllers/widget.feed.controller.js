@@ -426,7 +426,7 @@
           getFeedVideos(WidgetFeed.data.content.playListID);
         }
 
-        if (WidgetFeed.data.design.itemListBgImage) {
+        if (WidgetFeed.data.design && WidgetFeed.data.design.itemListBgImage) {
           $rootScope.backgroundListImage =
             WidgetFeed.data.design.itemListBgImage;
         } else {
