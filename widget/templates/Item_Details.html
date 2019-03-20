@@ -7,8 +7,7 @@
     </div>
   </div>
   <div class="text-left padded padding-bottom-zero clearfix ">
-    <h4 class="main-title margin-top-zero">{{WidgetSingle.video.snippet
-      .title}}</h4>
+    <h4 class="main-title margin-top-zero">{{::WidgetSingle.video.snippet.title}}</h4>
     <!-- <div class="item-actions">
       <a class="bookmark" ng-class="{'unmarked' : !WidgetSingle.video.bookmarked}" ng-click="WidgetSingle.bookmark()"
         role="button">
@@ -16,10 +15,10 @@
       </a>
     </div> -->
   </div>
-  <div class="item-actions">
+  <div id="actionsYoutube" class="item-actions">
     <div class="link-list">
       <a class="text-primary" target="_blank" href='javascript:void(0);' ng-click="WidgetSingle.viewSource(WidgetSingle.data.content.rssUrl)">
-        View Source
+        <i class="share glyphicon glyphicon-screenshot"></i>
       </a>
       <!--<a class="text-primary">Share</a>-->
     </div>
@@ -33,7 +32,7 @@
   </div>
   <div class="padded padding-top-zero">
     <p class="break-word">
-      {{WidgetSingle.video.snippet.description}}
+      {{::WidgetSingle.video.snippet.description}}
     </p>
   </div>
 </div>
@@ -41,15 +40,19 @@
 
 <script>
   var player;
+  window.youtubeReady = false;
+
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('ytPlayer', {
       events: {
+        'onReady': function (e) {
+          window.youtubeReady = true;
+          window.player = player;
+          const actions = document.getElementById('actionsYoutube');
+          actions.classList.add('enabled');
+        },
         'onStateChange': function (e) {
-          if (e.data == 1) {
-            console.log('video played');
-            var audioPlayer = window.buildfire.services.media.audioPlayer;
-            audioPlayer.pause();
-          }
+
         }
       }
     });

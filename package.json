@@ -1,21 +1,46 @@
 {
   "name": "youtubePlugin",
   "version": "0.0.1",
-  "supportSite":"http://learn.appdocumentation.com/plugin-tutorials/youtube-plugin-tutorial",
+  "supportSite": "http://learn.appdocumentation.com/plugin-tutorials/youtube-plugin-tutorial",
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install",
-    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
-    "build": "cd .. && rm -rf youtubePlugin.zip && zip -r youtubePlugin.zip youtubePlugin/"
+    "start": "gulp build",
+    "build": "gulp build && cd .. && rm -rf youtubePlugin.zip && zip -r youtubePlugin.zip youtubePlugin_release/",
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
   },
   "license": "ISC",
   "dependencies": {
+    "@babel/helper-module-imports": "^7.0.0",
+    "angular": "^1.4.3",
+    "angular-animate": "^1.4.3",
+    "angular-mocks": "^1.4.3",
+    "angular-route": "^1.4.3",
+    "angular-ui-bootstrap": "^2.5.6",
     "bower": "^1.5.3",
     "karma-cli": "^0.1.0",
-    "karma-coverage": "^0.5.0"
+    "karma-coverage": "^0.5.0",
+    "ng-file-upload": "^6.1.0",
+    "tinymce": "^4.2.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "chai": "^3.0.0",
-    "install": "^0.1.8",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^3.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-minify-inline": "^1.0.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sequence": "^0.4.6",
+    "gulp-strip-comments": "^2.5.1",
+    "gulp-uglify": "^3.0.0",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
@@ -24,7 +49,6 @@
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.0",
     "mocha": "^2.2.5",
-    "npm": "^2.13.5",
     "phantomjs": "^1.9.17"
   }
 }

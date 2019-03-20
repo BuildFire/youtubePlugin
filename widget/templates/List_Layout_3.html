@@ -1,33 +1,93 @@
 <div class="media-center-plugin layout3" id="scroll-infinite">
   <div class="plugin-banner clearfix">
-    <div id="carousel" ng-if="WidgetFeed.data.content.carouselImages.length > 0" ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
-      build-fire-carousel=""></div>
+    <div
+      id="carousel"
+      ng-if="WidgetFeed.data.content.carouselImages.length > 0"
+      ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
+      build-fire-carousel=""
+    ></div>
   </div>
-  <div ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)" class="padded text-left">
-    <p class="margin-bottom-zero break-word" ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
+  <div
+    ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"
+    class="padded text-left"
+  >
+    <p
+      class="margin-bottom-zero break-word"
+      ng-bind-html="WidgetFeed.safeHtml(WidgetFeed.data.content.description)"
+    ></p>
   </div>
-  <div ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()" infinite-scroll-distance="1"
-    data-infinite-container=".infinite-scroll-parent" infinite-scroll-disabled="WidgetFeed.busy">
-    <div ng-repeat="video in WidgetFeed.videos" ng-class="{'viewed': video.viewed}" trigger-ng-repeat-render class="list-item">
-      <div class="plugin-banner clearfix" ng-style="{'min-height': WidgetFeed.appHeight}">
-        <div ng-if="video.showVideo" style='max-height: none !important' class="plugin-slide text-center"
-          data-ng-attr-load-iframe="{{video.snippet.resourceId.videoId | returnYoutubeUrl}}">
-          <img class="holder" ng-style="{'min-height': WidgetFeed.appHeight}" src="../../../styles/media/holder-16x9.gif">
+  <div
+    ng-if="WidgetFeed.data"
+    infinite-scroll="WidgetFeed.loadMore()"
+    infinite-scroll-distance="1"
+    data-infinite-container=".infinite-scroll-parent"
+    infinite-scroll-disabled="WidgetFeed.busy"
+  >
+    <div
+      ng-repeat="video in WidgetFeed.videos track by video.id"
+      ng-class="{'viewed': video.viewed}"
+      trigger-ng-repeat-render
+      class="list-item"
+    >
+      <div
+        class="plugin-banner clearfix"
+        ng-style="{'min-height': WidgetFeed.appHeight}"
+      >
+        <div
+          ng-if="video.showVideo"
+          style="max-height: none !important"
+          class="plugin-slide text-center"
+          data-ng-attr-load-iframe="{{
+            ::video.snippet.resourceId.videoId | returnYoutubeUrl
+          }}"
+        >
+          <img
+            class="holder"
+            ng-style="{'min-height': WidgetFeed.appHeight}"
+            src="../../../styles/media/holder-16x9.gif"
+          />
         </div>
-        <div ng-if="!video.showVideo" ng-click="video.showVideo = true; WidgetFeed.view(video);" class="thumbnail-container">
-          <img class='load-img' load-image="16x9" ng-style="{'max-height': WidgetFeed.appHeight}" data-final-src="{{WidgetFeed.getThumbnail(video) | getImageUrl:'full': WidgetFeed.appHeight:'crop'}}">
-          <img src="assets/icons/youtube-play.png" class="thumbnail-play-icon" />
+        <div
+          ng-if="!video.showVideo"
+          ng-click="video.showVideo = true; WidgetFeed.view(video);"
+          class="thumbnail-container"
+        >
+          <img
+            class="load-img"
+            load-image="16x9"
+            ng-style="{'max-height': WidgetFeed.appHeight}"
+            data-final-src="{{
+              WidgetFeed.getThumbnail(video)
+                | getImageUrl: 'full':WidgetFeed.appHeight:'crop'
+            }}"
+          />
+          <img
+            src="assets/icons/youtube-play.png"
+            class="thumbnail-play-icon"
+          />
         </div>
       </div>
       <div class="list-item-copy" ng-click="WidgetFeed.openDetailsPage(video)">
         <div class="li-copy">
-          <a class="text-primary" href="javascript:void(0)">{{video.snippet.title}}</a>
+          <a class="text-primary" href="javascript:void(0)">{{
+            ::video.snippet.title
+          }}</a>
           <i class="info-group">
-            <span class="list-item-date">{{video.snippet.publishedAt | date}}</span>
+            <span class="list-item-date">{{
+              ::video.snippet.publishedAt | date
+            }}</span>
             <div class="li-actions">
-              <i class="share glyphicon glyphicon-share-alt" ng-click="WidgetFeed.share($event, video)" role="button"></i>
-              <i class="glyphicon bookmark" ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
-                ng-click="WidgetFeed.bookmark($event, video)" role="button"></i>
+              <i
+                class="share glyphicon glyphicon-share-alt"
+                ng-click="WidgetFeed.share($event, video)"
+                role="button"
+              ></i>
+              <i
+                class="glyphicon bookmark"
+                ng-class="{ 'glyphicon-star-empty' : !video.bookmarked, 'glyphicon-star' : video.bookmarked }"
+                ng-click="WidgetFeed.bookmark($event, video)"
+                role="button"
+              ></i>
             </div>
           </i>
         </div>
