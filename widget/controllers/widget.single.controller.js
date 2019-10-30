@@ -121,16 +121,19 @@
 
       WidgetSingle.addNote = function() {
         pauseStopVideo();
+        var videoId = $scope.WidgetSingle.video.snippet.resourceId
+          ? $scope.WidgetSingle.video.snippet.resourceId.videoId
+          : $scope.WidgetSingle.video.id;
+
         var options = {
           imageUrl: $scope.WidgetSingle.video.snippet.thumbnails.default.url,
-          itemId: $scope.WidgetSingle.video.snippet.resourceId.videoId,
+          itemId: videoId,
           title: $scope.WidgetSingle.video.snippet.title,
           timeIndex: Math.round(window.player.getCurrentTime())
         };
         var callback = function(err, data) {
           if (err) throw err;
         };
-        // buildfire.input.showTextDialog(options, callback);
         buildfire.notes.openDialog(options, callback);
       };
 
