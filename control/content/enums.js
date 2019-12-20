@@ -40,6 +40,6 @@
       ]
     })
     .constant('PROXY_SERVER', {
-      serverUrl: "https://proxy.buildfire.com"
+      serverUrl: "https://beta-proxy.buildfire.com"
     });
 })(window.angular);
