@@ -410,6 +410,7 @@ ul.lorySlides li img {
 }
 
 .thumbnail-container .thumbnail-play-icon {
+  display: none;
   margin: auto;
   position: absolute;
   top: 0;
