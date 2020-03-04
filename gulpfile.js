@@ -198,7 +198,7 @@ gulp.task("resources", function() {
 gulp.task("images", function() {
   return gulp
     .src(
-      ["**/.images/**", "control/design/icons/**", "control/design/layouts/**"],
+      ["**/.images/**", "control/design/icons/**", "control/design/layouts/**", "control/design/assets/images/**"],
       { base: "." }
     )
     .pipe(
