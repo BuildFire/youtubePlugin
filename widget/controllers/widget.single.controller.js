@@ -32,9 +32,15 @@
       var WidgetSingle = this;
       WidgetSingle.data = null;
       WidgetSingle.video = null;
-      WidgetSingle.viewSource = function(link) {
-        if (link) {
-          buildfire.navigation.openWindow(link);
+      WidgetSingle.viewSource = function(WidgetSingle) {
+        if (
+          WidgetSingle &&
+          WidgetSingle.video &&
+          WidgetSingle.video.snippet &&
+          WidgetSingle.video.snippet.resourceId &&
+          WidgetSingle.video.snippet.resourceId.videoId
+        ) {
+          buildfire.navigation.openWindow(`https://www.youtube.com/watch?v=${WidgetSingle.video.snippet.resourceId.videoId}`, '_system');
         }
       };
 
