@@ -65,21 +65,12 @@
        */
       var initData = function(isRefresh) {
         var success = function(result) {
-            cache.init(
-              {
-                dbName: "rss.cache",
-                indexName: "feed",
-                objectStoreName: "feed.cache"
-              },
-              function() {
-                cache.getCache(function(err, data) {
-                  // if the rss feed url has changed, ignore the cache and update when fetched
-                  if (err || !data || data.rssUrl != result.data.content.rssUrl)
-                    return;
-                  getFeedVideosSuccess(data);
-                });
-              }
-            );
+            cache.getCache(function(err, data) {
+              // if the rss feed url has changed, ignore the cache and update when fetched
+              if (err || !data || data.rssUrl != result.data.content.rssUrl)
+                return;
+              getFeedVideosSuccess(data);
+            });
 
             WidgetFeed.data = result.data;
             if (!WidgetFeed.data.design) WidgetFeed.data.design = {};
@@ -135,6 +126,7 @@
       var init = function(isRefresh) {
         buildfire.getContext(function(err, result) {
           if (err) console.error(err);
+          window.bfInstanceId = result.instanceId;
           WidgetFeed.pluginName = (result && result.title) || "YouTube";
         });
 
