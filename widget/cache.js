@@ -29,10 +29,10 @@ var cache = {
       buildfire.services.fileSystem.fileManager.readFileAsText(
         options,
         (error, value) => {
-          if (error) return callback(error, null);
+          if (error || !value) return callback(error, null);
           callback(
             null,
-            JSON.parse(typeof value === "undefined" ? null : value)
+            JSON.parse(value)
           );
         }
       );
