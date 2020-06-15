@@ -46,6 +46,9 @@
           itemListBgImage: "",
           itemDetailsBgImage: ""
         },
+        settings: {
+          youtubeApiKey: "",
+        },
         default: true
       };
       var ContentHome = this;

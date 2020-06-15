@@ -19,7 +19,10 @@ describe("Unit : youtubePlugin widget.feed.controller.js having datastore design
                             rssUrl: '',
                             playListID: '123',
                             videoId: '123'
-                        }
+                        },
+                        settings: {
+                            youtubeApiKey: "",
+                        },
                     }});
                 } else {
                     callback('Error', null);
@@ -158,7 +161,10 @@ describe("Unit : youtubePlugin widget.feed.controller.js having datastore design
                             rssUrl: '',
                             playListID: '123',
                             videoId: '123'
-                        }
+                        },
+                        settings: {
+                            youtubeApiKey: "",
+                        },
                     }});
                 } else {
                     callback('Error', null);

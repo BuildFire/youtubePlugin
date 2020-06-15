@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Load helper.css to use our helper classes.
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Load helper.css to use our helper classes.
 	<link href="../../../../styles/helper.css" rel="stylesheet">
 	-->
 
-    <!-- JS -->
-    <script src="../../../../scripts/buildfire.min.js"></script>
+  <!-- JS -->
+  <script src="../../../../scripts/buildfire.min.js"></script>
 
-    <!--
+  <!--
     <script src="../../../../scripts/angular/angular.min.js"></script>
     <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
 
     <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
     -->
-  </head>
-  <body>
-    <span>Settings - Hello world!</span>
-  </body>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="youtube-api-key">
+    <div class="settings-label">
+      Youtube Api Key
+    </div>
+    <input type="text" class="form-control" placeholder="Enter your api key here" id="youtubeApiKeyInput"
+      onchange="onApiKeyChange()">
+  </div>
+
+  <script>
+
+    let youtubeData;
+
+    init();
+
+    function init() {
+      buildfire.datastore.get("YouTubeInfo", (err, data) => {
+        youtubeData = data.data;
+        youtubeApiKeyInput.value = youtubeData.settings ? youtubeData.settings.youtubeApiKey : "";
+      })
+    }
+
+    function save() {
+      buildfire.datastore.save(youtubeData, "YouTubeInfo", (err, data) => {
+        youtubeData = data.data;
+      })
+    }
+
+    function onApiKeyChange() {
+      if (!youtubeData.settings) youtubeData.settings = {};
+      youtubeData.settings.youtubeApiKey = youtubeApiKeyInput.value;
+      save()
+    }
+  </script>
+
+</body>
+
 </html>

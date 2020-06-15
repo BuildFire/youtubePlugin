@@ -1,0 +1,8 @@
+.settings-label {
+  min-width: 150px;
+}
+
+.youtube-api-key {
+  display: flex;
+  align-items: center;
+}
