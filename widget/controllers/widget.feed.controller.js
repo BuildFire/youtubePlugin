@@ -221,7 +221,8 @@
         YoutubeApi.getFeedVideos(
           _playlistId,
           VIDEO_COUNT.LIMIT,
-          WidgetFeed.nextPageToken
+          WidgetFeed.nextPageToken,
+          WidgetFeed.data.settings.youtubeApiKey
         ).then(getFeedVideosSuccess, getFeedVideosError);
       };
 

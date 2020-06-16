@@ -74,7 +74,7 @@
         var getProxyServerUrl = function () {
           return PROXY_SERVER.secureServerUrl;
         };
-        var getSingleVideoDetails = function (videoId) {
+        var getSingleVideoDetails = function (videoId, apiKey) {
           var deferred = $q.defer();
           var _url = '';
           if (!videoId) {
@@ -84,7 +84,8 @@
             }));
           } else {
             $http.post(getProxyServerUrl() + '/video', {
-              id: videoId
+              id: videoId,
+              apiKey: apiKey
             })
               .success(function (response) {
                 if (response.statusCode == 200)
@@ -99,7 +100,7 @@
           return deferred.promise;
         };
 
-        var getFeedVideos = function (playlistId, countLimit, pageToken) {
+        var getFeedVideos = function (playlistId, countLimit, pageToken, apiKey) {
           var deferred = $q.defer();
           var _url = "";
           if (!countLimit)
@@ -113,7 +114,8 @@
             $http.post(getProxyServerUrl() + '/videos', {
               playlistId: playlistId,
               pageToken: pageToken,
-              countLimit: countLimit
+              countLimit: countLimit,
+              apiKey: apiKey
             })
               .success(function (response) {
                 if (response.statusCode == 200)

@@ -92,7 +92,8 @@
             $rootScope.showFeed = false;
             console.error("Error In Fetching Single Video Details", err);
           };
-        YoutubeApi.getSingleVideoDetails(_videoId).then(success, error);
+        let apiKey = WidgetSingle && WidgetSingle.data ? WidgetSingle.data.settings.youtubeApiKey : "";
+        YoutubeApi.getSingleVideoDetails(_videoId, apiKey).then(success, error);
       };
 
       WidgetSingle.bookmark = function() {
