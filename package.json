@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/helper-module-imports": "^7.0.0",
-    "angular": "^1.4.3",
+    "angular": "^1.8.0",
     "angular-animate": "^1.4.3",
     "angular-mocks": "^1.4.3",
     "angular-route": "^1.4.3",
