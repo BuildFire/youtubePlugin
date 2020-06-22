@@ -92,8 +92,8 @@ describe('Unit : youtubePlugin widget Enums', function () {
         it('YOUTUBE_KEYS should exist and be an object', function () {
             expect(typeof YOUTUBE_KEYS).toEqual('object');
         });
-        it('YOUTUBE_KEYS.API_KEY should exist and equals to "AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA"', function () {
-            expect(YOUTUBE_KEYS.API_KEY).toEqual('AIzaSyC5d5acYzAtC9fiDcCOvvpA-xX9dKwkmAA');
+        it('YOUTUBE_KEYS.API_KEY should exist and equals to "AIzaSyC0on4E2RBCavK4U2sbaYN37_wFCpLTLpo"', function () {
+            expect(YOUTUBE_KEYS.API_KEY).toEqual('AIzaSyC0on4E2RBCavK4U2sbaYN37_wFCpLTLpo');
         });
     });
     describe('Enum : VIDEO_COUNT', function () {
