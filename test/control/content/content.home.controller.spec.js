@@ -43,6 +43,9 @@ describe('Unit : youtubePlugin content.home.controller.js when datastore.get res
                     "itemListLayout": LAYOUTS.listLayouts[0].name,
                     "itemListBgImage": "",
                     "itemDetailsBgImage": ""
+                },
+                "settings": {
+                    "youtubeApiKey": ""
                 }
             }});
             return deferred.promise;
