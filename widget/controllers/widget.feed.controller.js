@@ -75,6 +75,7 @@
             WidgetFeed.data = result.data;
             if (!WidgetFeed.data.design) WidgetFeed.data.design = {};
             if (!WidgetFeed.data.content) WidgetFeed.data.content = {};
+            if (!WidgetFeed.data.settings) WidgetFeed.data.settings = {};
             if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout =
                 LAYOUTS.listLayouts[0].name;
@@ -231,6 +232,7 @@
           WidgetFeed.data = event.data;
           if (!WidgetFeed.data.design) WidgetFeed.data.design = {};
           if (!WidgetFeed.data.content) WidgetFeed.data.content = {};
+          if (!WidgetFeed.data.settings) WidgetFeed.data.settings = {};
           if (WidgetFeed.data.content.type)
             $rootScope.contentType = WidgetFeed.data.content.type;
           if (!WidgetFeed.data.design.itemListLayout) {
@@ -405,6 +407,10 @@
 
         if (WidgetFeed.data && !WidgetFeed.data.content) {
           WidgetFeed.data.content = {};
+        }
+
+        if (WidgetFeed.data && !WidgetFeed.data.settings) {
+          WidgetFeed.data.settings = {};
         }
 
         if (
