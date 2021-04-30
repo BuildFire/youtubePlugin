@@ -66,8 +66,8 @@
       var initData = function(isRefresh) {
         var success = function(result) {
             cache.getCache(function(err, data) {
-              // if the rss feed url has changed, ignore the cache and update when fetched
-              if (err || !data || data.rssUrl != result.data.content.rssUrl)
+              // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv1 is false, it will skip cache and proceed with fetching.
+              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv1)
                 return;
               getFeedVideosSuccess(data);
             });
@@ -186,7 +186,10 @@
         var isUnchanged =
           WidgetFeed.videos[0] &&
           WidgetFeed.videos[0].id === result.items[0].id;
-        if (isUnchanged) return;
+        if (isUnchanged) {
+          Buildfire.spinner.hide();
+          return;
+        }
 
         bookmarks.findAndMarkAll($scope);
         viewedVideos.findAndMarkViewed(result.items);
@@ -200,8 +203,10 @@
         result.rssUrl = WidgetFeed.data.content.rssUrl
           ? WidgetFeed.data.content.rssUrl
           : false;
-        cache.saveCache(result);
-
+        var mutatedResult = JSON.parse(JSON.stringify(result));
+        mutatedResult.items = WidgetFeed.videos;
+        mutatedResult.forcedCleanupv1 = true; // Used to cleanup all cache from old users, since there was a bug in cache.
+        cache.saveCache(mutatedResult);
         Buildfire.spinner.hide();
 
         WidgetFeed.nextPageToken = result.nextPageToken;
