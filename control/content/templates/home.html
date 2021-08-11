@@ -56,35 +56,32 @@
     </div>
   </div>
 </div>
-<br>
-<div class="item clearfix row">
+<div class="item clearfix row margin-bottom-fifteen">
   <div class="main pull-right col-md-9">
-    <p class="info padding-zero" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED">Note 1: Channel feed URL example: <a
+    <p class="info-note margin-bottom-ten caption" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED">Note 1: Channel feed URL example: <a
         href="https://www.youtube.com/user/goprocamera"
         target="_blank">https://www.youtube.com/user/goprocamera</a>
     </p>
 
-    <p class="info padding-zero" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED">Note 1: Playlist URL example: <a
+    <p class="info-note margin-bottom-ten caption" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED">Note 1: Playlist URL example: <a
         href="https://www.youtube.com/playlist?list=PLSSPBo7OVSZt1kg5D2Z13-sBn9TqzTbUV"
         target="_blank">https://www.youtube.com/playlist?list=PLSSPBo7OVSZt1kg5D2Z13-sBn9TqzTbUV</a>
     </p>
 
-    <p class="info padding-zero" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">Note 1: Single video URL example: <a
+    <p class="info-note margin-bottom-ten caption" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">Note 1: Single video URL example: <a
         href="https://www.youtube.com/watch?v=wTcNtgA6gHs"
         target="_blank">https://www.youtube.com/watch?v=wTcNtgA6gHs</a>
     </p>
 
-    <p class="info padding-zero">Note 2: Please use the full video URL and not the shortened URL</p>
-    <p class="info padding-zero">Note 3: It is best to use secure websites (<strong>https</strong>) some operating systems require it.</p>
+    <p class="info-note margin-bottom-ten caption">Note 2: Please use the full video URL and not the shortened URL</p>
+    <p class="info-note margin-bottom-ten caption">Note 3: It is best to use secure websites (<strong>https</strong>) some operating systems require it.</p>
 
   </div>
 </div>
-<hr ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
-<div id="carousel" ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)"></div>
-<hr ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED">
-<div class="item clearfix row" ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
+<div class="margin-bottom-fifteen" id="carousel" ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)"></div>
+<div class="item clearfix row " ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
   <div class="labels col-md-3 padding-right-zero pull-left">
-    <span>Text</span>
+    <span>Summary Text</span>
   </div>
 </div>
 <hr class="none">
