@@ -33,7 +33,7 @@
       <input type="text" class="form-control"
              placeholder="Enter your channel or video URL"
              ng-model="ContentHome.rssLink"
-             ng-change="ContentHome.clearData()">
+             ng-change="ContentHome.clearData();updatedWithDelay();">
     </div>
     <div class="col-md-4 pull-right">
       <button class="btn btn-primary pull-right stretch"
@@ -47,11 +47,11 @@
 <hr class="none">
 <div class="item clearfix row">
   <div class="main pull-right col-md-9">
-    <div class="alert alert-success alert-sm text-center"
+    <div class="alert alert-success alert-sm text-center margin-bottom-ten"
          ng-show="ContentHome.validLinkSuccess">Feed
-      successfully validated
+      successfully validated as {{ContentHome.detectedType}}
     </div>
-    <div class="alert alert-danger alert-sm text-center"
+    <div class="alert alert-danger alert-sm text-center margin-bottom-ten"
          ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}
     </div>
   </div>

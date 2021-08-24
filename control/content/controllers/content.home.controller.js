@@ -218,9 +218,32 @@
         true
       );
 
+      var validateTimeOut;
+      $scope.updatedWithDelay = () => {
+        $timeout.cancel(validateTimeOut);
+        validateTimeOut = $timeout(() => {
+          ContentHome.validateRssLink();
+        }, 700)
+      }
+
       // Function to validate youtube rss feed link entered by user.
 
       ContentHome.validateRssLink = function() {
+        let isChannel = Utils.extractChannelId(ContentHome.rssLink);
+        let isVideo = Utils.extractSingleVideoId(ContentHome.rssLink);
+        let isPlaylist = Utils.extractPlaylistId(ContentHome.rssLink);
+        
+        if (isChannel) {
+          ContentHome.contentType = CONTENT_TYPE.CHANNEL_FEED;
+          ContentHome.detectedType = "Channel";
+        } else if (isVideo) {
+          ContentHome.contentType = CONTENT_TYPE.SINGLE_VIDEO;
+          ContentHome.detectedType = "Single Video";
+        } else if (isPlaylist) {
+          ContentHome.contentType = CONTENT_TYPE.PLAYLIST_FEED;
+          ContentHome.detectedType = "Playlist";
+        }
+
         switch (ContentHome.contentType) {
           case CONTENT_TYPE.SINGLE_VIDEO:
             var videoID = Utils.extractSingleVideoId(ContentHome.rssLink);
@@ -253,6 +276,7 @@
                     }, 5000);
                     ContentHome.validLinkSuccess = false;
                   }
+                  if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
                   ContentHome.failureMessage =
@@ -262,6 +286,7 @@
                     ContentHome.validLinkFailure = false;
                   }, 5000);
                   ContentHome.validLinkSuccess = false;
+                  if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
               if (Utils.extractChannelId(ContentHome.rssLink)) {
@@ -275,6 +300,7 @@
                   "Error. Please check and try again";
               }, 5000);
               ContentHome.validLinkSuccess = false;
+              if (!$scope.$$phase) $scope.$apply();
             }
             break;
           case CONTENT_TYPE.CHANNEL_FEED:
@@ -322,6 +348,7 @@
                     }, 5000);
                     ContentHome.validLinkSuccess = false;
                   }
+                  if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
                   ContentHome.failureMessage =
@@ -331,6 +358,7 @@
                     ContentHome.validLinkFailure = false;
                   }, 5000);
                   ContentHome.validLinkSuccess = false;
+                  if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
               if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
@@ -344,6 +372,7 @@
                   "Error. Please check and try again";
               }, 5000);
               ContentHome.validLinkSuccess = false;
+              if (!$scope.$$phase) $scope.$apply();
             }
             break;
           case CONTENT_TYPE.PLAYLIST_FEED:
@@ -376,6 +405,7 @@
                     }, 5000);
                     ContentHome.validLinkSuccess = false;
                   }
+                  if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
                   ContentHome.failureMessage =
@@ -385,6 +415,7 @@
                     ContentHome.validLinkFailure = false;
                   }, 5000);
                   ContentHome.validLinkSuccess = false;
+                  if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
               if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
@@ -398,6 +429,7 @@
                   "Error. Please check and try again";
               }, 5000);
               ContentHome.validLinkSuccess = false;
+              if (!$scope.$$phase) $scope.$apply();
             }
         }
       };
