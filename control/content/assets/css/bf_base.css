@@ -529,6 +529,14 @@ input[type=file] {
   margin-left: -20px;
 }
 /* Info note */
+p.info-note-no-bg {
+  line-height: 1.33;
+  color: var(--c-gray5);
+  padding: 0.2rem 0;
+  margin-bottom: 1.5rem;
+  border-radius: 0.25rem;
+}
+
 p.info-note {
   background-color: var(--c-gray2);
   line-height: 1.33;
@@ -537,6 +545,7 @@ p.info-note {
   margin-bottom: 1.5rem;
   border-radius: 0.25rem;
 }
+
 p.info-note.info-note-transparent { 
   margin-top: 1rem;
   background-color: transparent;

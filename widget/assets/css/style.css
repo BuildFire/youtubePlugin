@@ -701,3 +701,10 @@ ul.lorySlides li img {
   border-radius: .25rem;
   overflow: hidden;
 }
+
+#emptyContainer {
+	background-image: url('../images/empty_page.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 100vh;
+}

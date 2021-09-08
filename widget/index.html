@@ -51,6 +51,7 @@
         data-back-img="{{ backgroundListImage }}"
       >
         <div ng-controller="WidgetFeedCtrl as WidgetFeed">
+          <div id="emptyContainer" ng-if="!WidgetFeed.data.design.itemListLayout || WidgetFeed.videos.length === 0"></div>
           <div
             ng-if="WidgetFeed.data.design.itemListLayout"
             ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'"

@@ -1,0 +1,76 @@
+.customTooltipBox {
+    display: inline-block;
+    text-align: center;
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    color: #fff;
+    border-radius: 100%;
+}
+
+.customTooltipBox::after {
+    content: 'i';
+    position: relative;
+    bottom: 2px;
+    display: block;
+}
+
+.customTooltipBox:hover .customTooltipText {
+    visibility: visible;
+    opacity: 0.9;
+}
+
+.customTooltipBox .customTooltipText {
+    visibility: hidden;
+    font-size: 11px;
+    width: 300px;
+    background-color: #414547;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 50%;
+    transform: translate(10px, 50%);
+    left: 100%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.customTooltipBox .customTooltipText::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -5px;
+    transform: rotate(90deg) translate(-50%);
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #414547 transparent transparent transparent;
+    bottom: 1px;
+    font-size: 13px;
+}
+
+.customTooltipBox .customTooltipText {
+    word-break: break-word;
+    max-width: 220px;
+    padding: 8px 12px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #32373a;
+    border-radius: 4px;
+}
+
+.url-types p {
+    display: inline-block;
+    margin-right: 50px;
+}
+
+.url-types p .icon-check{
+    margin-left: 10px;
+    color: #14cb5d;   
+}
