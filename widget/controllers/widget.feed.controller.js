@@ -186,6 +186,7 @@
           console.log("There was no data from the youtube API");
           return;
         }
+        $scope.loading = true;
         // compare the first item of the cached feed and the fetched feed
         // return if the feed hasnt changed
 
@@ -194,6 +195,7 @@
           WidgetFeed.videos[0].id === result.items[0].id;
         if (isUnchanged) {
           Buildfire.spinner.hide();
+          $scope.loading = false;
           return;
         }
 
@@ -217,6 +219,7 @@
         mutatedResult.forcedCleanupv2 = true; // Used to cleanup all cache from old users, since there was a bug in cache.
         cache.saveCache(mutatedResult);
         Buildfire.spinner.hide();
+        $scope.loading = false;
 
         WidgetFeed.nextPageToken = result.nextPageToken;
         if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
@@ -245,6 +248,7 @@
 
       var getFeedVideosError = function(err) {
         Buildfire.spinner.hide();
+        $scope.loading = false;
         console.error("Error In Fetching feed Videos", err);
       };
 
@@ -317,6 +321,7 @@
           } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
             Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
         }
+        if (!$scope.$$phase) $scope.$digest();
       };
       DataStore.onUpdate().then(null, null, onUpdateCallback);
 
