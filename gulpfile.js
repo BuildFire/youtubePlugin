@@ -35,7 +35,7 @@ const cssTasks = [
   { name: "widgetCSS", src: "widget/**/*.css", dest: "/widget" },
   {
     name: "controlContentCSS",
-    src: "control/content/**/*.css",
+    src: "control/content/**/**/*.css",
     dest: "/control/content"
   },
   {

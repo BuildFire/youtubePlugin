@@ -1,90 +1,95 @@
 <div class="item clearfix row">
   <div class="labels col-md-3 padding-right-zero pull-left">
-    <span>Content Type</span>
   </div>
-  <div class="main pull-right col-md-9 padding-left-zero row">
-    <div class="radio radio-primary radio-inline">
-      <input id="channel" type="radio" ng-model="ContentHome.contentType"
-             ng-value="ContentHome.CONTENT_TYPE.CHANNEL_FEED"
-             name="contenttype" ng-se="">
-      <label for="channel">Channel Feed</label>
-    </div>
-    <div class="radio radio-primary radio-inline">
-      <input id="playlist" type="radio" ng-model="ContentHome.contentType"
-             ng-value="ContentHome.CONTENT_TYPE.PLAYLIST_FEED"
-             name="contenttype">
-      <label for="playlist">Playlist</label>
-    </div>
-    <div class="radio radio-primary radio-inline">
-      <input id="video" type="radio" ng-model="ContentHome.contentType"
-             ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
-             name="contenttype">
-      <label for="video">Single Video</label>
-    </div>
+  <div class="main pull-right col-md-9 padding-left-zero">
+    <p class="info-note margin-zero caption margin-left-fifteen" style="font-size: 13px; word-spacing: 2px;">
+      Copy and paste a URL from YouTube to insert a <strong>Channel Feed</strong>, <strong>Playlist</strong>, or <strong>Single Video</strong>
+    </p>
   </div>
 </div>
 <hr class="none">
-<div class="item clearfix row">
+<div class="item clearfix row margin-bottom-fifteen">
   <div class="labels col-md-3 padding-right-zero pull-left">
-    <span>URL</span>
+    <span>YouTube URL</span>
   </div>
   <div class="main pull-right col-md-9 padding-left-zero row">
     <div class="pull-left col-md-8 padding-zero">
       <input type="text" class="form-control"
              placeholder="Enter your channel or video URL"
              ng-model="ContentHome.rssLink"
-             ng-change="ContentHome.clearData()">
+             ng-change="ContentHome.clearData();updatedWithDelay();" ng-class="{'border-danger': ContentHome.validLinkFailure}" />
+             <div class="text-left text-danger margin-top-five text-small" ng-show="ContentHome.validLinkFailure">
+                 Please paste a valid URL from YouTube
+             </div>
     </div>
     <div class="col-md-4 pull-right">
       <button class="btn btn-primary pull-right stretch"
-              ng-disabled="!(ContentHome.rssLink)"
+              ng-disabled="!(ContentHome.rssLink) || loading"
               ng-click="ContentHome.validateRssLink()">
-        Validate
+        {{loading ? 'Validating URL...' : 'Validate URL'}}
       </button>
     </div>
   </div>
 </div>
-<hr class="none">
-<div class="item clearfix row">
+<!-- <div class="item clearfix row">
   <div class="main pull-right col-md-9">
-    <div class="alert alert-success alert-sm text-center"
+    <div class="alert alert-success alert-sm text-center margin-bottom-ten"
          ng-show="ContentHome.validLinkSuccess">Feed
-      successfully validated
+      successfully validated as {{ContentHome.detectedType}}
     </div>
-    <div class="alert alert-danger alert-sm text-center"
+    <div class="alert alert-danger alert-sm text-center margin-bottom-ten"
          ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}
     </div>
   </div>
-</div>
-<br>
-<div class="item clearfix row">
+</div> -->
+<div class="item clearfix row margin-bottom-fifteen">
   <div class="main pull-right col-md-9">
-    <p class="info padding-zero" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED">Note 1: Channel feed URL example: <a
-        href="https://www.youtube.com/user/goprocamera"
-        target="_blank">https://www.youtube.com/user/goprocamera</a>
+
+    <p class="info-note-no-bg margin-bottom-ten caption">
+      Please use the full video URL and not the shortened URL
+    </p>
+    
+    <p class="info-note-no-bg margin-bottom-ten caption margin-bottom-thirty">
+      It is best to use secure websites (<strong>https</strong>) some operating systems require it.
+    </p>
+    
+    <div class="url-types">
+      <p style="line-height: 1.33;">
+        <span class="customTooltipBox btn-primary">
+          <span class="customTooltipText">
+            Navigate to a channel on YouTube and copy then paste the URL above
+          </span>
+        </span>
+        Channel Feed URL <span class="icon-check" ng-if="ContentHome.contentType === ContentHome.CONTENT_TYPE.CHANNEL_FEED"></span>
+      </p>
+
+      <p style="line-height: 1.33;">
+        <span class="customTooltipBox btn-primary">
+          <span class="customTooltipText">
+            Navigate to a channel on YouTube; go to the “Playlist” tab; Then open the playlist; Copy then paste the URL above
+          </span>
+      </span>
+        Playlist URL <span class="icon-check" ng-if="ContentHome.contentType === ContentHome.CONTENT_TYPE.PLAYLIST_FEED"></span>
     </p>
 
-    <p class="info padding-zero" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED">Note 1: Playlist URL example: <a
-        href="https://www.youtube.com/playlist?list=PLSSPBo7OVSZt1kg5D2Z13-sBn9TqzTbUV"
-        target="_blank">https://www.youtube.com/playlist?list=PLSSPBo7OVSZt1kg5D2Z13-sBn9TqzTbUV</a>
+    <p style="line-height: 1.33;">
+      <span class="customTooltipBox btn-primary">
+        <span class="customTooltipText">
+          Navigate to a video on YouTube and copy then paste the URL above
+        </span>
+      </span>
+
+      Single Video URL <span class="icon-check" ng-if="ContentHome.contentType === ContentHome.CONTENT_TYPE.SINGLE_VIDEO"></span>
     </p>
 
-    <p class="info padding-zero" ng-if="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">Note 1: Single video URL example: <a
-        href="https://www.youtube.com/watch?v=wTcNtgA6gHs"
-        target="_blank">https://www.youtube.com/watch?v=wTcNtgA6gHs</a>
-    </p>
-
-    <p class="info padding-zero">Note 2: Please use the full video URL and not the shortened URL</p>
-    <p class="info padding-zero">Note 3: It is best to use secure websites (<strong>https</strong>) some operating systems require it.</p>
+    </div>
 
   </div>
 </div>
-<hr ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
-<div id="carousel" ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)"></div>
-<hr ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED">
-<div class="item clearfix row" ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
+<div class="margin-bottom-fifteen" id="carousel" ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)"></div>
+<div class="item clearfix row " ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
   <div class="labels col-md-3 padding-right-zero pull-left">
-    <span>Text</span>
+    <span>Summary Text</span>
   </div>
 </div>
 <hr class="none">

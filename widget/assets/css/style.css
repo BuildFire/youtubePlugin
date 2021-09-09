@@ -1,3 +1,6 @@
+html{
+  font-size: 16px !important;
+}
 /* Plugin CSS */
 .media-center-plugin.layout2 .people-banner .people-bg {
   background: rgba(0, 0, 0, 0.8);
@@ -62,7 +65,7 @@
 .list-items .list-item:before,
 .layout3 .list-layout .list-item:after {
   content: "";
-  border-top: 1px solid #ddd !important;
+  /* border-top: 1px solid #ddd !important; */
   opacity: 0.25;
   top: 0;
   left: 0;
@@ -73,7 +76,7 @@
   border-top: none !important;
   top: inherit;
   bottom: 0;
-  border-bottom: 1px solid #ddd !important;
+  /* border-bottom: 1px solid #ddd !important; */
 }
 .list-items .list-item + .list-item {
   padding-top: 10px;
@@ -137,11 +140,13 @@
 }
 .list-layout .list-item-media .list-media-holder {
   margin: 0 auto;
+  border-radius: .25rem;
 }
 .layout1 .list-layout .list-item-media .list-media-holder,
 .layout4 .list-layout .list-item-media .list-media-holder {
   height: auto;
   background: #ffffff;
+  border-radius: .25rem;
 }
 
 @media only screen and (max-width: 1366px) and (orientation: landscape) {
@@ -268,7 +273,7 @@
 }
 .layout3 .list-layout:before {
   content: "";
-  border-top: 1px solid #ddd !important;
+  /* border-top: 1px solid #ddd !important; */
   opacity: 0.25;
   top: 0;
   left: 0;
@@ -569,8 +574,6 @@ ul.lorySlides li img {
 .item-actions {
   margin: 16px 0;
   padding: 0;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -620,8 +623,12 @@ ul.lorySlides li img {
 .layout2 .list-layout .list-item {
   background: none;
   display: flex;
-  padding: 8px;
-  border-top: 1px solid #efefef;
+  width: 100%;
+  padding: .75rem;
+}
+.layout2 .list-item .list-item-copy{
+  display: flex;
+  flex: auto;
 }
 .layout2 .list-media-holder {
   width: 110px;
@@ -629,6 +636,8 @@ ul.lorySlides li img {
   border-radius: 4px;
   margin-right: 10px;
   flex-shrink: 0;
+  border-radius: .25rem;
+  overflow: hidden;
 }
 .layout2 .li-actions .share {
   color: #fff !important;
@@ -678,4 +687,24 @@ ul.lorySlides li img {
 /* Layout 4 */
 .layout4 .list-item-container {
   padding: 0 8px;
+}
+
+/* Flex Classes */
+.flex{
+  display: flex;
+}
+.flex-auto{
+  flex: auto;
+}
+
+:not(.layout3) .list-media-holder{
+  border-radius: .25rem;
+  overflow: hidden;
+}
+
+#emptyContainer {
+	background-image: url('../images/empty_page.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 100vh;
 }
