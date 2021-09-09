@@ -31,8 +31,7 @@
     <!--<div><a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;playVideo&quot;)">Start</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;pauseVideo&quot;)">Pause</a> &bull; <a href="javascript:void callPlayer(&quot;whateverID&quot;,&quot;stopVideo&quot;)">Stop</a></div>-->
   </div>
   <div class="padded padding-top-zero">
-    <p class="break-word">
-      {{::WidgetSingle.video.snippet.description}}
+    <p ng-bind-html="WidgetSingle.safeHtml(WidgetSingle.video.snippet.description)" class="break-word keep-spaces">
     </p>
   </div>
 </div>

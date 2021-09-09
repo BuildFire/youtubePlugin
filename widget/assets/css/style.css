@@ -679,3 +679,6 @@ ul.lorySlides li img {
 .layout4 .list-item-container {
   padding: 0 8px;
 }
+.keep-spaces {
+  white-space: pre-wrap;
+}
