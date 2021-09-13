@@ -223,8 +223,8 @@
         $timeout.cancel(validateTimeOut);
         validateTimeOut = $timeout(() => {
           ContentHome.validateRssLink();
-        }, 700)
-      }
+        }, 700);
+      };
 
       // Function to validate youtube rss feed link entered by user.
 
