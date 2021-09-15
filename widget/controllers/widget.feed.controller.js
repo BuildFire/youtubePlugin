@@ -66,8 +66,8 @@
       var initData = function(isRefresh) {
         var success = function(result) {
             cache.getCache(function(err, data) {
-              // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv1 is false, it will skip cache and proceed with fetching.
-              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv1)
+              // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv2 is false, it will skip cache and proceed with fetching.
+              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2)
                 return;
               getFeedVideosSuccess(data);
             });
@@ -180,6 +180,12 @@
         }
       });
       var getFeedVideosSuccess = function(result) {
+        // double check that result is not null
+        if (!result) {
+          Buildfire.spinner.hide();
+          console.log("There was no data from the youtube API");
+          return;
+        }
         $scope.loading = true;
         // compare the first item of the cached feed and the fetched feed
         // return if the feed hasnt changed
@@ -198,6 +204,8 @@
         WidgetFeed.videos = WidgetFeed.videos.length
           ? WidgetFeed.videos.concat(result.items)
           : result.items;
+        // check if there is any duplication; so if there is, we will just depend on the newer data
+        WidgetFeed.videos = isThereDuplication(WidgetFeed.videos) ? result.items : WidgetFeed.videos;
 
         handleBookmarkNav(WidgetFeed.videos);
 
@@ -208,7 +216,7 @@
           : false;
         var mutatedResult = JSON.parse(JSON.stringify(result));
         mutatedResult.items = WidgetFeed.videos;
-        mutatedResult.forcedCleanupv1 = true; // Used to cleanup all cache from old users, since there was a bug in cache.
+        mutatedResult.forcedCleanupv2 = true; // Used to cleanup all cache from old users, since there was a bug in cache.
         cache.saveCache(mutatedResult);
         Buildfire.spinner.hide();
         $scope.loading = false;
@@ -218,6 +226,24 @@
           WidgetFeed.busy = false;
         }
         if (!$scope.$$phase) $scope.$digest();
+      };
+
+      var isThereDuplication = function(data) {
+        let thereIsDuplication = false;
+        let idsObject = {};
+        data.forEach((item) => {
+          if (!idsObject[item.id]) {
+            idsObject[item.id] = 1;
+          } else {
+            idsObject[item.id] += 1;
+          }
+        });
+        data.forEach((item) => {
+          if (idsObject[item.id] > 1) {
+            thereIsDuplication = true;
+          }
+        });
+        return thereIsDuplication;
       };
 
       var getFeedVideosError = function(err) {

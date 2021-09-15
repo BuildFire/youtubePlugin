@@ -11,6 +11,7 @@
     "LAYOUTS",
     "$rootScope",
     "VideoCache",
+    "$sce",
     function(
       $routeParams,
       $scope,
@@ -20,7 +21,8 @@
       Location,
       LAYOUTS,
       $rootScope,
-      VideoCache
+      VideoCache,
+      $sce
     ) {
       buildfire.datastore.onRefresh(function() {
         // Don't do anything on pull down
@@ -85,6 +87,17 @@
         var success = function(result) {
             $rootScope.showFeed = false;
             WidgetSingle.video = result;
+            let options = {
+              text: WidgetSingle.video.snippet.description,
+              supportedHashtagType: 'youtube'
+            };
+            buildfire.format.textToHTML(options, (err, result) => {
+              if(err) return console.error(`ERROR: ${err}`);
+              WidgetSingle.video.snippet.description = result.html;
+              if (!$scope.$$phase) {
+                $scope.$digest();
+              }
+            });
             bookmarks.findAndMarkAll($scope);
             viewedVideos.markViewed($scope, WidgetSingle.video);
           },
@@ -143,6 +156,21 @@
         buildfire.notes.openDialog(options, callback);
       };
 
+      WidgetSingle.safeHtml = function(html) {
+        if (html) {
+          var $html = $("<div />", { html: html });
+          $html.find("iframe").each(function(index, element) {
+            var src = element.src;
+            src =
+              src && src.indexOf("file://") != -1
+                ? src.replace("file://", "http://")
+                : src;
+            element.src =
+              src && src.indexOf("http") != -1 ? src : "http:" + src;
+          });
+          return $sce.trustAsHtml($html.html());
+        }
+      };
       buildfire.notes &&
         buildfire.notes.onSeekTo &&
         buildfire.notes.onSeekTo(function(data) {
@@ -157,6 +185,17 @@
         if (VideoCache.getCache()) {
           $rootScope.showFeed = false;
           WidgetSingle.video = VideoCache.getCache();
+          let options = {
+            text: WidgetSingle.video.snippet.description,
+            supportedHashtagType: 'youtube'
+          };
+          buildfire.format.textToHTML(options, (err, result) => {
+            if(err) return console.error(`ERROR: ${err}`);
+            WidgetSingle.video.snippet.description = result.html;
+            if (!$scope.$$phase) {
+              $scope.$digest();
+            }
+          });
           window.addEventListener(
             "message",
             function(e) {
