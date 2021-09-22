@@ -183,6 +183,7 @@
           ) {
             $rootScope.showFeed = true;
             Location.goTo("#/");
+            buildfire.navigation._goBackOne();
           } else {
             buildfire.navigation._goBackOne();
           }

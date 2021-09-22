@@ -43,6 +43,7 @@
         playListId: ""
       };
       WidgetFeed.pluginName = "YouTube";
+      WidgetFeed.screenAnimationInProgress = false;
 
       /*declare the device width heights*/
       $rootScope.deviceHeight = window.innerHeight;
@@ -371,7 +372,10 @@
       };
 
       WidgetFeed.openDetailsPage = function(video) {
+        if (WidgetFeed.screenAnimationInProgress) return;
+        WidgetFeed.screenAnimationInProgress = true;
         setTimeout(function() {
+          WidgetFeed.screenAnimationInProgress = false;
           viewedVideos.markViewed($scope, video);
         }, 2000);
         video.id = video.snippet.resourceId.videoId;
