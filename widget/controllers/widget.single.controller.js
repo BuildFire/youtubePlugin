@@ -93,7 +93,7 @@
             };
             buildfire.format.textToHTML(options, (err, result) => {
               if(err) return console.error(`ERROR: ${err}`);
-              WidgetSingle.video.snippet.description = result.html;
+              WidgetSingle.video.snippet.wwg = result.html;
               if (!$scope.$$phase) {
                 $scope.$digest();
               }
@@ -191,7 +191,7 @@
           };
           buildfire.format.textToHTML(options, (err, result) => {
             if(err) return console.error(`ERROR: ${err}`);
-            WidgetSingle.video.snippet.description = result.html;
+            WidgetSingle.video.snippet.wwg = result.html;
             if (!$scope.$$phase) {
               $scope.$digest();
             }
