@@ -48,6 +48,7 @@
       /*declare the device width heights*/
       $rootScope.deviceHeight = window.innerHeight;
       $rootScope.deviceWidth = window.innerWidth || 320;
+      $rootScope.currentVideo = null;
       WidgetFeed.appHeight = window.innerWidth * (9 / 16);
 
       var handleBookmarkNav = function handleBookmarkNav(videos) {
@@ -374,16 +375,21 @@
       WidgetFeed.openDetailsPage = function(video) {
         if (WidgetFeed.screenAnimationInProgress) return;
         WidgetFeed.screenAnimationInProgress = true;
+
         setTimeout(function() {
           WidgetFeed.screenAnimationInProgress = false;
           viewedVideos.markViewed($scope, video);
         }, 2000);
-        video.id = video.snippet.resourceId.videoId;
-        VideoCache.setCache(video);
-        buildfire.history.push(WidgetFeed.pluginName, {
-          showLabelInTitlebar: true
+
+        $scope.$watch('$root.currentVideo', function() {
+          buildfire.history.push(WidgetFeed.pluginName, {
+            showLabelInTitlebar: true
+          });
+          Location.goTo("#/video/" + video.snippet.resourceId.videoId);
         });
-        Location.goTo("#/video/" + video.snippet.resourceId.videoId);
+        
+        video.id = video.snippet.resourceId.videoId;
+        VideoCache.setCache(video);       
       };
 
       WidgetFeed.getThumbnail = function(video) {
