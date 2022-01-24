@@ -140,14 +140,14 @@
         }
       };
     }])
-    .factory('VideoCache', [function () {
-      var video = null;
+    .factory('VideoCache', ['$rootScope', function ($rootScope) {
       return {
         setCache: function (data) {
-          video = data;
+          $rootScope.currentVideo = data;
+          if (!$rootScope.$$phase) $rootScope.$digest();
         },
         getCache: function () {
-          return video;
+          return $rootScope.currentVideo;
         }
       };
     }])
