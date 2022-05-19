@@ -89,10 +89,10 @@
             }, 0);
             if (!$scope.$$phase) $scope.$digest();
           }
-        }
+        };
         var errorWithComperation = function(err){
           console.error("Error while getting data", err);
-        }
+        };
 
         if (currentPlayListId && currentPlayListId !== "1") {
           YoutubeApi.getFeedVideos(
@@ -101,7 +101,7 @@
             null
           ).then(compareDataFromCacheAndYouTube, errorWithComperation);
         } 
-      }
+      };
       /*
        * Fetch user's data from datastore
        */
