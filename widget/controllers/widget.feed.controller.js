@@ -62,6 +62,46 @@
         });
       };
 
+      var checkForNewDataFromYouTube = function (cache){
+        var compareDataFromCacheAndYouTube = function(result){
+          var isUnchanged=false;
+          if(cache.items && result.items && result.items.length){
+            if(cache.items.length == result.items.length){
+              var flag=false;
+              for (let i = 0; i < cache.items.length; i++) {
+                if(cache.items[i].id!=result.items[i].id){
+                  flag=true;
+                }
+              }
+              if(!flag){
+                isUnchanged=true;
+              }
+            }
+          }
+          if(!isUnchanged){
+            WidgetFeed.videos = [];
+            WidgetFeed.busy = false;
+            WidgetFeed.nextPageToken = null;
+            setTimeout(() => {              
+              if(!$scope.loading){
+                getFeedVideosSuccess(result);
+              }
+            }, 0);
+            if (!$scope.$$phase) $scope.$digest();
+          }
+        };
+        var errorWithComperation = function(err){
+          console.error("Error while getting data", err);
+        };
+
+        if (currentPlayListId && currentPlayListId !== "1") {
+          YoutubeApi.getFeedVideos(
+            currentPlayListId,
+            VIDEO_COUNT.LIMIT,
+            null
+          ).then(compareDataFromCacheAndYouTube, errorWithComperation);
+        } 
+      };
       /*
        * Fetch user's data from datastore
        */
@@ -72,6 +112,7 @@
               if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2)
                 return;
               getFeedVideosSuccess(data);
+              checkForNewDataFromYouTube(data);
             });
 
             WidgetFeed.data = result.data;
