@@ -27,7 +27,7 @@
     "@babel/preset-env": "^7.3.1",
     "chai": "^3.0.0",
     "del": "^3.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^3.0.0",
@@ -48,7 +48,7 @@
     "karma-junit-reporter": "^0.3.3",
     "karma-mocha": "^0.2.0",
     "karma-phantomjs-launcher": "^0.2.0",
-    "mocha": "^2.2.5",
+    "mocha": "^10.1.0",
     "phantomjs": "^1.9.17"
   }
 }
