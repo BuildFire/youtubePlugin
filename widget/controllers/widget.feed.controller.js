@@ -196,31 +196,19 @@
       init();
       $rootScope.$on("Carousel:LOADED", function() {
         WidgetFeed.view = null;
-        if (!WidgetFeed.view) {
-          var carouselSlides = WidgetFeed.data.content.carouselImages || [];
-          var carouselSelector = document.getElementById("carousel");
-          WidgetFeed.view = new Buildfire.components.carousel.view({
-            selector: carouselSelector,
-            items: carouselSlides
-          });
-          var css =
-            "min-height: " +
-            window.innerWidth * 0.5625 +
-            "px !important;position: relative;top: 0px;left: 0px; display: block;";
-          setTimeout(function() {
-            document.getElementById("carousel").setAttribute("style", css);
-          }, 50);
-        }
-        if (WidgetFeed.data.content && WidgetFeed.data.content.carouselImages) {
-          WidgetFeed.view._loadImages(
-            WidgetFeed.data.content.carouselImages,
-            () => console.log("WidgetFeed Load Images")
-          );
-        } else {
-          WidgetFeed.view._loadImages([], () =>
-            console.log("WidgetFeed Load Images []")
-          );
-        }
+        var carouselSlides = WidgetFeed.data.content && WidgetFeed.data.content.carouselImages || [];
+        var carouselSelector = document.getElementById("carousel");
+        WidgetFeed.view = new Buildfire.components.carousel.view({
+          selector: carouselSelector,
+          items: carouselSlides
+        });
+        var css =
+          "min-height: " +
+          window.innerWidth * 0.5625 +
+          "px !important;position: relative;top: 0px;left: 0px; display: block;";
+        setTimeout(function() {
+          document.getElementById("carousel").setAttribute("style", css);
+        }, 50);
       });
       var getFeedVideosSuccess = function(result) {
         // double check that result is not null
