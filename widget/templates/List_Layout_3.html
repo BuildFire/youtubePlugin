@@ -3,7 +3,6 @@
     <div
       id="carousel"
       ng-if="WidgetFeed.data.content.carouselImages.length > 0"
-      ng-style="WidgetFeed.data.content.carouselImages.length > 0 ? {'min-height': (9 * deviceWidth / 16) + 'px' } : {}"
       build-fire-carousel=""
     ></div>
   </div>
@@ -31,7 +30,6 @@
     >
       <div
         class="plugin-banner clearfix"
-        ng-style="{'min-height': WidgetFeed.appHeight}"
       >
         <div
           ng-if="video.showVideo"
@@ -55,7 +53,6 @@
           <img
             class="load-img"
             load-image="16x9"
-            ng-style="{'max-height': WidgetFeed.appHeight}"
             data-final-src="{{
               WidgetFeed.getThumbnail(video)
                 | getImageUrl: 'full':WidgetFeed.appHeight:'crop'
