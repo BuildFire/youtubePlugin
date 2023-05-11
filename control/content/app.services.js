@@ -70,7 +70,7 @@
               }
             }).error(function (error) {
               callback(error);
-            })
+            });
           }
         },
         extractChannelId: function (url) {

@@ -227,7 +227,7 @@
             if(res) return ContentHome.validateRssLink(res);
             
             return ContentHome.validateRssLink(ContentHome.rssLink);
-          })
+          });
         }, 700);
       };
 
