@@ -222,16 +222,21 @@
       $scope.updatedWithDelay = () => {
         $timeout.cancel(validateTimeOut);
         validateTimeOut = $timeout(() => {
-          ContentHome.validateRssLink();
+          Utils.fixChannelIdURL(ContentHome.rssLink, (err,res)=>{
+            if(err) console.error(err);
+            if(res) return ContentHome.validateRssLink(res);
+            
+            return ContentHome.validateRssLink(ContentHome.rssLink);
+          })
         }, 700);
       };
 
       // Function to validate youtube rss feed link entered by user.
 
-      ContentHome.validateRssLink = function() {        
-        let isChannel = Utils.extractChannelId(ContentHome.rssLink);
-        let isVideo = Utils.extractSingleVideoId(ContentHome.rssLink);
-        let isPlaylist = Utils.extractPlaylistId(ContentHome.rssLink);
+      ContentHome.validateRssLink = function(youtubeUrl) {        
+        let isChannel = Utils.extractChannelId(youtubeUrl);
+        let isVideo = Utils.extractSingleVideoId(youtubeUrl);
+        let isPlaylist = Utils.extractPlaylistId(youtubeUrl);
         
         if (isChannel) {
           ContentHome.contentType = CONTENT_TYPE.CHANNEL_FEED;
@@ -257,7 +262,7 @@
 
         switch (ContentHome.contentType) {
           case CONTENT_TYPE.SINGLE_VIDEO:
-            var videoID = Utils.extractSingleVideoId(ContentHome.rssLink);
+            var videoID = Utils.extractSingleVideoId(youtubeUrl);
             if (videoID) {
               $http
                 .get(
@@ -302,7 +307,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
-              if (Utils.extractChannelId(ContentHome.rssLink)) {
+              if (Utils.extractChannelId(youtubeUrl)) {
                 ContentHome.failureMessage =
                   "Seems like you have entered feed url. Please choose correct option to validate url.";
               }
@@ -318,7 +323,7 @@
             }
             break;
           case CONTENT_TYPE.CHANNEL_FEED:
-            var feedIdAndType = Utils.extractChannelId(ContentHome.rssLink);
+            var feedIdAndType = Utils.extractChannelId(youtubeUrl);
             var feedApiUrl = null;
             if (feedIdAndType) {
               if (feedIdAndType.channel)
@@ -377,7 +382,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
-              if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
+              if (Utils.extractSingleVideoId(youtubeUrl)) {
                 ContentHome.failureMessage =
                   "Seems like you have entered single video url. Please choose correct option to validate url.";
               }
@@ -393,7 +398,7 @@
             }
             break;
           case CONTENT_TYPE.PLAYLIST_FEED:
-            var playlistId = Utils.extractPlaylistId(ContentHome.rssLink);
+            var playlistId = Utils.extractPlaylistId(youtubeUrl);
             if (playlistId) {
               $http
                 .post(PROXY_SERVER.serverUrl + "/videos", {
@@ -437,7 +442,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
-              if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
+              if (Utils.extractSingleVideoId(youtubeUrl)) {
                 ContentHome.failureMessage =
                   "Seems like you have entered single video url. Please choose correct option to validate url.";
               }

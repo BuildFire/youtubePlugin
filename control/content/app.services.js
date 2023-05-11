@@ -41,7 +41,7 @@
         }
       };
     }])
-    .factory("Utils", [function () {
+    .factory("Utils", ["$http", "YOUTUBE_KEYS", function ($http, YOUTUBE_KEYS) {
       return {
         extractSingleVideoId: function (url) {
           var regExp = /^https?:\/\/(?:www\.)?youtube\.com\/watch\?(?=.*v=((\w|-){11}))(?:\S+)?$/;
@@ -50,6 +50,27 @@
             return match[1];
           } else {
             return null;
+          }
+        },
+        fixChannelIdURL: function (url, callback){
+          let isChannel = this.extractChannelId(url);
+          let isSingle = this.extractSingleVideoId(url);
+          let isPlaylist = this.extractPlaylistId(url);
+          if(isChannel || isSingle || isPlaylist) return callback(null, url);
+          
+          let regex = /((http|https):\/\/|)(www\.)?youtube\.com\/([a-zA-Z0-9_\-@]{1,})/;
+          let res = url.match(regex);
+          if (res && res.length > 2 && res[4]) {
+            $http.get("https://youtube.googleapis.com/youtube/v3/search?part=snippet&q="+res[4]+"&type=channel&key=" + YOUTUBE_KEYS.API_KEY, { cache: true })
+            .success(function (response) {
+              if(response.items[0] && response.items[0].id && response.items[0].id.channelId){
+                callback(null, "https://www.youtube.com/channel/"+response.items[0].id.channelId);
+              }else {
+                callback(null, url);
+              }
+            }).error(function (error) {
+              callback(error);
+            })
           }
         },
         extractChannelId: function (url) {
