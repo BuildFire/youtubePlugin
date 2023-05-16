@@ -71,6 +71,8 @@
             }).error(function (error) {
               callback(error);
             });
+          }else{
+            callback(null, url);
           }
         },
         extractChannelId: function (url) {
