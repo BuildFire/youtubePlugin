@@ -227,13 +227,14 @@
             if(res) return ContentHome.validateRssLink(res);
             
             return ContentHome.validateRssLink(ContentHome.rssLink);
-          })
+          });
         }, 700);
       };
 
       // Function to validate youtube rss feed link entered by user.
 
-      ContentHome.validateRssLink = function(youtubeUrl) {        
+      ContentHome.validateRssLink = function(youtubeUrl){
+        if(!youtubeUrl) youtubeUrl=ContentHome.rssLink;
         let isChannel = Utils.extractChannelId(youtubeUrl);
         let isVideo = Utils.extractSingleVideoId(youtubeUrl);
         let isPlaylist = Utils.extractPlaylistId(youtubeUrl);
