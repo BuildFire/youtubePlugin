@@ -15,7 +15,8 @@
     },
     "settings": {
       "enabled": false
-    }
+    },
+    "customTabs":[]
   },
   "widget": {},
   "features": [{"name" : "sharing"}],
