@@ -222,19 +222,25 @@
       $scope.updatedWithDelay = () => {
         $timeout.cancel(validateTimeOut);
         validateTimeOut = $timeout(() => {
+          ContentHome.fixChannelIdURL();
+        }, 700);
+      };
+
+      ContentHome.fixChannelIdURL = function(){
+        if(ContentHome.rssLink){
           Utils.fixChannelIdURL(ContentHome.rssLink, (err,res)=>{
             if(err) console.error(err);
             if(res) return ContentHome.validateRssLink(res);
             
             return ContentHome.validateRssLink(ContentHome.rssLink);
           });
-        }, 700);
+        };
       };
 
       // Function to validate youtube rss feed link entered by user.
 
       ContentHome.validateRssLink = function(youtubeUrl){
-        if(!youtubeUrl) youtubeUrl=ContentHome.rssLink;
+        if(!youtubeUrl) return ContentHome.fixChannelIdURL();
         let isChannel = Utils.extractChannelId(youtubeUrl);
         let isVideo = Utils.extractSingleVideoId(youtubeUrl);
         let isPlaylist = Utils.extractPlaylistId(youtubeUrl);
