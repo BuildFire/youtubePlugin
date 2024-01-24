@@ -40,7 +40,7 @@
           type: "",
           playListID: null,
           videoID: null,
-          vedioThumbnailVersion: null
+          videoThumbnailVersion: null
         },
         design: {
           itemListLayout: LAYOUTS.listLayouts[0].name,
@@ -290,7 +290,6 @@
                     }, 5000);
                     ContentHome.validLinkFailure = false;
                     ContentHome.data.content.rssUrl = ContentHome.rssLink;
-                    ContentHome.data.content.vedioThumbnailVersion = null;
                     ContentHome.data.content.type = ContentHome.contentType;
                     ContentHome.data.content.videoID = videoID;
                     ContentHome.data.content.playListID = null;
@@ -360,7 +359,6 @@
                     ContentHome.validLinkFailure = false;
                     ContentHome.data.content.rssUrl = ContentHome.rssLink;
                     ContentHome.data.content.type = ContentHome.contentType;
-                    ContentHome.data.content.vedioThumbnailVersion = null;
                     if (
                       response.items[0].contentDetails &&
                       response.items[0].contentDetails.relatedPlaylists &&
@@ -426,7 +424,6 @@
                     ContentHome.validLinkFailure = false;
                     ContentHome.data.content.rssUrl = ContentHome.rssLink;
                     ContentHome.data.content.type = ContentHome.contentType;
-                    ContentHome.data.content.vedioThumbnailVersion = null;
                     if (response)
                       ContentHome.data.content.playListID = playlistId;
                     ContentHome.data.content.videoID = null;
@@ -471,17 +468,12 @@
       };
 
       ContentHome.updateCachedVideos = function() {
-        if (ContentHome.data.content.vedioThumbnailVersion) {
-          ContentHome.data.content.vedioThumbnailVersion += 1;
-        } else {
-          ContentHome.data.content.vedioThumbnailVersion = 1;
-        }
+        ContentHome.data.content.videoThumbnailVersion = Date.now();
       }
 
       ContentHome.clearData = function() {
         if (!ContentHome.rssLink) {
           ContentHome.contentType = undefined;
-          ContentHome.data.content.vedioThumbnailVersion = null;
           ContentHome.data.content.rssUrl = null;
           ContentHome.data.content.type = ContentHome.contentType;
           ContentHome.data.content.videoID = null;
