@@ -44,12 +44,7 @@
             href="javascript:void(0)"
             ng-click="WidgetFeed.openDetailsPage(video)"
           >
-            <img
-              load-image="16x9"
-              data-final-src="{{
-                video.snippet.thumbnails.medium.url | getImageUrl: 220:120
-              }}"
-            />
+            <img src="{{WidgetFeed.cropVedioThumbnial(video.snippet.thumbnails.medium.url)}}" />
           </a>
         </div>
 

@@ -48,10 +48,7 @@
             </div>
             <a class="link-image-wrapper" href="javascript:void(0)">
               <img
-                load-image="1x1"
-                data-final-src="{{
-                  video.snippet.thumbnails.medium.url | getImageUrl: 200:200
-                }}"
+                src="{{WidgetFeed.cropVedioThumbnial(video.snippet.thumbnails.medium.url)}}"
             /></a>
           </div>
         </div>
