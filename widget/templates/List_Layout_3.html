@@ -52,7 +52,11 @@
         >
           <img
             class="load-img"
-            src="{{WidgetFeed.cropVedioThumbnial(WidgetFeed.getThumbnail(video))}}"
+            load-image="16x9"
+            data-final-src="{{
+              WidgetFeed.getThumbnail(video)
+                | getImageUrl: 'full':WidgetFeed.appHeight:'crop': WidgetFeed.data.content.videoThumbnailVersion
+            }}"
           />
           <img
             src="assets/icons/youtube-play.png"

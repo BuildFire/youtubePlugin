@@ -62,15 +62,6 @@
         });
       };
 
-      WidgetFeed.cropVedioThumbnial = function (imageUrl) {
-        let cropedImage = cropVedioThumbnial(imageUrl, WidgetFeed.data.design.itemListLayout);
-        if (WidgetFeed.data.content.vedioThumbnailVersion) {
-          cropedImage += `&v=${WidgetFeed.data.content.vedioThumbnailVersion}`
-        }
-
-        return cropedImage;
-      }
-
       var checkForNewDataFromYouTube = function (cache){
         var compareDataFromCacheAndYouTube = function(result){
           var isUnchanged=false;
