@@ -13,7 +13,7 @@
     <span>YouTube URL</span>
   </div>
   <div class="main pull-right col-md-9 padding-left-zero row">
-    <div class="pull-left col-md-8 padding-zero">
+    <div class="pull-left col-md-9 padding-zero">
       <input type="text" class="form-control"
              placeholder="Enter your channel or video URL"
              ng-model="ContentHome.rssLink"
@@ -22,8 +22,8 @@
                  Please paste a valid URL from YouTube
              </div>
     </div>
-    <div class="col-md-4 pull-right">
-      <button class="btn btn-primary pull-right stretch"
+    <div class="col-md-3 pull-right">
+      <button class="btn btn-success pull-right stretch"
               ng-disabled="!(ContentHome.rssLink) || loading"
               ng-click="ContentHome.validateRssLink()">
         {{loading ? 'Validating URL...' : 'Validate URL'}}
@@ -54,36 +54,56 @@
     </p>
     
     <div class="url-types">
-      <p style="line-height: 1.33;">
-        <span class="customTooltipBox btn-primary">
-          <span class="customTooltipText">
+      <p class="tooltip-container" style="line-height: 1.33;">
+        <span class="btn-info-icon btn-primary margin-left-zero">
+          <span class="cp-tooltip">
             Navigate to a channel on YouTube and copy then paste the URL above
           </span>
         </span>
         Channel Feed URL <span class="icon-check" ng-if="ContentHome.contentType === ContentHome.CONTENT_TYPE.CHANNEL_FEED"></span>
       </p>
 
-      <p style="line-height: 1.33;">
-        <span class="customTooltipBox btn-primary">
-          <span class="customTooltipText">
+      <p class="tooltip-container" style="line-height: 1.33;">
+        <span class="btn-info-icon btn-primary">
+          <span class="cp-tooltip">
             Navigate to a channel on YouTube; go to the “Playlist” tab; Then open the playlist; Copy then paste the URL above
           </span>
-      </span>
+        </span>
         Playlist URL <span class="icon-check" ng-if="ContentHome.contentType === ContentHome.CONTENT_TYPE.PLAYLIST_FEED"></span>
     </p>
 
-    <p style="line-height: 1.33;">
-      <span class="customTooltipBox btn-primary">
-        <span class="customTooltipText">
+    <p class="tooltip-container" style="line-height: 1.33;">
+      <span class="btn-info-icon btn-primary">
+      	<span class="cp-tooltip cp-small-tooltip">
           Navigate to a video on YouTube and copy then paste the URL above
-        </span>
-      </span>
+      	</span>
+    	</span>
 
       Single Video URL <span class="icon-check" ng-if="ContentHome.contentType === ContentHome.CONTENT_TYPE.SINGLE_VIDEO"></span>
     </p>
 
     </div>
 
+  </div>
+</div>
+<div class="item clearfix row margin-bottom-fifteen" ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
+  <div class="labels col-md-3 padding-right-zero pull-left">
+    <span class="tooltip-container">
+      Update Video Thumbnails
+      <span class="btn-info-icon btn-primary">
+      	<span class="cp-tooltip">
+          Refresh video thumbnails in the list if you've updated them on any of your YouTube videos.
+      	</span>
+    	</span>
+    </span>
+  </div>
+  <div class="main pull-right col-md-9 padding-left-zero row">
+    <div class="col-md-3 pull-right">
+      <button class="stretch btn btn-primary btn-outlined pull-right"
+              ng-disabled="loading"
+              ng-click="ContentHome.updateCachedVideos()"> Refresh Now
+      </button>
+    </div>
   </div>
 </div>
 <div class="margin-bottom-fifteen" id="carousel" ng-show="ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)"></div>
