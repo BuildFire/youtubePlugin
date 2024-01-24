@@ -123,7 +123,7 @@
 
 #carousel .item.clearfix .col-md-9 .btn::before,
 #carousel .item.clearfix .col-md-9 .btn::after {
-  background-color: #0877a4 !important;
+  background-color: var(--c-primary) !important;
   left: unset;
   right: 70%;
 }
