@@ -105,7 +105,7 @@
 #carousel .item.clearfix .col-md-9 .clearfix {
   padding-left: 30px;
   width: 25%;
-  float: right;
+  margin-left: auto;
 }
 
 #carousel .item.clearfix .col-md-9 .btn {
