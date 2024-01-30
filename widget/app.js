@@ -30,7 +30,7 @@
       "Buildfire",
       function(Buildfire) {
         filter.$stateful = true;
-        function filter(url, width, height, type) {
+        function filter(url, width, height, type, videoThumbnailVersion) {
           var _imgUrl;
           if (!_imgUrl) {
             if (type == "resize") {
@@ -58,6 +58,9 @@
             }
           }
 
+          if (videoThumbnailVersion) {
+            _imgUrl = _imgUrl + `&_v=${videoThumbnailVersion}`;
+          }
           return _imgUrl;
         }
         return filter;
@@ -199,7 +202,7 @@
     ])
     .filter("cropImage", [
       function() {
-        function filter(url, width, height, noDefault) {
+        function filter(url, width, height, noDefault, videoThumbnailVersion) {
           var _imgUrl;
           filter.$stateful = true;
           if (noDefault) {
@@ -216,6 +219,10 @@
                 _imgUrl = imgUrl;
               }
             );
+          }
+
+          if (videoThumbnailVersion) {
+            _imgUrl = _imgUrl + `&_v=${videoThumbnailVersion}`;
           }
           return _imgUrl;
         }

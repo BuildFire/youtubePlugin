@@ -53,9 +53,9 @@
           <img
             class="load-img"
             load-image="16x9"
-            data-final-src="{{
+            src="{{
               WidgetFeed.getThumbnail(video)
-                | getImageUrl: 'full':WidgetFeed.appHeight:'crop'
+                | getImageUrl: 'full':WidgetFeed.appHeight:'crop': WidgetFeed.data.content.videoThumbnailVersion
             }}"
           />
           <img

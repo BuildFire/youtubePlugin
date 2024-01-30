@@ -39,7 +39,8 @@
           rssUrl: TAG_NAMES.DEFAULT_FEED_URL,
           type: "",
           playListID: null,
-          videoID: null
+          videoID: null,
+          videoThumbnailVersion: null
         },
         design: {
           itemListLayout: LAYOUTS.listLayouts[0].name,
@@ -465,6 +466,10 @@
             }
         }
       };
+
+      ContentHome.updateCachedVideos = function() {
+        ContentHome.data.content.videoThumbnailVersion = Date.now();
+      }
 
       ContentHome.clearData = function() {
         if (!ContentHome.rssLink) {

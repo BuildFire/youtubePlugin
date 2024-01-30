@@ -49,10 +49,11 @@
             <a class="link-image-wrapper" href="javascript:void(0)">
               <img
                 load-image="1x1"
-                data-final-src="{{
-                  video.snippet.thumbnails.medium.url | getImageUrl: 200:200
+                src="{{
+                  video.snippet.thumbnails.medium.url | getImageUrl: 200:200:'crop':WidgetFeed.data.content.videoThumbnailVersion
                 }}"
             /></a>
+            
           </div>
         </div>
         <div class="list-item-copy text-left">
