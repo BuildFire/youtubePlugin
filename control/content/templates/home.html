@@ -17,16 +17,16 @@
       <input type="text" class="form-control"
              placeholder="Enter your channel or video URL"
              ng-model="ContentHome.rssLink"
-             ng-change="ContentHome.clearData();updatedWithDelay();" ng-class="{'border-danger': ContentHome.validLinkFailure}" />
+             ng-class="{'border-danger': ContentHome.validLinkFailure}" />
              <div class="text-left text-danger margin-top-five text-small" ng-show="ContentHome.validLinkFailure">
                  Please paste a valid URL from YouTube
              </div>
     </div>
     <div class="col-md-3 pull-right">
       <button class="btn btn-success pull-right stretch"
-              ng-disabled="!(ContentHome.rssLink) || loading"
+              ng-disabled="loading"
               ng-click="ContentHome.validateRssLink()">
-        {{loading ? 'Validating URL...' : 'Validate URL'}}
+        Save
       </button>
     </div>
   </div>

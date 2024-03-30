@@ -1,36 +1,13 @@
 "use strict";
 
 var searchEngine = {
-  indexFeed: function indexFeed(playListID) {
-    var _this = this;
-
-    var rssUrl =
-      "https://www.youtube.com/feeds/videos.xml?playlist_id=" + playListID;
-    // buildfire.services.searchEngine.feeds.get({ tag: 'rss_feed', feedType: 'rss' }, (err, result) => {
-    this._get(function(err, result) {
-      if (err) throw err;
-      var feedUrl = result[0] ? result[0].feed_config.url : false;
-      if (feedUrl === rssUrl) {
-        var options = { searchText: "e" };
-        var callback = function callback(e, d) {
-          return console.log(e, d.hits);
-        };
-        buildfire.services.searchEngine.search(options, callback);
-        return;
-      } else if (!feedUrl) {
-        _this._insertFeed(rssUrl);
-      } else {
-        _this._updateFeed(result[0]._id, rssUrl);
-      }
-    });
-  },
-  _insertFeed: function _insertFeed(url, callback) {
+  insertFeed: function insertFeed(playListID, callback) {
     var options = {
-      tag: "rss_feed",
-      title: "rss feed",
+      tag: "youtube_feed",
+      title: "youtube feed",
       feedType: "rss",
       feedConfig: {
-        url: url
+        url: "https://www.youtube.com/feeds/videos.xml?playlist_id=" + playListID,
       },
       feedItemConfig: {
         uniqueKey: "id",
@@ -41,30 +18,38 @@ var searchEngine = {
       }
     };
 
-    buildfire.services.searchEngine.feeds.insert(options, function(
-      err,
-      result
-    ) {
-      if (err) throw err;
+    buildfire.services.searchEngine.feeds.insert(options, callback);
+  },
+  deleteFeed: function deleteFeed(callback) {
+    this._get(function (err, result) {
+      if (err) return callback(err, null);
+      if (!result || !result[0] || !result[0]._id) return callback();
+
+      const feedId = result[0]._id;
+      const options = {
+        tag: `youtube_feed`,
+        feedId: feedId,
+        removeFeedData: true
+      };
+      buildfire.services.searchEngine.feeds.delete(options, callback);
     });
   },
-  _updateFeed: function _updateFeed(feedId, url) {
-    var _this2 = this;
-
-    var options = {
-      tag: "rss_feed",
-      feedId: feedId,
-      removeFeedData: true
-    };
-    var callback = function callback(e) {
-      if (e) throw e;
-      _this2._insertFeed(url);
-    };
-    buildfire.services.searchEngine.feeds.delete(options, callback);
+  insertSingleVideo: function insertSingleVideo(video, callback) {
+    buildfire.services.searchEngine.insert(
+      {
+        tag: "youtube_feed",
+        title: video.title,
+        description: video.description,
+        keywords: video.keywords,
+        imageUrl: video.imageUrl,
+      }, callback);
+  },
+  deleteSingleVideo: function deleteSingleVideo(searchEngineId, callback) {
+    buildfire.services.searchEngine.delete({ tag: "youtube_feed", id: searchEngineId }, callback);
   },
   _get: function _get(callback) {
     buildfire.services.searchEngine.feeds.get(
-      { tag: "rss_feed", feedType: "rss" },
+      { tag: "youtube_feed", feedType: "rss" },
       function(err, result) {
         callback(err, result);
       }
