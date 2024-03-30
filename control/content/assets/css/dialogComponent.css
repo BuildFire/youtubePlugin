@@ -1,0 +1,68 @@
+.subPage {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+}
+
+.subPage.activeFull {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.subPage.activeDialog {
+    display: block;
+    width: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    max-height: 90vh;
+    box-shadow: grey 5px 5px 15px;
+    outline: 9999px solid #ffffffaa;
+    z-index: 999;
+}
+
+.subPage.activeDialog.loaderDialog {
+    width: 50%;
+}
+
+.subPage>.spHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #eef0f0;
+    position: relative;
+    font-size: 15px;
+}
+
+.spHeader h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.spHeader span.close-modal {
+    color: #5f5f5f;
+    font-size: 20px;
+}
+
+.subPage>.spFooter {
+    text-align: right;
+    border-top: 1px solid #ddd !important;
+}
+
+.spFooter button {
+    margin-left: 8px;
+}
+
+.required:after {
+    content: " *";
+    color: red;
+}
+
+#rssErrorMessage, #googleErrorMessage {
+    color: red;
+}

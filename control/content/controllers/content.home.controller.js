@@ -170,13 +170,26 @@
         if (typeof newObj === "undefined") {
           return;
         }
+        if (ContentHome.validatingNewFeed) {
+          ContentHome.handleLoaderDialog("Fetching Data", "Fetching data, please wait...", true);
+        } else {
+          ContentHome.handleLoaderDialog();
+        }
         var success = function(result) {
-            ContentHome.indexFeed((err) => {
-              if (err) return console.error(err);
-            });
-            updateMasterItem(newObj);
+            if (ContentHome.validatingNewFeed) {
+              ContentHome.validatingNewFeed = false;
+              ContentHome.handleLoaderDialog("Indexing Data", "Indexing data for search results, please wait...", true);
+              ContentHome.indexFeed((err) => {
+                ContentHome.handleLoaderDialog();
+                if (err) return console.error(err);
+                updateMasterItem(newObj);
+              });
+            } else {
+              updateMasterItem(newObj);
+            }
           },
           error = function(err) {
+            ContentHome.handleLoaderDialog();
             console.error("Error while saving data : ", err);
           };
         DataStore.save(newObj, tag).then(success, error);
@@ -235,8 +248,12 @@
       // Function to validate youtube rss feed link entered by user.
 
       ContentHome.validateRssLink = function(youtubeUrl){
+        if (!ContentHome.rssLink) return ContentHome.clearData();
+        
+        ContentHome.handleLoaderDialog("Validating Feed", "Validating feed URL, please wait...", true);
+        ContentHome.validatingNewFeed = true;
+
         if(!youtubeUrl && ContentHome.rssLink) return ContentHome.fixChannelIdURL();
-        else if (!ContentHome.rssLink) return ContentHome.clearData();
 
         let isChannel = Utils.extractChannelId(youtubeUrl);
         let isVideo = Utils.extractSingleVideoId(youtubeUrl);
@@ -286,7 +303,10 @@
                     }, 5000);
                     ContentHome.validLinkFailure = false;
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
-                      if (err) return console.error(err);
+                      if (err) {
+                        ContentHome.handleLoaderDialog();
+                        return console.error(err);
+                      }
 
                       ContentHome.activeVideo = {
                         ...response.items[0].snippet,
@@ -312,6 +332,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
+                  ContentHome.handleLoaderDialog();
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   ContentHome.validLinkFailure = true;
@@ -323,6 +344,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
+              ContentHome.handleLoaderDialog();
               if (Utils.extractChannelId(youtubeUrl)) {
                 ContentHome.failureMessage =
                   "Seems like you have entered feed url. Please choose correct option to validate url.";
@@ -361,6 +383,10 @@
                     "Error. Please check and try again";
                   if (response.items && response.items.length) {
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
+                      if (err) {
+                        ContentHome.handleLoaderDialog();
+                        return console.error(err);
+                      }
                       ContentHome.validLinkSuccess = true;
                       $timeout(() => {
                         ContentHome.validLinkSuccess = false;
@@ -391,6 +417,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
+                  ContentHome.handleLoaderDialog();
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   ContentHome.validLinkFailure = true;
@@ -402,6 +429,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
+              ContentHome.handleLoaderDialog();
               if (Utils.extractSingleVideoId(youtubeUrl)) {
                 ContentHome.failureMessage =
                   "Seems like you have entered single video url. Please choose correct option to validate url.";
@@ -430,6 +458,10 @@
                     "Error. Please check and try again";
                   if (response && response.videos && response.videos.items) {
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
+                      if (err) {
+                        ContentHome.handleLoaderDialog();
+                        return console.error(err);
+                      }
                       ContentHome.validLinkSuccess = true;
                       $timeout(() => {
                         ContentHome.validLinkSuccess = false;
@@ -456,6 +488,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
+                  ContentHome.handleLoaderDialog();
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   ContentHome.validLinkFailure = true;
@@ -467,6 +500,7 @@
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
+              ContentHome.handleLoaderDialog();
               if (Utils.extractSingleVideoId(youtubeUrl)) {
                 ContentHome.failureMessage =
                   "Seems like you have entered single video url. Please choose correct option to validate url.";
@@ -496,6 +530,7 @@
             if (err) return callback(err);
 
             ContentHome.data.content.videoSearchEngineKey = res.id;
+            if (!$scope.$$phase) $scope.$apply();
             callback();
           });
         } else {
@@ -519,12 +554,37 @@
         }
       }
 
+      // manage CP loader 
+      ContentHome.handleLoaderDialog = function (title, message, show = false) {
+        if(show) {
+          $scope.loading = true;
+          const showLoaderOptions = {
+            hideFooter: true,
+            title: title
+          }
+          if (!ContentHome.cpLoader) { 
+            ContentHome.cpLoader = new DialogComponent('cpLoaderDialog');
+          }
+          
+          ContentHome.cpLoader.showDialog(showLoaderOptions, () => {})
+          
+          if(message){
+            ContentHome.cpLoader.container.querySelector('#modalMessage').innerText = message;
+          }
+        } else {
+          $scope.loading = false;
+          ContentHome.cpLoader.close();
+        }
+      }
+
       ContentHome.updateCachedVideos = function() {
         ContentHome.data.content.videoThumbnailVersion = Date.now();
       }
 
       ContentHome.clearData = function() {
+        ContentHome.handleLoaderDialog("Deleting Data", "Deleting data, please wait...", true);
         ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
+          ContentHome.handleLoaderDialog();
           if (err) return console.error(err);
 
           if (!ContentHome.rssLink) {
