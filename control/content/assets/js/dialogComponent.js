@@ -122,6 +122,10 @@ class DialogComponent {
 
 		}
 		this.container.classList.add("activeDialog");
+		const dialogBackdrop = document.getElementById('dialogBackdrop');
+		if (dialogBackdrop) {
+			dialogBackdrop.classList.remove("hidden");
+		}
 	}
 
 	close() {
@@ -147,5 +151,9 @@ class DialogComponent {
 
 		this.container.classList.remove("activeFull");
 		this.container.classList.remove("activeDialog");
+		const dialogBackdrop = document.getElementById('dialogBackdrop');
+		if (dialogBackdrop) {
+			dialogBackdrop.classList.remove("hidden");
+		}
 	}
 }

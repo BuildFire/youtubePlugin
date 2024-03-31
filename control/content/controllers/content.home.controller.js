@@ -176,6 +176,7 @@
           ContentHome.handleLoaderDialog();
         }
         var success = function(result) {
+            $scope.loading = false;
             if (ContentHome.validatingNewFeed) {
               ContentHome.validatingNewFeed = false;
               ContentHome.handleLoaderDialog("Indexing Data", "Indexing data for search results, please wait...", true);
@@ -192,6 +193,7 @@
             }
           },
           error = function(err) {
+            $scope.loading = false;
             ContentHome.handleLoaderDialog();
             console.error("Error while saving data : ", err);
           };
@@ -252,8 +254,9 @@
 
       ContentHome.validateRssLink = function(youtubeUrl){
         if (!ContentHome.rssLink) return ContentHome.clearData();
+        if (ContentHome.rssLink === ContentHome.data.content.rssUrl) return;
         
-        ContentHome.handleLoaderDialog("Validating Feed", "Validating feed URL, please wait...", true);
+        ContentHome.handleLoaderDialog("Validating URL", "Validating URL, please wait...", true);
         ContentHome.validatingNewFeed = true;
 
         if(!youtubeUrl && ContentHome.rssLink) return ContentHome.fixChannelIdURL();
@@ -282,8 +285,6 @@
           if (!$scope.$$phase) $scope.$apply();
           return;
         }
-
-        $scope.loading = true;
 
         switch (ContentHome.contentType) {
           case CONTENT_TYPE.SINGLE_VIDEO:
@@ -334,7 +335,6 @@
                     }, 5000);
                     ContentHome.validLinkSuccess = false;
                   }
-                  $scope.loading = false;
                   if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
@@ -346,7 +346,6 @@
                     ContentHome.validLinkFailure = false;
                   }, 5000);
                   ContentHome.validLinkSuccess = false;
-                  $scope.loading = false;
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
@@ -362,7 +361,6 @@
                   "Error. Please check and try again";
               }, 5000);
               ContentHome.validLinkSuccess = false;
-              $scope.loading = false;
               if (!$scope.$$phase) $scope.$apply();
             }
             break;
@@ -421,7 +419,6 @@
                     }, 5000);
                     ContentHome.validLinkSuccess = false;
                   }
-                  $scope.loading = false;
                   if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
@@ -433,7 +430,6 @@
                     ContentHome.validLinkFailure = false;
                   }, 5000);
                   ContentHome.validLinkSuccess = false;
-                  $scope.loading = false;
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
@@ -449,7 +445,6 @@
                   "Error. Please check and try again";
               }, 5000);
               ContentHome.validLinkSuccess = false;
-              $scope.loading = false;
               if (!$scope.$$phase) $scope.$apply();
             }
             break;
@@ -494,7 +489,6 @@
                     }, 5000);
                     ContentHome.validLinkSuccess = false;
                   }
-                  $scope.loading = false;
                   if (!$scope.$$phase) $scope.$apply();
                 })
                 .error(function() {
@@ -506,7 +500,6 @@
                     ContentHome.validLinkFailure = false;
                   }, 5000);
                   ContentHome.validLinkSuccess = false;
-                  $scope.loading = false;
                   if (!$scope.$$phase) $scope.$apply();
                 });
             } else {
@@ -522,7 +515,6 @@
                   "Error. Please check and try again";
               }, 5000);
               ContentHome.validLinkSuccess = false;
-              $scope.loading = false;
               if (!$scope.$$phase) $scope.$apply();
             }
         }
@@ -567,7 +559,6 @@
       // manage CP loader 
       ContentHome.handleLoaderDialog = function (title, message, show = false) {
         if(show) {
-          $scope.loading = true;
           const showLoaderOptions = {
             hideFooter: true,
             title: title
@@ -581,13 +572,13 @@
           if(message){
             ContentHome.cpLoader.container.querySelector('#modalMessage').innerText = message;
           }
-        } else {
-          $scope.loading = false;
+        } else if (ContentHome.cpLoader) {
           ContentHome.cpLoader.close();
         }
       }
 
       ContentHome.updateCachedVideos = function() {
+        $scope.loading = true;
         ContentHome.data.content.videoThumbnailVersion = Date.now();
       }
 
@@ -607,7 +598,6 @@
             ContentHome.data.content.videoID = null;
             ContentHome.data.content.playListID = null;
             ContentHome.data.content.videoSearchEngineKey = null;
-            $scope.loading = false;
             if (!$scope.$$phase) $scope.$digest();
           }
         });
