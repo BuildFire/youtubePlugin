@@ -181,7 +181,10 @@
               ContentHome.handleLoaderDialog("Indexing Data", "Indexing data for search results, please wait...", true);
               ContentHome.indexFeed((err) => {
                 ContentHome.handleLoaderDialog();
-                if (err) return console.error(err);
+                if (err) {
+                  handleSearchEngineErrors('indexing');
+                  return console.error(err);
+                }
                 updateMasterItem(newObj);
               });
             } else {
@@ -269,6 +272,7 @@
           ContentHome.contentType = CONTENT_TYPE.PLAYLIST_FEED;
           ContentHome.detectedType = "Playlist";
         } else {
+          ContentHome.handleLoaderDialog();
           ContentHome.contentType = undefined;
           ContentHome.detectedType = undefined;
           ContentHome.validLinkFailure = true;
@@ -305,6 +309,7 @@
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
                       if (err) {
                         ContentHome.handleLoaderDialog();
+                        handleSearchEngineErrors('updating');
                         return console.error(err);
                       }
 
@@ -322,6 +327,7 @@
                       if (!$scope.$$phase) $scope.$apply();
                     });
                   } else {
+                    ContentHome.handleLoaderDialog();
                     ContentHome.validLinkFailure = true;
                     $timeout(() => {
                       ContentHome.validLinkFailure = false;
@@ -385,6 +391,7 @@
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
                       if (err) {
                         ContentHome.handleLoaderDialog();
+                        handleSearchEngineErrors('updating');
                         return console.error(err);
                       }
                       ContentHome.validLinkSuccess = true;
@@ -407,6 +414,7 @@
                       if (!$scope.$$phase) $scope.$apply();
                     });
                   } else {
+                    ContentHome.handleLoaderDialog();
                     ContentHome.validLinkFailure = true;
                     $timeout(() => {
                       ContentHome.validLinkFailure = false;
@@ -460,6 +468,7 @@
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
                       if (err) {
                         ContentHome.handleLoaderDialog();
+                        handleSearchEngineErrors('updating');
                         return console.error(err);
                       }
                       ContentHome.validLinkSuccess = true;
@@ -478,6 +487,7 @@
                       if (!$scope.$$phase) $scope.$apply();
                     });
                   } else {
+                    ContentHome.handleLoaderDialog();
                     ContentHome.validLinkFailure = true;
                     $timeout(() => {
                       ContentHome.validLinkFailure = false;
@@ -585,7 +595,10 @@
         ContentHome.handleLoaderDialog("Deleting Data", "Deleting data, please wait...", true);
         ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
           ContentHome.handleLoaderDialog();
-          if (err) return console.error(err);
+          if (err) {
+            handleSearchEngineErrors('deleting');
+            return console.error(err);
+          }
 
           if (!ContentHome.rssLink) {
             ContentHome.contentType = undefined;
@@ -598,6 +611,27 @@
             if (!$scope.$$phase) $scope.$digest();
           }
         });
+      };
+
+      const handleSearchEngineErrors = (errType) => {
+        let title = "", message = "";
+        switch (errType) {
+          case 'indexing':
+            title = "Indexing Error";
+            message = "Error indexing data. Please try adding the URL again.";
+            break;
+          case 'deleting':
+            title = "Deletion Error";
+            message = "Error deleting data. Please try deleting the URL again.";
+            break;
+          case 'updating':
+            title = "Updating Error";
+            message = "Error updating data. Please try updating the URL again.";
+            break;
+          default:
+            break;
+        }
+        buildfire.dialog.alert({ title, message });
       };
     }
   ]);
