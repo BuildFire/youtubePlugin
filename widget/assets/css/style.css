@@ -713,7 +713,7 @@ ul.lorySlides li img {
 }
 
 #emptyContainer {
-	background-image: url('../images/empty_page.svg');
+	background-image: url('./assets/images/empty_page.svg');
 	background-repeat: no-repeat;
 	background-position: center;
 	height: 100vh;
