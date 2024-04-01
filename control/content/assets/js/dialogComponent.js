@@ -6,7 +6,7 @@ class DialogComponent {
 
 		let closeButton = this.container.querySelector(".close-modal");
 		if (closeButton)
-			closeButton.onclick = () => { this.container.classList.remove("activeDialog"); };
+			closeButton.onclick = () => this.close();
 	}
 
 	show() {
@@ -79,7 +79,7 @@ class DialogComponent {
 						node.checked = options.values[key];
 						toggleAdvanced(node.id, node.checked);
 					} else {
-						node.value = options.values[key];
+						node.value = options.values[key] ? options.values[key] : '';
 					}
 				}
 			});
@@ -122,10 +122,6 @@ class DialogComponent {
 
 		}
 		this.container.classList.add("activeDialog");
-		const dialogBackdrop = document.getElementById('dialogBackdrop');
-		if (dialogBackdrop) {
-			dialogBackdrop.classList.remove("hidden");
-		}
 	}
 
 	close() {
@@ -151,9 +147,5 @@ class DialogComponent {
 
 		this.container.classList.remove("activeFull");
 		this.container.classList.remove("activeDialog");
-		const dialogBackdrop = document.getElementById('dialogBackdrop');
-		if (dialogBackdrop) {
-			dialogBackdrop.classList.remove("hidden");
-		}
 	}
 }

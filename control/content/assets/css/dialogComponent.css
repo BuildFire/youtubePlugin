@@ -1,4 +1,16 @@
-.subPage {
+.subPage.activeDialog {
+    background: #ffffffaa;
+    bottom: 0;
+    display: block;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    z-index: 999;
+}
+
+.subPage>.subPageContent {
     display: none;
     position: fixed;
     top: 0px;
@@ -6,13 +18,13 @@
     background-color: white;
 }
 
-.subPage.activeFull {
+.subPage.activeFull>.subPageContent {
     display: block;
     height: 100%;
     width: 100%;
 }
 
-.subPage.activeDialog {
+.subPage.activeDialog>.subPageContent {
     display: block;
     width: 70%;
     top: 50%;
@@ -24,11 +36,11 @@
     z-index: 1000;
 }
 
-.subPage.activeDialog.loaderDialog {
+.subPage.activeDialog.loaderDialog>.subPageContent {
     width: 50%;
 }
 
-.subPage>.spHeader {
+.subPage>.subPageContent>.spHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -48,7 +60,7 @@
     font-size: 20px;
 }
 
-.subPage>.spFooter {
+.subPage>.subPageContent>.spFooter {
     text-align: right;
     border-top: 1px solid #ddd !important;
 }
@@ -64,16 +76,4 @@
 
 #rssErrorMessage, #googleErrorMessage {
     color: red;
-}
-
-#dialogBackdrop{
-    background: #ffffffaa;
-    bottom: 0;
-    display: block;
-    height: 100vh;
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 100vw;
-    z-index: 999;
 }
