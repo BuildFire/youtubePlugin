@@ -444,21 +444,23 @@
           toggleDeeplinkSkeleton(false);
           viewedVideos.markViewed($scope, video);
         }, 2000);
-
-        $scope.$watch('$root.currentVideo', function() {
-          if (pushToHistory) {
-            buildfire.history.push(WidgetFeed.pluginName, {
-              showLabelInTitlebar: true
-            });
-          }
-          const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
-          Location.goTo("#/video/" + videoId);
-        });
+        
         if (video.snippet.resourceId && video.snippet.resourceId.videoId) {
           video.id = video.snippet.resourceId.videoId;
         }
-        VideoCache.setCache(video);       
+        VideoCache.setCache({...video, pushToHistory});       
       };
+      $scope.$watch('$root.currentVideo', function() {
+        const video = $rootScope.currentVideo;
+        if (!video) return;
+        if (video.pushToHistory) {
+          buildfire.history.push(WidgetFeed.pluginName, {
+            showLabelInTitlebar: true
+          });
+        }
+        const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
+        Location.goTo("#/video/" + videoId);
+      });
 
       WidgetFeed.getThumbnail = function(video) {
         var isTablet = $rootScope.deviceWidth >= 768;
