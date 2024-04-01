@@ -51,17 +51,6 @@
       $rootScope.currentVideo = null;
       WidgetFeed.appHeight = window.innerWidth * (9 / 16);
 
-      var handleBookmarkNav = function handleBookmarkNav(videos) {
-        buildfire.deeplink.getData(function(data) {
-          if (data && data.link) {
-            var video = videos.filter(function(video) {
-              return video.snippet.resourceId.videoId === data.link;
-            })[0];
-            WidgetFeed.openDetailsPage(video);
-          }
-        });
-      };
-
       var checkForNewDataFromYouTube = function (cache){
         var compareDataFromCacheAndYouTube = function(result){
           var isUnchanged=false;
@@ -112,6 +101,7 @@
               if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2)
                 return;
               getFeedVideosSuccess(data);
+              handleBookmarkNav();
               checkForNewDataFromYouTube(data);
             });
 
@@ -177,19 +167,65 @@
         initData(isRefresh);
       };
 
-      var handleBookmarkNav = function handleBookmarkNav(videos) {
-        buildfire.deeplink.getData(function(data) {
+      const toggleDeeplinkSkeleton = (show) => {
+        const deeplinkSkeletonContainer = document.getElementById('deeplinkSkeleton');
+        if (show && !this.deeplinkSkeleton) {
+            this.deeplinkSkeleton = new buildfire.components.skeleton('#deeplinkSkeleton', {
+                type: 'image, list-item, sentence, paragraph',
+            })
+            this.deeplinkSkeleton.start();
+            deeplinkSkeletonContainer.classList.remove('hidden');
+        } else if (!show && this.deeplinkSkeleton) {
+            deeplinkSkeletonContainer.classList.add('hidden');
+            this.deeplinkSkeleton.stop();
+            this.deeplinkSkeleton = null;
+        }
+      };
+      // show the deeplink skeleton if the deeplink is present
+      buildfire.deeplink.getData(function (data) {
+        if (data && data.link) toggleDeeplinkSkeleton(true);
+      });
+
+      $scope.deeplinkItemId = null;
+      $scope.isDeeplinkItemOpened = false;
+      const handleBookmarkNav = () => {
+        function processDeeplink (data, pushToHistory=true) {
           if (data && data.link) {
-            var linkD = data.link;
+            let linkD = data.link;
             if (linkD.indexOf("yt:video") > -1) {
               linkD = linkD.slice(linkD.lastIndexOf(":") + 1, linkD.length);
             }
-            var video = videos.filter(function(video) {
+
+            let video = WidgetFeed.videos.filter(function(video) {
               return video.snippet.resourceId.videoId === linkD;
             })[0];
-            if (data.timeIndex) video.seekTo = data.timeIndex;
-            WidgetFeed.openDetailsPage(video);
+
+            if (!video) {
+              YoutubeApi.getSingleVideoDetails(linkD).then((result) => {
+                video = result;
+                if (data.timeIndex) video.seekTo = data.timeIndex;
+                WidgetFeed.openDetailsPage(video, pushToHistory);
+              }).catch((err) => {
+                console.error("Error while getting video details", err);
+                toggleDeeplinkSkeleton(false);
+              });
+            } else {
+              if (data.timeIndex) video.seekTo = data.timeIndex;
+              WidgetFeed.openDetailsPage(video, pushToHistory);
+            }
           }
+        }
+
+        buildfire.deeplink.getData(function (data) {
+          if (!data) return;
+          if ($scope.deeplinkItemId !== data.link || !$scope.isDeeplinkItemOpened) {
+            $scope.deeplinkItemId = data.link;
+            processDeeplink(data, false);
+          }
+        });
+        buildfire.deeplink.onUpdate(function (data) {
+          if (!data) return;
+          processDeeplink(data, true);
         });
       };
 
@@ -237,8 +273,6 @@
           : result.items;
         // check if there is any duplication; so if there is, we will just depend on the newer data
         WidgetFeed.videos = isThereDuplication(WidgetFeed.videos) ? result.items : WidgetFeed.videos;
-
-        handleBookmarkNav(WidgetFeed.videos);
 
         // attach the feed url for diff checking later
         // save or update the cache
@@ -401,23 +435,28 @@
         viewedVideos.markViewed($scope, video);
       };
 
-      WidgetFeed.openDetailsPage = function(video) {
+      WidgetFeed.openDetailsPage = function(video, pushToHistory = true) {
         if (WidgetFeed.screenAnimationInProgress) return;
         WidgetFeed.screenAnimationInProgress = true;
 
         setTimeout(function() {
           WidgetFeed.screenAnimationInProgress = false;
+          toggleDeeplinkSkeleton(false);
           viewedVideos.markViewed($scope, video);
         }, 2000);
 
         $scope.$watch('$root.currentVideo', function() {
-          buildfire.history.push(WidgetFeed.pluginName, {
-            showLabelInTitlebar: true
-          });
-          Location.goTo("#/video/" + video.snippet.resourceId.videoId);
+          if (pushToHistory) {
+            buildfire.history.push(WidgetFeed.pluginName, {
+              showLabelInTitlebar: true
+            });
+          }
+          const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
+          Location.goTo("#/video/" + videoId);
         });
-        
-        video.id = video.snippet.resourceId.videoId;
+        if (video.snippet.resourceId && video.snippet.resourceId.videoId) {
+          video.id = video.snippet.resourceId.videoId;
+        }
         VideoCache.setCache(video);       
       };
 
@@ -537,13 +576,6 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
-      });
-
-      buildfire.datastore.onRefresh(function() {
-        WidgetFeed.videos = [];
-        WidgetFeed.busy = false;
-        WidgetFeed.nextPageToken = null;
-        initData(true);
       });
 
       $scope.$on("$destroy", function() {

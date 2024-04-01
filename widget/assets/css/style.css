@@ -718,3 +718,16 @@ ul.lorySlides li img {
 	background-position: center;
 	height: 100vh;
 }
+
+.deeplink-item-skeleton{
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--bf-theme-background);
+}
+
+.deeplink-item-skeleton .bf-skeleton-container .skeleton-paragraph,
+.deeplink-item-skeleton .bf-skeleton-container .skeleton-sentences {
+  padding: 5px 20px;
+}
