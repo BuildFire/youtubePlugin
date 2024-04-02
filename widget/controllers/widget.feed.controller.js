@@ -98,11 +98,16 @@
         var success = function(result) {
             cache.getCache(function(err, data) {
               // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv2 is false, it will skip cache and proceed with fetching.
-              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) 
-                return;
-              getFeedVideosSuccess(data);
-              handleBookmarkNav();
-              checkForNewDataFromYouTube(data);
+              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) {
+                $rootScope.loading = false;
+              } else {
+                getFeedVideosSuccess(data);
+                checkForNewDataFromYouTube(data);
+              }
+              if ($scope.deeplinkData) {
+                processDeeplink($scope.deeplinkData, false);
+              }
+              if (!$rootScope.$$phase) $rootScope.$digest();
             });
 
             WidgetFeed.data = result.data;
@@ -124,9 +129,10 @@
             currentListLayout = WidgetFeed.data.design.itemListLayout;
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
               WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
-            }
-            if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
+            } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+            } else {
+              $rootScope.showEmptyState = true;
             }
             if (!$scope.$$phase) $scope.$digest();
             if (isRefresh) {
@@ -145,10 +151,7 @@
               }
               WidgetFeed.loadMore();
             }
-            // bookmarks.findAndMarkAll($scope);
-            handleBookmarkNav();
             viewedVideos.findAndMarkViewed(WidgetFeed.videos);
-            if (!$rootScope.$$phase) $rootScope.$digest();
           },
           error = function(err) {
             $rootScope.loading = false;
@@ -183,56 +186,54 @@
             this.deeplinkSkeleton = null;
         }
       };
+      $scope.deeplinkData = null;
+      $scope.isDeeplinkItemOpened = false;
       // show the deeplink skeleton if the deeplink is present
       buildfire.deeplink.getData(function (data) {
-        if (data && data.link) toggleDeeplinkSkeleton(true);
+        if (data && data.link) {
+          $rootScope.showFeed = false;
+          toggleDeeplinkSkeleton(true);
+          $scope.deeplinkData = data;
+        }
+      });
+      buildfire.deeplink.onUpdate(function (data) {
+        if (data && data.link) {
+          $scope.deeplinkData = data;
+          toggleDeeplinkSkeleton(true);
+          processDeeplink(data, true);
+        }
       });
 
-      $scope.deeplinkItemId = null;
-      $scope.isDeeplinkItemOpened = false;
-      const handleBookmarkNav = () => {
-        function processDeeplink (data, pushToHistory=true) {
-          if (data && data.link) {
-            let linkD = data.link;
-            if (linkD.indexOf("yt:video") > -1) {
-              linkD = linkD.slice(linkD.lastIndexOf(":") + 1, linkD.length);
-            }
+      function processDeeplink (data, pushToHistory=true) {
+        if (data && data.link) {
+          let linkD = data.link;
+          if (linkD.indexOf("yt:video") > -1) {
+            linkD = linkD.slice(linkD.lastIndexOf(":") + 1, linkD.length);
+          }
 
-            let video = WidgetFeed.videos.filter(function(video) {
-              return video.snippet.resourceId.videoId === linkD;
-            })[0];
+          let video = WidgetFeed.videos.filter(function(video) {
+            return video.snippet.resourceId.videoId === linkD;
+          })[0];
 
-            if (!video) {
-              YoutubeApi.getSingleVideoDetails(linkD).then((result) => {
-                video = result;
-                if (data.timeIndex) video.seekTo = data.timeIndex;
-                $scope.isDeeplinkItemOpened = true;
-                WidgetFeed.openDetailsPage(video, pushToHistory);
-              }).catch((err) => {
-                console.error("Error while getting video details", err);
-                toggleDeeplinkSkeleton(false);
-              });
-            } else {
+          if (!video) {
+            YoutubeApi.getSingleVideoDetails(linkD).then((result) => {
+              video = result;
               if (data.timeIndex) video.seekTo = data.timeIndex;
               $scope.isDeeplinkItemOpened = true;
               WidgetFeed.openDetailsPage(video, pushToHistory);
-            }
+            }).catch((err) => {
+              console.error("Error while getting video details", err);
+              toggleDeeplinkSkeleton(false);
+              $rootScope.loading = false;
+              $rootScope.showFeed = true;
+            });
+          } else {
+            if (data.timeIndex) video.seekTo = data.timeIndex;
+            $scope.isDeeplinkItemOpened = true;
+            WidgetFeed.openDetailsPage(video, pushToHistory);
           }
         }
-
-        buildfire.deeplink.getData(function (data) {
-          if (!data) return;
-          if ($scope.deeplinkItemId !== data.link || !$scope.isDeeplinkItemOpened) {
-            $scope.deeplinkItemId = data.link;
-            processDeeplink(data, false);
-          }
-        });
-        buildfire.deeplink.onUpdate(function (data) {
-          if (!data) return;
-          toggleDeeplinkSkeleton(true);
-          processDeeplink(data, true);
-        });
-      };
+      }
 
       init();
       $rootScope.$on("Carousel:LOADED", function() {
@@ -253,6 +254,11 @@
       });
       var getFeedVideosSuccess = function(result) {
         // double check that result is not null
+        if (result && result.items && result.items.length) {
+          $rootScope.showEmptyState = false;
+        } else {
+          $rootScope.showEmptyState = true;
+        }
         Buildfire.spinner.hide();
         $rootScope.loading = false;
         if (!result) {
@@ -391,8 +397,11 @@
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
             WidgetFeed.loadMore();
-          } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
+          } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
             Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+          } else if (!WidgetFeed.data.content || (!WidgetFeed.data.content.playListID && !WidgetFeed.data.content.videoID)) {
+            $rootScope.showEmptyState = true;
+          }
         }
         if (!$scope.$$phase) $scope.$digest();
       };
@@ -404,8 +413,8 @@
         if (WidgetFeed.data.content.playListID && WidgetFeed.data.content.playListID !== "1") {
           getFeedVideos(WidgetFeed.data.content.playListID);
         } else {
-          if (WidgetFeed.data.content.videoID)
-            Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+          if (WidgetFeed.data.content.videoID) Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+          else $rootScope.showEmptyState = true;
         }
       };
 
@@ -446,12 +455,6 @@
       WidgetFeed.openDetailsPage = function(video, pushToHistory = true) {
         if (WidgetFeed.screenAnimationInProgress) return;
         WidgetFeed.screenAnimationInProgress = true;
-
-        setTimeout(function() {
-          WidgetFeed.screenAnimationInProgress = false;
-          toggleDeeplinkSkeleton(false);
-          viewedVideos.markViewed($scope, video);
-        }, 2000);
         
         if (video.snippet.resourceId && video.snippet.resourceId.videoId) {
           video.id = video.snippet.resourceId.videoId;
@@ -467,8 +470,14 @@
           });
         }
         $rootScope.loading = false;
+        WidgetFeed.screenAnimationInProgress = false;
+        viewedVideos.markViewed($scope, video);
         const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
         Location.goTo("#/video/" + videoId);
+
+        setTimeout(() => {
+          toggleDeeplinkSkeleton(false);
+        }, 300);
       });
 
       WidgetFeed.getThumbnail = function(video) {
