@@ -170,15 +170,14 @@
         if (typeof newObj === "undefined") {
           return;
         }
-        if (ContentHome.validatingNewFeed) {
+        if (newObj.content.rssUrl && ContentHome.masterData.content.rssUrl !== newObj.content.rssUrl) {
           ContentHome.handleLoaderDialog("Fetching Data", "Fetching data, please wait...", true);
         } else {
           ContentHome.handleLoaderDialog();
         }
         var success = function(result) {
             $scope.loading = false;
-            if (ContentHome.validatingNewFeed) {
-              ContentHome.validatingNewFeed = false;
+            if (newObj.content.rssUrl && ContentHome.masterData.content.rssUrl !== newObj.content.rssUrl) {
               ContentHome.handleLoaderDialog("Indexing Data", "Indexing data for search results, please wait...", true);
               ContentHome.indexFeed((err) => {
                 ContentHome.handleLoaderDialog();
@@ -186,6 +185,10 @@
                   handleSearchEngineErrors('indexing');
                   return console.error(err);
                 }
+                ContentHome.validLinkSuccess = true;
+                $timeout(() => {
+                  ContentHome.validLinkSuccess = false;
+                }, 5000);
                 updateMasterItem(newObj);
               });
             } else {
@@ -257,7 +260,6 @@
         if (ContentHome.rssLink === ContentHome.data.content.rssUrl) return;
         
         ContentHome.handleLoaderDialog("Validating URL", "Validating URL, please wait...", true);
-        ContentHome.validatingNewFeed = true;
 
         if(!youtubeUrl && ContentHome.rssLink) return ContentHome.fixChannelIdURL();
 
@@ -302,10 +304,6 @@
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   if (response.items && response.items.length) {
-                    ContentHome.validLinkSuccess = true;
-                    $timeout(() => {
-                      ContentHome.validLinkSuccess = false;
-                    }, 5000);
                     ContentHome.validLinkFailure = false;
                     if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
                       ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
@@ -319,7 +317,7 @@
 
                       ContentHome.activeVideo = {
                         ...response.items[0].snippet,
-                        keywords: response.items[0].snippet.tags.join(','),
+                        keywords: response.items[0].snippet.tags ? response.items[0].snippet.tags.join(',') : "",
                         imageUrl: response.items[0].snippet.thumbnails.medium.url,
                       }
 
@@ -398,10 +396,6 @@
                         handleSearchEngineErrors('updating');
                         return console.error(err);
                       }
-                      ContentHome.validLinkSuccess = true;
-                      $timeout(() => {
-                        ContentHome.validLinkSuccess = false;
-                      }, 5000);
                       ContentHome.validLinkFailure = false;
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
@@ -475,10 +469,6 @@
                         handleSearchEngineErrors('updating');
                         return console.error(err);
                       }
-                      ContentHome.validLinkSuccess = true;
-                      $timeout(() => {
-                        ContentHome.validLinkSuccess = false;
-                      }, 5000);
                       ContentHome.validLinkFailure = false;
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
@@ -544,31 +534,21 @@
             if (!$scope.$$phase) $scope.$apply();
             callback();
           });
-        } else {
-          callback();
         }
       }
 
       ContentHome.deleteSearchEngineData = function(contentData, callback) {
         if (contentData.playListID) {
           searchEngine.deleteFeed((err, res) => {
-            if (err) {
-              if (err.errorMessage === "Not Found") {
-                return callback();
-              } else {
-                return callback(err);
-              }
+            if (err && err.errorMessage !== 'Not Found') {
+              return callback(err);
             }
             callback();
           });
         } else if (contentData.videoSearchEngineKey) {
           searchEngine.deleteSingleVideo(contentData.videoSearchEngineKey, (err, res) => {
-            if (err) {
-              if (err.errorMessage === "Not Found") {
-                return callback();
-              } else {
-                return callback(err);
-              }
+            if (err && err.errorMessage !== 'Not Found') {
+              return callback(err);
             }
             callback();
           });
@@ -612,15 +592,13 @@
             return console.error(err);
           }
 
-          if (!ContentHome.rssLink) {
-            ContentHome.contentType = undefined;
-            ContentHome.data.content.rssUrl = null;
-            ContentHome.data.content.type = ContentHome.contentType;
-            ContentHome.data.content.videoID = null;
-            ContentHome.data.content.playListID = null;
-            ContentHome.data.content.videoSearchEngineKey = null;
-            if (!$scope.$$phase) $scope.$digest();
-          }
+          ContentHome.contentType = undefined;
+          ContentHome.data.content.rssUrl = null;
+          ContentHome.data.content.type = ContentHome.contentType;
+          ContentHome.data.content.videoID = null;
+          ContentHome.data.content.playListID = null;
+          ContentHome.data.content.videoSearchEngineKey = null;
+          if (!$scope.$$phase) $scope.$digest();
         });
       };
 
