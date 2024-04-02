@@ -307,6 +307,9 @@
                       ContentHome.validLinkSuccess = false;
                     }, 5000);
                     ContentHome.validLinkFailure = false;
+                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
+                      ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
+                    }
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
                       if (err) {
                         ContentHome.handleLoaderDialog();
@@ -386,6 +389,9 @@
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   if (response.items && response.items.length) {
+                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
+                      ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
+                    }
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
                       if (err) {
                         ContentHome.handleLoaderDialog();
@@ -460,6 +466,9 @@
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   if (response && response.videos && response.videos.items) {
+                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
+                      ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
+                    }
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
                       if (err) {
                         ContentHome.handleLoaderDialog();
@@ -543,12 +552,24 @@
       ContentHome.deleteSearchEngineData = function(contentData, callback) {
         if (contentData.playListID) {
           searchEngine.deleteFeed((err, res) => {
-            if (err) return callback(err);
+            if (err) {
+              if (err.errorMessage === "Not Found") {
+                return callback();
+              } else {
+                return callback(err);
+              }
+            }
             callback();
           });
         } else if (contentData.videoSearchEngineKey) {
           searchEngine.deleteSingleVideo(contentData.videoSearchEngineKey, (err, res) => {
-            if (err) return callback(err);
+            if (err) {
+              if (err.errorMessage === "Not Found") {
+                return callback();
+              } else {
+                return callback(err);
+              }
+            }
             callback();
           });
         } else {

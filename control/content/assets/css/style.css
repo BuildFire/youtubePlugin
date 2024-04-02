@@ -1,3 +1,7 @@
+.main_view {
+  padding-right: 8px;
+}
+
 /* tooltip */
 .tooltip-container {
     display: flex;
