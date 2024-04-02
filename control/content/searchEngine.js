@@ -1,7 +1,7 @@
 "use strict";
 
 var searchEngine = {
-  insertFeed: function insertFeed(playListID, callback) {
+  insertFeed(playListID, callback) {
     var options = {
       tag: "youtube_feed",
       title: "youtube feed",
@@ -20,7 +20,7 @@ var searchEngine = {
 
     buildfire.services.searchEngine.feeds.insert(options, callback);
   },
-  deleteFeed: function deleteFeed(callback) {
+  deleteFeed(callback) {
     this._get(function (err, result) {
       if (err) return callback(err, null);
       if (!result || !result[0] || !result[0]._id) return callback();
@@ -34,7 +34,7 @@ var searchEngine = {
       buildfire.services.searchEngine.feeds.delete(options, callback);
     });
   },
-  insertSingleVideo: function insertSingleVideo(video, callback) {
+  insertSingleVideo(video, callback) {
     buildfire.services.searchEngine.insert(
       {
         tag: "youtube_feed",
@@ -44,10 +44,10 @@ var searchEngine = {
         imageUrl: video.imageUrl,
       }, callback);
   },
-  deleteSingleVideo: function deleteSingleVideo(searchEngineId, callback) {
+  deleteSingleVideo(searchEngineId, callback) {
     buildfire.services.searchEngine.delete({ tag: "youtube_feed", id: searchEngineId }, callback);
   },
-  _get: function _get(callback) {
+  _get(callback) {
     buildfire.services.searchEngine.feeds.get(
       { tag: "youtube_feed", feedType: "rss" },
       function(err, result) {
