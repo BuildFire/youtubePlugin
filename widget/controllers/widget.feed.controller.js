@@ -37,8 +37,8 @@
       WidgetFeed.busy = false;
       WidgetFeed.nextPageToken = null;
       $rootScope.showFeed = true;
+      $rootScope.loading = true;
       var currentListLayout = null;
-      var currentPlayListId = null;
       WidgetFeed.masterData = {
         playListId: ""
       };
@@ -72,7 +72,7 @@
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
             setTimeout(() => {              
-              if(!$scope.loading){
+              if(!$rootScope.loading){
                 getFeedVideosSuccess(result);
               }
             }, 0);
@@ -83,9 +83,9 @@
           console.error("Error while getting data", err);
         };
 
-        if (currentPlayListId && currentPlayListId !== "1") {
+        if (WidgetFeed.data.content.playListID && WidgetFeed.data.content.playListID !== "1") {
           YoutubeApi.getFeedVideos(
-            currentPlayListId,
+            WidgetFeed.data.content.playListID,
             VIDEO_COUNT.LIMIT,
             null
           ).then(compareDataFromCacheAndYouTube, errorWithComperation);
@@ -98,8 +98,12 @@
         var success = function(result) {
             cache.getCache(function(err, data) {
               // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv2 is false, it will skip cache and proceed with fetching.
-              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2)
+              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) {
+                $rootScope.loading = false;
+                toggleDeeplinkSkeleton(false);
+                if (!$scope.$$phase) $scope.$digest();
                 return;
+              }
               getFeedVideosSuccess(data);
               handleBookmarkNav();
               checkForNewDataFromYouTube(data);
@@ -123,8 +127,7 @@
               $rootScope.contentType = WidgetFeed.data.content.type;
             currentListLayout = WidgetFeed.data.design.itemListLayout;
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
-              currentPlayListId = WidgetFeed.data.content.playListID;
-              WidgetFeed.masterData.playListId = currentPlayListId;
+              WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
             }
             if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
@@ -150,6 +153,7 @@
             viewedVideos.findAndMarkViewed(WidgetFeed.videos);
           },
           error = function(err) {
+            $rootScope.loading = false;
             if (err && err.code !== STATUS_CODE.NOT_FOUND) {
               console.error("Error while getting data", err);
             }
@@ -204,6 +208,7 @@
               YoutubeApi.getSingleVideoDetails(linkD).then((result) => {
                 video = result;
                 if (data.timeIndex) video.seekTo = data.timeIndex;
+                $scope.isDeeplinkItemOpened = true;
                 WidgetFeed.openDetailsPage(video, pushToHistory);
               }).catch((err) => {
                 console.error("Error while getting video details", err);
@@ -211,6 +216,7 @@
               });
             } else {
               if (data.timeIndex) video.seekTo = data.timeIndex;
+              $scope.isDeeplinkItemOpened = true;
               WidgetFeed.openDetailsPage(video, pushToHistory);
             }
           }
@@ -225,6 +231,7 @@
         });
         buildfire.deeplink.onUpdate(function (data) {
           if (!data) return;
+          toggleDeeplinkSkeleton(true);
           processDeeplink(data, true);
         });
       };
@@ -248,12 +255,13 @@
       });
       var getFeedVideosSuccess = function(result) {
         // double check that result is not null
+        Buildfire.spinner.hide();
+        $rootScope.loading = false;
         if (!result) {
-          Buildfire.spinner.hide();
           console.log("There was no data from the youtube API");
+          if (!$scope.$$phase) $scope.$digest();
           return;
         }
-        $scope.loading = true;
         // compare the first item of the cached feed and the fetched feed
         // return if the feed hasnt changed
 
@@ -261,8 +269,7 @@
           WidgetFeed.videos[0] &&
           WidgetFeed.videos[0].id === result.items[0].id;
         if (isUnchanged) {
-          Buildfire.spinner.hide();
-          $scope.loading = false;
+          if (!$scope.$$phase) $scope.$digest();
           return;
         }
 
@@ -283,8 +290,6 @@
         mutatedResult.items = WidgetFeed.videos;
         mutatedResult.forcedCleanupv2 = true; // Used to cleanup all cache from old users, since there was a bug in cache.
         cache.saveCache(mutatedResult);
-        Buildfire.spinner.hide();
-        $scope.loading = false;
 
         WidgetFeed.nextPageToken = result.nextPageToken;
         if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
@@ -313,7 +318,7 @@
 
       var getFeedVideosError = function(err) {
         Buildfire.spinner.hide();
-        $scope.loading = false;
+        $rootScope.loading = false;
         console.error("Error In Fetching feed Videos", err);
       };
 
@@ -328,6 +333,13 @@
 
       var onUpdateCallback = function(event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
+          if (WidgetFeed.data.content.rssUrl !== event.data.content.rssUrl) {
+            $rootScope.loading = true;
+          }
+          if ($rootScope.currentVideo) {
+            $rootScope.currentVideo = null;
+            buildfire.history.pop();
+          }
           WidgetFeed.data = event.data;
           if (!WidgetFeed.data.design) WidgetFeed.data.design = {};
           if (!WidgetFeed.data.content) WidgetFeed.data.content = {};
@@ -357,17 +369,16 @@
             }
           }
           currentListLayout = WidgetFeed.data.design.itemListLayout;
-          currentPlayListId = WidgetFeed.data.content.playListID;
 
           if (!WidgetFeed.data.content.rssUrl) {
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
+            $rootScope.loading = false;
           } else if (
             !(WidgetFeed.videos.length > 0) &&
             WidgetFeed.data.content.playListID
           ) {
-            currentPlayListId = WidgetFeed.data.content.playListID;
             getFeedVideos(WidgetFeed.data.content.playListID);
           }
 
@@ -377,8 +388,7 @@
             WidgetFeed.data.content.playListID !==
               WidgetFeed.masterData.playListId
           ) {
-            currentPlayListId = WidgetFeed.data.content.playListID;
-            WidgetFeed.masterData.playListId = currentPlayListId;
+            WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
@@ -393,8 +403,8 @@
       WidgetFeed.loadMore = function() {
         if (WidgetFeed.busy) return;
         WidgetFeed.busy = true;
-        if (currentPlayListId && currentPlayListId !== "1") {
-          getFeedVideos(currentPlayListId);
+        if (WidgetFeed.data.content.playListID && WidgetFeed.data.content.playListID !== "1") {
+          getFeedVideos(WidgetFeed.data.content.playListID);
         } else {
           if (WidgetFeed.data.content.videoID)
             Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
@@ -546,8 +556,7 @@
           !(WidgetFeed.videos.length >= 0) &&
           WidgetFeed.data.content.playlistId
         ) {
-          currentPlayListId = WidgetFeed.data.content.playListID;
-          WidgetFeed.masterData.playListId = currentPlayListId;
+          WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
           getFeedVideos(WidgetFeed.data.content.playListID);
         } else {
           bookmarks.findAndMarkAll($scope);

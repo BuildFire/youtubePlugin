@@ -54,9 +54,9 @@
         data-back-img="{{ backgroundListImage }}"
       >
         <div ng-controller="WidgetFeedCtrl as WidgetFeed">
-          <div id="emptyContainer" ng-if="!WidgetFeed.data.design.itemListLayout || WidgetFeed.videos.length === 0"></div>
+          <div id="emptyContainer" ng-if="(!WidgetFeed.data.design.itemListLayout || WidgetFeed.videos.length === 0) && !loading"></div>
           <div
-            ng-if="WidgetFeed.data.design.itemListLayout && WidgetFeed.data.content.playListID"
+            ng-if="WidgetFeed.data.design.itemListLayout && WidgetFeed.data.content.playListID && !loading"
             ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'"
           ></div>
         </div>
