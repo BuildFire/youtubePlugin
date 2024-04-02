@@ -98,12 +98,8 @@
         var success = function(result) {
             cache.getCache(function(err, data) {
               // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv2 is false, it will skip cache and proceed with fetching.
-              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) {
-                $rootScope.loading = false;
-                toggleDeeplinkSkeleton(false);
-                if (!$scope.$$phase) $scope.$digest();
+              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) 
                 return;
-              }
               getFeedVideosSuccess(data);
               handleBookmarkNav();
               checkForNewDataFromYouTube(data);
@@ -150,7 +146,9 @@
               WidgetFeed.loadMore();
             }
             // bookmarks.findAndMarkAll($scope);
+            handleBookmarkNav();
             viewedVideos.findAndMarkViewed(WidgetFeed.videos);
+            if (!$rootScope.$$phase) $rootScope.$digest();
           },
           error = function(err) {
             $rootScope.loading = false;
@@ -468,6 +466,7 @@
             showLabelInTitlebar: true
           });
         }
+        $rootScope.loading = false;
         const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
         Location.goTo("#/video/" + videoId);
       });
@@ -587,6 +586,13 @@
           WidgetFeed.nextPageToken = null;
           initData(true);
         });
+      });
+
+      buildfire.datastore.onRefresh(function() {
+        WidgetFeed.videos = [];
+        WidgetFeed.busy = false;
+        WidgetFeed.nextPageToken = null;
+        initData(true);
       });
 
       $scope.$on("$destroy", function() {
