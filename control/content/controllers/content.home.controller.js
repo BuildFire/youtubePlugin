@@ -305,7 +305,7 @@
                     "Error. Please check and try again";
                   if (response.items && response.items.length) {
                     ContentHome.validLinkFailure = false;
-                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
+                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoID) {
                       ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
                     }
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
@@ -317,6 +317,7 @@
 
                       ContentHome.activeVideo = {
                         ...response.items[0].snippet,
+                        id: response.items[0].id,
                         keywords: response.items[0].snippet.tags ? response.items[0].snippet.tags.join(',') : "",
                         imageUrl: response.items[0].snippet.thumbnails.medium.url,
                       }
@@ -387,7 +388,7 @@
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   if (response.items && response.items.length) {
-                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
+                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoID) {
                       ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
                     }
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
@@ -400,7 +401,6 @@
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
                       ContentHome.data.content.videoID = null;
-                      ContentHome.data.content.videoSearchEngineKey = null;
                       if (
                         response.items[0].contentDetails &&
                         response.items[0].contentDetails.relatedPlaylists &&
@@ -460,7 +460,7 @@
                   ContentHome.failureMessage =
                     "Error. Please check and try again";
                   if (response && response.videos && response.videos.items) {
-                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoSearchEngineKey) {
+                    if (ContentHome.data.content.playListID || ContentHome.data.content.videoID) {
                       ContentHome.handleLoaderDialog("Deleting Old Data", "Deleting old search data, please wait...", true);
                     }
                     ContentHome.deleteSearchEngineData(ContentHome.data.content, (err) => {
@@ -473,7 +473,6 @@
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
                       ContentHome.data.content.videoID = null;
-                      ContentHome.data.content.videoSearchEngineKey = null;
                       if (response) {
                         ContentHome.data.content.playListID = playlistId;
                       }
@@ -529,9 +528,6 @@
           searchEngine.insertSingleVideo(ContentHome.activeVideo, (err, res) => {
             ContentHome.activeVideo = null;
             if (err) return callback(err);
-
-            ContentHome.data.content.videoSearchEngineKey = res.id;
-            if (!$scope.$$phase) $scope.$apply();
             callback();
           });
         }
@@ -545,8 +541,8 @@
             }
             callback();
           });
-        } else if (contentData.videoSearchEngineKey) {
-          searchEngine.deleteSingleVideo(contentData.videoSearchEngineKey, (err, res) => {
+        } else if (contentData.videoID) {
+          searchEngine.deleteSingleVideo(contentData.videoID, (err, res) => {
             if (err && err.errorMessage !== 'Not Found') {
               return callback(err);
             }
@@ -597,7 +593,6 @@
           ContentHome.data.content.type = ContentHome.contentType;
           ContentHome.data.content.videoID = null;
           ContentHome.data.content.playListID = null;
-          ContentHome.data.content.videoSearchEngineKey = null;
           if (!$scope.$$phase) $scope.$digest();
         });
       };

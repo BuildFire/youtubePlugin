@@ -35,17 +35,18 @@ var searchEngine = {
     });
   },
   insertSingleVideo(video, callback) {
-    buildfire.services.searchEngine.insert(
+    buildfire.services.searchEngine.save(
       {
         tag: "youtube_feed",
         title: video.title,
+        key: video.id,
         description: video.description,
         keywords: video.keywords,
         imageUrl: video.imageUrl,
       }, callback);
   },
-  deleteSingleVideo(searchEngineId, callback) {
-    buildfire.services.searchEngine.delete({ tag: "youtube_feed", id: searchEngineId }, callback);
+  deleteSingleVideo(videoID, callback) {
+    buildfire.services.searchEngine.delete({ tag: "youtube_feed", key: videoID }, callback);
   },
   _get(callback) {
     buildfire.services.searchEngine.feeds.get(
