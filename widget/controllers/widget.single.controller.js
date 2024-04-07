@@ -255,6 +255,7 @@
             $routeParams.videoId = "";
             WidgetSingle.video = null;
             $rootScope.loading = false;
+            $rootScope.showEmptyState = true;
           } else if (
             !WidgetSingle.video &&
             WidgetSingle.data.content.videoID &&

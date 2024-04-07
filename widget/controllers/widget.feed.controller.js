@@ -379,6 +379,7 @@
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
             $rootScope.loading = false;
+            $rootScope.showEmptyState = true;
           } else if (
             !(WidgetFeed.videos.length > 0) &&
             WidgetFeed.data.content.playListID
