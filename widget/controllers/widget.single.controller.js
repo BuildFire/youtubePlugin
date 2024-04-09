@@ -86,6 +86,7 @@
       var getSingleVideoDetails = function(_videoId) {
         var success = function(result) {
             $rootScope.showFeed = false;
+            $rootScope.loading = false;
             WidgetSingle.video = result;
             let options = {
               text: WidgetSingle.video.snippet.description,
@@ -102,6 +103,7 @@
             viewedVideos.markViewed($scope, WidgetSingle.video);
           },
           error = function(err) {
+            $rootScope.loading = false;
             $rootScope.showFeed = false;
             console.error("Error In Fetching Single Video Details", err);
           };
@@ -221,6 +223,13 @@
 
       var onUpdateCallback = function(event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
+          if (WidgetSingle.data.content.rssUrl !== event.data.content.rssUrl) {
+            $rootScope.loading = true;
+          }
+          if ($rootScope.currentVideo) {
+            $rootScope.currentVideo = null;
+            buildfire.history.pop();
+          }
           WidgetSingle.data = event.data;
 
           if (!WidgetSingle.data.design) {
@@ -245,6 +254,8 @@
           if (!WidgetSingle.data.content.rssUrl) {
             $routeParams.videoId = "";
             WidgetSingle.video = null;
+            $rootScope.loading = false;
+            $rootScope.showEmptyState = true;
           } else if (
             !WidgetSingle.video &&
             WidgetSingle.data.content.videoID &&
@@ -257,6 +268,7 @@
             WidgetSingle.data.content.playListID &&
             !$routeParams.videoId
           ) {
+            $rootScope.loading = false;
             currentPlayListID = WidgetSingle.data.content.playListID;
             $rootScope.showFeed = true;
             Location.goTo("#/");
@@ -266,6 +278,7 @@
             WidgetSingle.data.content.videoID &&
             WidgetSingle.data.content.videoID !== $routeParams.videoId
           ) {
+            $routeParams.videoId = WidgetSingle.data.content.videoID;
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
           } else if (
             WidgetSingle.data.content.playListID &&
@@ -277,6 +290,7 @@
             currentPlayListID = WidgetSingle.data.content.playListID;
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
             $rootScope.showFeed = true;
+            $rootScope.loading = false;
             Location.goTo("#/");
           }
         }

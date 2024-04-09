@@ -1,3 +1,7 @@
+.main_view {
+  padding-right: 8px;
+}
+
 /* tooltip */
 .tooltip-container {
     display: flex;
@@ -125,7 +129,7 @@
 #carousel .item.clearfix .col-md-9 .btn::after {
   background-color: var(--c-primary) !important;
   left: unset;
-  right: 70%;
+  right: 72%;
 }
 
 .url-types p .icon-check{

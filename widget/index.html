@@ -11,6 +11,7 @@
     <!-- BuildFire -->
     <link rel="stylesheet" href="../../../styles/siteIcons.css" />
     <link rel="stylesheet" href="../../../styles/helper.css" />
+    <link rel="stylesheet" href="../../../styles/components/skeleton.css" />
 
     <!-- build:bundleCSSFiles -->
     <link rel="stylesheet" href="./assets/css/style.css" />
@@ -22,6 +23,7 @@
     <script src="../../../scripts/buildfire/services/fileSystem/fileManager.js"></script>
     <script src="../../../scripts/buildfire/services/format/format.js"></script>
     <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script src="../../../scripts/buildfire/components/skeleton/skeleton.js"></script>
 
     <!-- Angular -->
     <script src="../../../scripts/angular/angular.min.js"></script>
@@ -48,13 +50,14 @@
   <body class="body-scroll">
     <div class="main_view">
       <div
+        ng-show="showFeed"
         class="slide content infinite-scroll-parent"
         data-back-img="{{ backgroundListImage }}"
       >
         <div ng-controller="WidgetFeedCtrl as WidgetFeed">
-          <div id="emptyContainer" ng-if="!WidgetFeed.data.design.itemListLayout || WidgetFeed.videos.length === 0"></div>
+          <div ng-show="showEmptyState" id="emptyContainer" ng-if="(!WidgetFeed.data.design.itemListLayout || WidgetFeed.videos.length === 0) && !loading"></div>
           <div
-            ng-if="WidgetFeed.data.design.itemListLayout"
+            ng-if="WidgetFeed.data.design.itemListLayout && WidgetFeed.data.content.playListID && !loading"
             ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'"
           ></div>
         </div>
@@ -67,6 +70,7 @@
         ng-hide="showFeed"
         data-back-img="{{ backgroundImage }}"
       ></div>
+      <div id="deeplinkSkeleton" class="hidden deeplink-item-skeleton"></div>
     </div>
   </body>
 </html>

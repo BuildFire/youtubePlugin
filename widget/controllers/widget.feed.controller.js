@@ -37,8 +37,8 @@
       WidgetFeed.busy = false;
       WidgetFeed.nextPageToken = null;
       $rootScope.showFeed = true;
+      $rootScope.loading = true;
       var currentListLayout = null;
-      var currentPlayListId = null;
       WidgetFeed.masterData = {
         playListId: ""
       };
@@ -50,17 +50,6 @@
       $rootScope.deviceWidth = window.innerWidth || 320;
       $rootScope.currentVideo = null;
       WidgetFeed.appHeight = window.innerWidth * (9 / 16);
-
-      var handleBookmarkNav = function handleBookmarkNav(videos) {
-        buildfire.deeplink.getData(function(data) {
-          if (data && data.link) {
-            var video = videos.filter(function(video) {
-              return video.snippet.resourceId.videoId === data.link;
-            })[0];
-            WidgetFeed.openDetailsPage(video);
-          }
-        });
-      };
 
       var checkForNewDataFromYouTube = function (cache){
         var compareDataFromCacheAndYouTube = function(result){
@@ -83,7 +72,7 @@
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
             setTimeout(() => {              
-              if(!$scope.loading){
+              if(!$rootScope.loading){
                 getFeedVideosSuccess(result);
               }
             }, 0);
@@ -94,9 +83,9 @@
           console.error("Error while getting data", err);
         };
 
-        if (currentPlayListId && currentPlayListId !== "1") {
+        if (WidgetFeed.data.content.playListID && WidgetFeed.data.content.playListID !== "1") {
           YoutubeApi.getFeedVideos(
-            currentPlayListId,
+            WidgetFeed.data.content.playListID,
             VIDEO_COUNT.LIMIT,
             null
           ).then(compareDataFromCacheAndYouTube, errorWithComperation);
@@ -109,10 +98,16 @@
         var success = function(result) {
             cache.getCache(function(err, data) {
               // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv2 is false, it will skip cache and proceed with fetching.
-              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2)
-                return;
-              getFeedVideosSuccess(data);
-              checkForNewDataFromYouTube(data);
+              if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) {
+                $rootScope.loading = false;
+              } else {
+                getFeedVideosSuccess(data);
+                checkForNewDataFromYouTube(data);
+              }
+              if ($scope.deeplinkData) {
+                processDeeplink($scope.deeplinkData, false);
+              }
+              if (!$rootScope.$$phase) $rootScope.$digest();
             });
 
             WidgetFeed.data = result.data;
@@ -133,11 +128,11 @@
               $rootScope.contentType = WidgetFeed.data.content.type;
             currentListLayout = WidgetFeed.data.design.itemListLayout;
             if (WidgetFeed.data.content && WidgetFeed.data.content.playListID) {
-              currentPlayListId = WidgetFeed.data.content.playListID;
-              WidgetFeed.masterData.playListId = currentPlayListId;
-            }
-            if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
+              WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
+            } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+            } else {
+              $rootScope.showEmptyState = true;
             }
             if (!$scope.$$phase) $scope.$digest();
             if (isRefresh) {
@@ -156,10 +151,10 @@
               }
               WidgetFeed.loadMore();
             }
-            // bookmarks.findAndMarkAll($scope);
             viewedVideos.findAndMarkViewed(WidgetFeed.videos);
           },
           error = function(err) {
+            $rootScope.loading = false;
             if (err && err.code !== STATUS_CODE.NOT_FOUND) {
               console.error("Error while getting data", err);
             }
@@ -177,21 +172,68 @@
         initData(isRefresh);
       };
 
-      var handleBookmarkNav = function handleBookmarkNav(videos) {
-        buildfire.deeplink.getData(function(data) {
-          if (data && data.link) {
-            var linkD = data.link;
-            if (linkD.indexOf("yt:video") > -1) {
-              linkD = linkD.slice(linkD.lastIndexOf(":") + 1, linkD.length);
-            }
-            var video = videos.filter(function(video) {
-              return video.snippet.resourceId.videoId === linkD;
-            })[0];
-            if (data.timeIndex) video.seekTo = data.timeIndex;
-            WidgetFeed.openDetailsPage(video);
-          }
-        });
+      const toggleDeeplinkSkeleton = (show) => {
+        const deeplinkSkeletonContainer = document.getElementById('deeplinkSkeleton');
+        if (show && !this.deeplinkSkeleton) {
+            this.deeplinkSkeleton = new buildfire.components.skeleton('#deeplinkSkeleton', {
+                type: 'image, list-item, sentence, paragraph',
+            })
+            this.deeplinkSkeleton.start();
+            deeplinkSkeletonContainer.classList.remove('hidden');
+        } else if (!show && this.deeplinkSkeleton) {
+            deeplinkSkeletonContainer.classList.add('hidden');
+            this.deeplinkSkeleton.stop();
+            this.deeplinkSkeleton = null;
+        }
       };
+      $scope.deeplinkData = null;
+      $scope.isDeeplinkItemOpened = false;
+      // show the deeplink skeleton if the deeplink is present
+      buildfire.deeplink.getData(function (data) {
+        if (data && data.link) {
+          $rootScope.showFeed = false;
+          toggleDeeplinkSkeleton(true);
+          $scope.deeplinkData = data;
+        }
+      });
+      buildfire.deeplink.onUpdate(function (data) {
+        if (data && data.link) {
+          $scope.deeplinkData = data;
+          toggleDeeplinkSkeleton(true);
+          processDeeplink(data, true);
+        }
+      });
+
+      function processDeeplink (data, pushToHistory=true) {
+        if (data && data.link) {
+          let linkD = data.link;
+          if (linkD.indexOf("yt:video") > -1) {
+            linkD = linkD.slice(linkD.lastIndexOf(":") + 1, linkD.length);
+          }
+
+          let video = WidgetFeed.videos.filter(function(video) {
+            return video.snippet.resourceId.videoId === linkD;
+          })[0];
+
+          if (!video) {
+            YoutubeApi.getSingleVideoDetails(linkD).then((result) => {
+              video = result;
+              if (data.timeIndex) video.seekTo = data.timeIndex;
+              $scope.isDeeplinkItemOpened = true;
+              WidgetFeed.openDetailsPage(video, pushToHistory);
+            }).catch((err) => {
+              console.error("Error while getting video details", err);
+              toggleDeeplinkSkeleton(false);
+              $rootScope.loading = false;
+              $rootScope.showFeed = true;
+            });
+          } else {
+            if (data.timeIndex) video.seekTo = data.timeIndex;
+            $scope.isDeeplinkItemOpened = true;
+            WidgetFeed.openDetailsPage(video, pushToHistory);
+          }
+        }
+      }
 
       init();
       $rootScope.$on("Carousel:LOADED", function() {
@@ -212,12 +254,18 @@
       });
       var getFeedVideosSuccess = function(result) {
         // double check that result is not null
+        if (result && result.items && result.items.length) {
+          $rootScope.showEmptyState = false;
+        } else {
+          $rootScope.showEmptyState = true;
+        }
+        Buildfire.spinner.hide();
+        $rootScope.loading = false;
         if (!result) {
-          Buildfire.spinner.hide();
           console.log("There was no data from the youtube API");
+          if (!$scope.$$phase) $scope.$digest();
           return;
         }
-        $scope.loading = true;
         // compare the first item of the cached feed and the fetched feed
         // return if the feed hasnt changed
 
@@ -225,8 +273,7 @@
           WidgetFeed.videos[0] &&
           WidgetFeed.videos[0].id === result.items[0].id;
         if (isUnchanged) {
-          Buildfire.spinner.hide();
-          $scope.loading = false;
+          if (!$scope.$$phase) $scope.$digest();
           return;
         }
 
@@ -238,8 +285,6 @@
         // check if there is any duplication; so if there is, we will just depend on the newer data
         WidgetFeed.videos = isThereDuplication(WidgetFeed.videos) ? result.items : WidgetFeed.videos;
 
-        handleBookmarkNav(WidgetFeed.videos);
-
         // attach the feed url for diff checking later
         // save or update the cache
         result.rssUrl = WidgetFeed.data.content.rssUrl
@@ -249,8 +294,6 @@
         mutatedResult.items = WidgetFeed.videos;
         mutatedResult.forcedCleanupv2 = true; // Used to cleanup all cache from old users, since there was a bug in cache.
         cache.saveCache(mutatedResult);
-        Buildfire.spinner.hide();
-        $scope.loading = false;
 
         WidgetFeed.nextPageToken = result.nextPageToken;
         if (WidgetFeed.videos.length < result.pageInfo.totalResults) {
@@ -279,7 +322,7 @@
 
       var getFeedVideosError = function(err) {
         Buildfire.spinner.hide();
-        $scope.loading = false;
+        $rootScope.loading = false;
         console.error("Error In Fetching feed Videos", err);
       };
 
@@ -294,6 +337,13 @@
 
       var onUpdateCallback = function(event) {
         if (event && event.tag === TAG_NAMES.YOUTUBE_INFO) {
+          if (WidgetFeed.data.content.rssUrl !== event.data.content.rssUrl) {
+            $rootScope.loading = true;
+          }
+          if ($rootScope.currentVideo) {
+            $rootScope.currentVideo = null;
+            buildfire.history.pop();
+          }
           WidgetFeed.data = event.data;
           if (!WidgetFeed.data.design) WidgetFeed.data.design = {};
           if (!WidgetFeed.data.content) WidgetFeed.data.content = {};
@@ -323,17 +373,17 @@
             }
           }
           currentListLayout = WidgetFeed.data.design.itemListLayout;
-          currentPlayListId = WidgetFeed.data.content.playListID;
 
           if (!WidgetFeed.data.content.rssUrl) {
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
+            $rootScope.loading = false;
+            $rootScope.showEmptyState = true;
           } else if (
             !(WidgetFeed.videos.length > 0) &&
             WidgetFeed.data.content.playListID
           ) {
-            currentPlayListId = WidgetFeed.data.content.playListID;
             getFeedVideos(WidgetFeed.data.content.playListID);
           }
 
@@ -343,14 +393,16 @@
             WidgetFeed.data.content.playListID !==
               WidgetFeed.masterData.playListId
           ) {
-            currentPlayListId = WidgetFeed.data.content.playListID;
-            WidgetFeed.masterData.playListId = currentPlayListId;
+            WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
             WidgetFeed.loadMore();
-          } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
+          } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID) {
             Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+          } else if (!WidgetFeed.data.content || (!WidgetFeed.data.content.playListID && !WidgetFeed.data.content.videoID)) {
+            $rootScope.showEmptyState = true;
+          }
         }
         if (!$scope.$$phase) $scope.$digest();
       };
@@ -359,11 +411,11 @@
       WidgetFeed.loadMore = function() {
         if (WidgetFeed.busy) return;
         WidgetFeed.busy = true;
-        if (currentPlayListId && currentPlayListId !== "1") {
-          getFeedVideos(currentPlayListId);
+        if (WidgetFeed.data.content.playListID && WidgetFeed.data.content.playListID !== "1") {
+          getFeedVideos(WidgetFeed.data.content.playListID);
         } else {
-          if (WidgetFeed.data.content.videoID)
-            Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+          if (WidgetFeed.data.content.videoID) Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+          else $rootScope.showEmptyState = true;
         }
       };
 
@@ -401,25 +453,33 @@
         viewedVideos.markViewed($scope, video);
       };
 
-      WidgetFeed.openDetailsPage = function(video) {
+      WidgetFeed.openDetailsPage = function(video, pushToHistory = true) {
         if (WidgetFeed.screenAnimationInProgress) return;
         WidgetFeed.screenAnimationInProgress = true;
-
-        setTimeout(function() {
-          WidgetFeed.screenAnimationInProgress = false;
-          viewedVideos.markViewed($scope, video);
-        }, 2000);
-
-        $scope.$watch('$root.currentVideo', function() {
+        
+        if (video.snippet.resourceId && video.snippet.resourceId.videoId) {
+          video.id = video.snippet.resourceId.videoId;
+        }
+        VideoCache.setCache({...video, pushToHistory});       
+      };
+      $scope.$watch('$root.currentVideo', function() {
+        const video = $rootScope.currentVideo;
+        if (!video) return;
+        if (video.pushToHistory) {
           buildfire.history.push(WidgetFeed.pluginName, {
             showLabelInTitlebar: true
           });
-          Location.goTo("#/video/" + video.snippet.resourceId.videoId);
-        });
-        
-        video.id = video.snippet.resourceId.videoId;
-        VideoCache.setCache(video);       
-      };
+        }
+        $rootScope.loading = false;
+        WidgetFeed.screenAnimationInProgress = false;
+        viewedVideos.markViewed($scope, video);
+        const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
+        Location.goTo("#/video/" + videoId);
+
+        setTimeout(() => {
+          toggleDeeplinkSkeleton(false);
+        }, 300);
+      });
 
       WidgetFeed.getThumbnail = function(video) {
         var isTablet = $rootScope.deviceWidth >= 768;
@@ -505,8 +565,7 @@
           !(WidgetFeed.videos.length >= 0) &&
           WidgetFeed.data.content.playlistId
         ) {
-          currentPlayListId = WidgetFeed.data.content.playListID;
-          WidgetFeed.masterData.playListId = currentPlayListId;
+          WidgetFeed.masterData.playListId = WidgetFeed.data.content.playListID;
           getFeedVideos(WidgetFeed.data.content.playListID);
         } else {
           bookmarks.findAndMarkAll($scope);

@@ -17,16 +17,16 @@
       <input type="text" class="form-control"
              placeholder="Enter your channel or video URL"
              ng-model="ContentHome.rssLink"
-             ng-change="ContentHome.clearData();updatedWithDelay();" ng-class="{'border-danger': ContentHome.validLinkFailure}" />
+             ng-class="{'border-danger': ContentHome.validLinkFailure}" />
              <div class="text-left text-danger margin-top-five text-small" ng-show="ContentHome.validLinkFailure">
                  Please paste a valid URL from YouTube
              </div>
     </div>
     <div class="col-md-3 pull-right">
       <button class="btn btn-success pull-right stretch"
-              ng-disabled="!(ContentHome.rssLink) || loading"
+              ng-disabled="loading"
               ng-click="ContentHome.validateRssLink()">
-        {{loading ? 'Validating URL...' : 'Validate URL'}}
+        Save
       </button>
     </div>
   </div>
@@ -108,5 +108,22 @@
                   ui-tinymce="ContentHome.descriptionWYSIWYGOptions"
                   ng-model="ContentHome.data.content.description"
                   placeholder="WYSIWYG"></textarea>
+  </div>
+</div>
+
+<div class="hidden" id="dialogBackdrop"></div>
+<div id="cpLoaderDialog" class="subPage loaderDialog">
+  <div class="subPageContent">
+    <div class="spHeader padded">
+      <h4 class="spHeaderText">Fetching Data</h4>
+    </div>
+    <div class="modal-body padded">
+      <div class="loader" id="loader"></div>
+      <p id="modalMessage" class="margin-top-fifteen text-center">Fetching data, please wait...</p>
+    </div>
+    <div class="spFooter padded">
+      <button href="#" class="btn spDeleteButton">Cancel</button>
+      <button id="saveButton" class="btn btn-success spSaveButton" disabled>Save</button>
+    </div>
   </div>
 </div>
