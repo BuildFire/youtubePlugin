@@ -134,6 +134,15 @@
               description: res.snippet.description,
               keywords: res.snippet.tags ? res.snippet.tags.join(',') : "",
               imageUrl: res.snippet.thumbnails.default.url,
+              data: {
+                feed: {
+                  id: ContentHome.data.content.videoID,
+                  title: res.snippet.title,
+                  description: res.snippet.description,
+                  keywords: res.snippet.tags ? res.snippet.tags.join(',') : "",
+                  image_url: res.snippet.thumbnails.default.url,
+                }
+              }
             };
             ContentHome.activeVideo = videoData;
             ContentHome.indexFeed((err) => {
@@ -342,6 +351,14 @@
                         id: response.items[0].id,
                         keywords: response.items[0].snippet.tags ? response.items[0].snippet.tags.join(',') : "",
                         imageUrl: response.items[0].snippet.thumbnails.default.url,
+                        data: { // this is for the deeplink coming from search engine result
+                          feed: {
+                            ...response.items[0].snippet,
+                            id: response.items[0].id,
+                            keywords: response.items[0].snippet.tags ? response.items[0].snippet.tags.join(',') : "",
+                            image_url: response.items[0].snippet.thumbnails.default.url,
+                          }
+                        }
                       }
 
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;

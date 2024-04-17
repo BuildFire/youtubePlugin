@@ -43,6 +43,7 @@ var searchEngine = {
         description: video.description,
         keywords: video.keywords,
         imageUrl: video.imageUrl,
+        data: video.data ? video.data : {}
       }, callback);
   },
   deleteSingleVideo(videoID, callback) {

@@ -198,14 +198,14 @@
       $scope.isDeeplinkItemOpened = false;
       // show the deeplink skeleton if the deeplink is present
       buildfire.deeplink.getData(function (data) {
-        if (data && data.link) {
+        if (data && (data.link || data.feed)) {
           $rootScope.showFeed = false;
           toggleDeeplinkSkeleton(true);
           $scope.deeplinkData = data;
         }
       });
       buildfire.deeplink.onUpdate(function (data) {
-        if (data && data.link) {
+        if (data && (data.link || data.feed)) {
           $scope.deeplinkData = data;
           toggleDeeplinkSkeleton(true);
           processDeeplink(data, true);
