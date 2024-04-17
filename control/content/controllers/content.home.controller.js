@@ -16,6 +16,7 @@
     "LAYOUTS",
     "$rootScope",
     "PROXY_SERVER",
+    "YoutubeApi",
     function(
       $scope,
       Buildfire,
@@ -30,7 +31,8 @@
       $timeout,
       LAYOUTS,
       $rootScope,
-      PROXY_SERVER
+      PROXY_SERVER,
+      YoutubeApi
     ) {
       var _data = {
         content: {
@@ -123,6 +125,23 @@
         return angular.equals(data, ContentHome.masterData);
       }
 
+      function updateSingleVideo() {
+        YoutubeApi.getSingleVideoDetails(ContentHome.data.content.videoID)
+          .then((res) => {
+            const videoData = {
+              id: ContentHome.data.content.videoID,
+              title: res.snippet.title,
+              description: res.snippet.description,
+              keywords: res.snippet.tags ? res.snippet.tags.join(',') : "",
+              imageUrl: res.snippet.thumbnails.default.url,
+            };
+            ContentHome.activeVideo = videoData;
+            ContentHome.indexFeed((err) => {
+              if (err) return console.error(err);
+            });
+          });
+      }
+
       /*
        * Go pull any previously saved data
        * */
@@ -131,6 +150,9 @@
             console.info("init success result:", result);
             if (Object.keys(result.data).length > 0) {
               ContentHome.data = result.data;
+              if (ContentHome.data.content.videoID) {
+                updateSingleVideo();
+              }
             }
             if (result && !result.id) {
               ContentHome.data = angular.copy(_data);
@@ -319,7 +341,7 @@
                         ...response.items[0].snippet,
                         id: response.items[0].id,
                         keywords: response.items[0].snippet.tags ? response.items[0].snippet.tags.join(',') : "",
-                        imageUrl: response.items[0].snippet.thumbnails.medium.url,
+                        imageUrl: response.items[0].snippet.thumbnails.default.url,
                       }
 
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
