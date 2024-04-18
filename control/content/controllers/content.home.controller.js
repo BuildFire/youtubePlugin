@@ -125,7 +125,8 @@
         return angular.equals(data, ContentHome.masterData);
       }
 
-      function updateSingleVideo() {
+      ContentHome.updateSingleVideo = () => {
+        $scope.loading = true;
         YoutubeApi.getSingleVideoDetails(ContentHome.data.content.videoID)
           .then((res) => {
             const videoData = {
@@ -146,8 +147,14 @@
             };
             ContentHome.activeVideo = videoData;
             ContentHome.indexFeed((err) => {
+              $scope.loading = false;
+              if (!$scope.$$phase) $scope.$digest();
               if (err) return console.error(err);
             });
+          }).catch((err) => {
+            $scope.loading = false;
+            if (!$scope.$$phase) $scope.$digest();
+            console.error(err);
           });
       }
 
@@ -159,9 +166,6 @@
             console.info("init success result:", result);
             if (Object.keys(result.data).length > 0) {
               ContentHome.data = result.data;
-              if (ContentHome.data.content.videoID) {
-                updateSingleVideo();
-              }
             }
             if (result && !result.id) {
               ContentHome.data = angular.copy(_data);
