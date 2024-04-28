@@ -41,6 +41,39 @@
         }
       };
     }])
+    .factory('YoutubeApi', ['$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES', 'PROXY_SERVER',
+    function ($q, $http, STATUS_CODE, STATUS_MESSAGES, PROXY_SERVER) {
+      var getProxyServerUrl = function () {
+        return PROXY_SERVER.serverUrl;
+      };
+      var getSingleVideoDetails = function (videoId) {
+        var deferred = $q.defer();
+        if (!videoId) {
+          deferred.reject(new Error({
+            code: STATUS_CODE.UNDEFINED_VIDEO_ID,
+            message: STATUS_MESSAGES.UNDEFINED_VIDEO_ID
+          }));
+        } else {
+          $http.post(getProxyServerUrl() + '/video', {
+            id: videoId
+          })
+            .success(function (response) {
+              if (response.statusCode == 200)
+                deferred.resolve(response.video);
+              else
+                deferred.resolve(null);
+            })
+            .error(function (error) {
+              deferred.reject(error);
+            });
+        }
+        return deferred.promise;
+      };
+
+      return {
+        getSingleVideoDetails: getSingleVideoDetails,
+      };
+    }])
     .factory("Utils", ["$http", "YOUTUBE_KEYS", function ($http, YOUTUBE_KEYS) {
       return {
         extractSingleVideoId: function (url) {

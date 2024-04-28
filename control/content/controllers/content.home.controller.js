@@ -16,6 +16,7 @@
     "LAYOUTS",
     "$rootScope",
     "PROXY_SERVER",
+    "YoutubeApi",
     function(
       $scope,
       Buildfire,
@@ -30,7 +31,8 @@
       $timeout,
       LAYOUTS,
       $rootScope,
-      PROXY_SERVER
+      PROXY_SERVER,
+      YoutubeApi
     ) {
       var _data = {
         content: {
@@ -123,6 +125,66 @@
         return angular.equals(data, ContentHome.masterData);
       }
 
+      // bind the video data to the scope so it can be used in the search engine
+      function setActiveVideoData(options) {
+        const { id, title, description, keywords, imageUrl } = options;
+        ContentHome.activeVideo = {
+          id,
+          title,
+          description,
+          keywords,
+          imageUrl,
+          data: {
+            feed: {
+              id,
+              title,
+              description,
+              keywords,
+              image_url: imageUrl,
+            }
+          }
+        }
+      }
+
+      ContentHome.updateSingleVideo = () => {
+        $scope.refreshButtonsLoading = true;
+        YoutubeApi.getSingleVideoDetails(ContentHome.data.content.videoID)
+          .then((res) => {
+            const videoOptions = {
+              id: ContentHome.data.content.videoID,
+              title: res.snippet.title,
+              description: res.snippet.description,
+              keywords: res.snippet.tags ? res.snippet.tags.join(',') : "",
+              imageUrl: res.snippet.thumbnails.default.url,
+            }
+            setActiveVideoData(videoOptions);
+            ContentHome.indexFeed((err) => {
+              $scope.refreshButtonsLoading = false;
+              if (!$scope.$$phase) $scope.$digest();
+              if (err) {
+                buildfire.dialog.toast({
+                  message: "Something went wrong, please try again.",
+                  type: "danger",
+                });
+                return console.error(err);
+              } else {
+                buildfire.dialog.toast({
+                  message: "Successfully updated global search.",
+                  type: "success",
+                });
+              }
+            });
+          }).catch((err) => {
+            $scope.refreshButtonsLoading = false;
+            if (!$scope.$$phase) $scope.$digest();
+            console.error(err);
+            buildfire.dialog.toast({
+              message: "Something went wrong, please try again.",
+              type: "danger",
+            });
+          });
+      }
+
       /*
        * Go pull any previously saved data
        * */
@@ -176,7 +238,7 @@
           ContentHome.handleLoaderDialog();
         }
         var success = function(result) {
-            $scope.loading = false;
+            $scope.refreshButtonsLoading = false;
             if (newObj.content.rssUrl && ContentHome.masterData.content.rssUrl !== newObj.content.rssUrl) {
               ContentHome.handleLoaderDialog("Indexing Data", "Indexing data for search results, please wait...", true);
               ContentHome.indexFeed((err) => {
@@ -196,7 +258,7 @@
             }
           },
           error = function(err) {
-            $scope.loading = false;
+            $scope.refreshButtonsLoading = false;
             ContentHome.handleLoaderDialog();
             console.error("Error while saving data : ", err);
           };
@@ -315,12 +377,14 @@
                         return console.error(err);
                       }
 
-                      ContentHome.activeVideo = {
-                        ...response.items[0].snippet,
+                      const videoOptions = {
                         id: response.items[0].id,
+                        title: response.items[0].snippet.title,
+                        description: response.items[0].snippet.description,
                         keywords: response.items[0].snippet.tags ? response.items[0].snippet.tags.join(',') : "",
-                        imageUrl: response.items[0].snippet.thumbnails.medium.url,
+                        imageUrl: response.items[0].snippet.thumbnails.default.url,
                       }
+                      setActiveVideoData(videoOptions);
 
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
@@ -575,7 +639,7 @@
       }
 
       ContentHome.updateCachedVideos = function() {
-        $scope.loading = true;
+        $scope.refreshButtonsLoading = true;
         ContentHome.data.content.videoThumbnailVersion = Date.now();
       }
 

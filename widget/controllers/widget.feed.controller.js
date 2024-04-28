@@ -55,6 +55,11 @@
         var compareDataFromCacheAndYouTube = function(result){
           var isUnchanged=false;
           if(cache.items && result.items && result.items.length){
+            result.items = result.items.filter(item => (
+              item.snippet && 
+              item.snippet.thumbnails && 
+              Object.keys(item.snippet.thumbnails).length));
+
             if(cache.items.length == result.items.length){
               var flag=false;
               for (let i = 0; i < cache.items.length; i++) {
@@ -96,6 +101,9 @@
        */
       var initData = function(isRefresh) {
         var success = function(result) {
+            if ($scope.deeplinkData && !$scope.isDeeplinkItemOpened) {
+              processDeeplink($scope.deeplinkData, false);
+            }
             cache.getCache(function(err, data) {
               // if the rss feed url has changed, ignore the cache and update when fetched. Also, if forcedCleanupv2 is false, it will skip cache and proceed with fetching.
               if (err || !data || data.rssUrl != result.data.content.rssUrl || !data.forcedCleanupv2) {
@@ -104,7 +112,7 @@
                 getFeedVideosSuccess(data);
                 checkForNewDataFromYouTube(data);
               }
-              if ($scope.deeplinkData) {
+              if ($scope.deeplinkData && !$scope.isDeeplinkItemOpened) {
                 processDeeplink($scope.deeplinkData, false);
               }
               if (!$rootScope.$$phase) $rootScope.$digest();
@@ -190,14 +198,14 @@
       $scope.isDeeplinkItemOpened = false;
       // show the deeplink skeleton if the deeplink is present
       buildfire.deeplink.getData(function (data) {
-        if (data && data.link) {
+        if (data && (data.link || data.feed)) {
           $rootScope.showFeed = false;
           toggleDeeplinkSkeleton(true);
           $scope.deeplinkData = data;
         }
       });
       buildfire.deeplink.onUpdate(function (data) {
-        if (data && data.link) {
+        if (data && (data.link || data.feed)) {
           $scope.deeplinkData = data;
           toggleDeeplinkSkeleton(true);
           processDeeplink(data, true);
@@ -205,7 +213,26 @@
       });
 
       function processDeeplink (data, pushToHistory=true) {
-        if (data && data.link) {
+        if (data && data.feed) {
+          let id = data.feed.id;
+          if (id.indexOf("yt:video") > -1) {
+            id = id.slice(id.lastIndexOf(":") + 1, id.length);
+          }
+          if (data.timeIndex) video.seekTo = data.timeIndex;
+          $scope.isDeeplinkItemOpened = true;
+          WidgetFeed.openDetailsPage({
+            ...data.feed, id,
+            snippet: {
+              title: data.feed.title,
+              description:data.feed.description,
+              thumbnails: {
+                default: {
+                  url: data.feed.image_url
+                }
+              }
+            },
+          }, pushToHistory);
+        } else if (data && data.link) {
           let linkD = data.link;
           if (linkD.indexOf("yt:video") > -1) {
             linkD = linkD.slice(linkD.lastIndexOf(":") + 1, linkD.length);
@@ -255,6 +282,11 @@
       var getFeedVideosSuccess = function(result) {
         // double check that result is not null
         if (result && result.items && result.items.length) {
+          result.items = result.items.filter(item => (
+            item.snippet && 
+            item.snippet.thumbnails && 
+            Object.keys(item.snippet.thumbnails).length));
+
           $rootScope.showEmptyState = false;
         } else {
           $rootScope.showEmptyState = true;
@@ -457,7 +489,7 @@
         if (WidgetFeed.screenAnimationInProgress) return;
         WidgetFeed.screenAnimationInProgress = true;
         
-        if (video.snippet.resourceId && video.snippet.resourceId.videoId) {
+        if (video.snippet && video.snippet.resourceId && video.snippet.resourceId.videoId) {
           video.id = video.snippet.resourceId.videoId;
         }
         VideoCache.setCache({...video, pushToHistory});       
@@ -473,7 +505,7 @@
         $rootScope.loading = false;
         WidgetFeed.screenAnimationInProgress = false;
         viewedVideos.markViewed($scope, video);
-        const videoId = (video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
+        const videoId = (video.snippet && video.snippet.resourceId && video.snippet.resourceId.videoId) ? video.snippet.resourceId.videoId : video.id;
         Location.goTo("#/video/" + videoId);
 
         setTimeout(() => {

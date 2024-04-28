@@ -24,7 +24,7 @@
     </div>
     <div class="col-md-3 pull-right">
       <button class="btn btn-success pull-right stretch"
-              ng-disabled="loading"
+              ng-disabled="refreshButtonsLoading"
               ng-click="ContentHome.validateRssLink()">
         Save
       </button>
@@ -75,6 +75,26 @@
 
   </div>
 </div>
+<div class="item clearfix row margin-bottom-fifteen" ng-show="(ContentHome.contentType === ContentHome.CONTENT_TYPE.SINGLE_VIDEO)">
+  <div class="labels col-md-4 padding-right-zero pull-left">
+    <span class="tooltip-container">
+      Update Global Search
+      <span class="btn-info-icon btn-primary">
+      	<span class="cp-tooltip">
+          Refresh video details in the global search result if you've updated it on your YouTube channel.
+      	</span>
+    	</span>
+    </span>
+  </div>
+  <div class="main pull-right col-md-8 padding-left-zero row">
+    <div class="col-md-3 pull-right">
+      <button class="stretch btn btn-primary btn-outlined pull-right"
+              ng-disabled="refreshButtonsLoading"
+              ng-click="ContentHome.updateSingleVideo()"> Refresh Now
+      </button>
+    </div>
+  </div>
+</div>
 <div class="item clearfix row margin-bottom-fifteen" ng-show="(ContentHome.contentType == ContentHome.CONTENT_TYPE.CHANNEL_FEED) || (ContentHome.contentType == ContentHome.CONTENT_TYPE.PLAYLIST_FEED)">
   <div class="labels col-md-4 padding-right-zero pull-left">
     <span class="tooltip-container">
@@ -89,7 +109,7 @@
   <div class="main pull-right col-md-8 padding-left-zero row">
     <div class="col-md-3 pull-right">
       <button class="stretch btn btn-primary btn-outlined pull-right"
-              ng-disabled="loading"
+              ng-disabled="refreshButtonsLoading"
               ng-click="ContentHome.updateCachedVideos()"> Refresh Now
       </button>
     </div>

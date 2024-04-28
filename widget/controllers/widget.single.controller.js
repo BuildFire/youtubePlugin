@@ -35,14 +35,16 @@
       WidgetSingle.data = null;
       WidgetSingle.video = null;
       WidgetSingle.viewSource = function(WidgetSingle) {
-        if (
-          WidgetSingle &&
-          WidgetSingle.video &&
-          WidgetSingle.video.snippet &&
-          WidgetSingle.video.snippet.resourceId &&
-          WidgetSingle.video.snippet.resourceId.videoId
-        ) {
-          buildfire.navigation.openWindow(`https://www.youtube.com/watch?v=${WidgetSingle.video.snippet.resourceId.videoId}`, '_system');
+        if (WidgetSingle && WidgetSingle.video) {
+          if (
+            WidgetSingle.video.snippet &&
+            WidgetSingle.video.snippet.resourceId &&
+            WidgetSingle.video.snippet.resourceId.videoId
+          ) {
+            buildfire.navigation.openWindow(`https://www.youtube.com/watch?v=${WidgetSingle.video.snippet.resourceId.videoId}`, '_system');
+          } else if (WidgetSingle.video.id) {
+            buildfire.navigation.openWindow(`https://www.youtube.com/watch?v=${WidgetSingle.video.id}`, '_system');
+          }
         }
       };
 
