@@ -56,8 +56,8 @@
           var isUnchanged=false;
           if(cache.items && result.items && result.items.length){
             result.items = result.items.filter(item => (
-              item.snippet && 
-              item.snippet.thumbnails && 
+              item.snippet &&
+              item.snippet.thumbnails &&
               Object.keys(item.snippet.thumbnails).length));
 
             if(cache.items.length == result.items.length){
@@ -76,7 +76,7 @@
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
-            setTimeout(() => {              
+            setTimeout(() => {
               if(!$rootScope.loading){
                 getFeedVideosSuccess(result);
               }
@@ -94,7 +94,7 @@
             VIDEO_COUNT.LIMIT,
             null
           ).then(compareDataFromCacheAndYouTube, errorWithComperation);
-        } 
+        }
       };
       /*
        * Fetch user's data from datastore
@@ -283,8 +283,8 @@
         // double check that result is not null
         if (result && result.items && result.items.length) {
           result.items = result.items.filter(item => (
-            item.snippet && 
-            item.snippet.thumbnails && 
+            item.snippet &&
+            item.snippet.thumbnails &&
             Object.keys(item.snippet.thumbnails).length));
 
           $rootScope.showEmptyState = false;
@@ -488,11 +488,11 @@
       WidgetFeed.openDetailsPage = function(video, pushToHistory = true) {
         if (WidgetFeed.screenAnimationInProgress) return;
         WidgetFeed.screenAnimationInProgress = true;
-        
+
         if (video.snippet && video.snippet.resourceId && video.snippet.resourceId.videoId) {
           video.id = video.snippet.resourceId.videoId;
         }
-        VideoCache.setCache({...video, pushToHistory});       
+        VideoCache.setCache({...video, pushToHistory});
       };
       $scope.$watch('$root.currentVideo', function() {
         const video = $rootScope.currentVideo;
@@ -562,8 +562,6 @@
       };
 
       $rootScope.$on("ROUTE_CHANGED", function(e, data) {
-        WidgetFeed.data = data;
-
         WidgetFeed.updateAuthListeners();
 
         if (WidgetFeed.data && !WidgetFeed.data.design) {
