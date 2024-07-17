@@ -515,11 +515,16 @@
 
       WidgetFeed.getThumbnail = function(video) {
         var isTablet = $rootScope.deviceWidth >= 768;
+        const layoutName = WidgetFeed.data.design.itemListLayout
+        const { maxres, standard, high ,medium } = video.snippet.thumbnails;
         if (isTablet) {
-          return video.snippet.thumbnails.maxres.url;
-        } else {
-          return video.snippet.thumbnails.medium.url;
+          return maxres?.url || standard?.url || high?.url || medium?.url;
         }
+        if (layoutName === "List_Layout_3") {
+          return standard?.url || high?.url || medium?.url;
+        }
+        return video.snippet.thumbnails.medium.url;
+
       };
 
       WidgetFeed.bookmark = function($event, video) {
