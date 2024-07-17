@@ -514,21 +514,21 @@
       });
 
   WidgetFeed.getThumbnail = function(video) {
-  var isTablet = $rootScope.deviceWidth >= 768;
-  const layoutName = WidgetFeed.data.design.itemListLayout;
-  const thumbnails = video.snippet.thumbnails;
-  const maxres = thumbnails.maxres ? thumbnails.maxres.url : null;
-  const standard = thumbnails.standard ? thumbnails.standard.url : null;
-  const high = thumbnails.high ? thumbnails.high.url : null;
-  const medium = thumbnails.medium ? thumbnails.medium.url : null;
+    var isTablet = $rootScope.deviceWidth >= 768;
+    const layoutName = WidgetFeed.data.design.itemListLayout;
+    const thumbnails = video.snippet.thumbnails;
+    const maxres = thumbnails.maxres ? thumbnails.maxres.url : null;
+    const standard = thumbnails.standard ? thumbnails.standard.url : null;
+    const high = thumbnails.high ? thumbnails.high.url : null;
+    const medium = thumbnails.medium ? thumbnails.medium.url : null;
 
-  if (isTablet) {
-    return maxres || standard || high || medium;
-  }
-  if (layoutName === "List_Layout_3") {
-    return standard || high || medium;
-  }
-  return medium;
+    if (isTablet) {
+      return maxres || standard || high || medium;
+    }
+    if (layoutName === "List_Layout_3") {
+      return standard || high || medium;
+    }
+    return medium;
 };
 
       WidgetFeed.bookmark = function($event, video) {
