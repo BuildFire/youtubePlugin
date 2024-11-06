@@ -50,7 +50,6 @@
     z-index: 100;
     font-weight: 400;
     line-height: 18px;
-    font-family: 'Conv_apercu_regular','Helvetica','Sans-Serif','Arial';
     -webkit-text-stroke: 0;
   }
 
@@ -82,7 +81,7 @@
   .top-cp-tooltip::before {
     top: 10px !important;
   }
- 
+
   .tooltip-container .btn-info-icon:hover .cp-tooltip {
     opacity: 1;
     transform: scale(1);
@@ -134,5 +133,5 @@
 
 .url-types p .icon-check{
     margin-left: 10px;
-    color: #14cb5d;   
+    color: #14cb5d;
 }
