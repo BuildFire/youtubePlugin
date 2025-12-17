@@ -1,5 +1,8 @@
-html{
+html {
   font-size: 16px !important;
+  padding-top: var(--bf-safe-area-inset-top);
+  padding-bottom: var(--bf-safe-area-inset-bottom);
+
 }
 /* Plugin CSS */
 .media-center-plugin.layout2 .people-banner .people-bg {
