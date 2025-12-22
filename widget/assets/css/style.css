@@ -1,9 +1,7 @@
 html {
   font-size: 16px !important;
 }
-.slide {
-    position: relative !important;
-}
+
 .infinite-scroll-parent {
   padding-top: var(--bf-safe-area-inset-top) !important;
 }
