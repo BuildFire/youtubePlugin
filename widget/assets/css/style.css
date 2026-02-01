@@ -1,6 +1,11 @@
-html{
+html {
   font-size: 16px !important;
 }
+
+.infinite-scroll-parent {
+  padding-top: var(--bf-safe-area-inset-top) !important;
+}
+
 /* Plugin CSS */
 .media-center-plugin.layout2 .people-banner .people-bg {
   background: rgba(0, 0, 0, 0.8);
@@ -347,14 +352,6 @@ html[browser="Firefox"]
 .list-layout .list-item.video-box {
   padding-left: 2%;
   padding-right: 2%;
-}
-
-/*
-* Set height of body to auto for enabling scroll
-*/
-
-.body-scroll {
-  height: auto !important;
 }
 
 /*
